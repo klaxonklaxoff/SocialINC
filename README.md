@@ -11,6 +11,10 @@ Date: 2022-06-10
 
 This project intends to create a dashboard for social indicators.
 
+# About the data set-up
+
+You can find more information about the data and set-up [here](https://klaxonklaxoff.github.io/SocialINC/).
+
 # R scripts
 
 ## Required packages
