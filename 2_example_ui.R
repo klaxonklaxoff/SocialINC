@@ -743,11 +743,12 @@ ui <-
                 `select-all-text` = "Select all"
             )),
             ##### Year ----
-            selectizeInput(
-              inputId = "basic_year",
-              label = "Year",
-              choices = unique(as.character(basicDT$Year))
-            ),
+            #'NOTE [do you only want to see one year at a time?]
+            # selectizeInput(
+            #   inputId = "basic_year",
+            #   label = "Year",
+            #   choices = unique(as.character(basicDT$Year))
+            # ),
             ##### Geography  ----
             selectizeInput(
               inputId = "basic_geography",
@@ -819,11 +820,12 @@ ui <-
                 `select-all-text` = "Select all"
             )),
             ##### Year  ----
-            selectizeInput(
-              inputId = "health_year",
-              label = "Year",
-              choices = unique(as.character(basicDT$Year))
-            ),
+            #'NOTE [do you only want to see one year at a time?]
+            # selectizeInput(
+            #   inputId = "health_year",
+            #   label = "Year",
+            #   choices = unique(as.character(basicDT$Year))
+            # ),
             ##### Geography  ----
             selectizeInput(
               inputId = "health_geography",
