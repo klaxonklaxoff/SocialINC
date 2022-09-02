@@ -2,9 +2,11 @@
 package_list <- c(
   "arrow",
   "dplyr",
+  "scales",
   "plotly",
   "shiny",
   "shinyWidgets"
+
 )
 new_packages <-
   package_list[!(package_list %in% installed.packages()[, "Package"])]
@@ -16,6 +18,7 @@ rm(package_list, new_packages)
 # Load libraries ----
 library(arrow)
 library(dplyr)
+library(Scales)
 library(plotly)
 library(shiny)
 library(shinyWidgets)
