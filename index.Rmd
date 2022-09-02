@@ -104,7 +104,7 @@ collapsibleTreeSummary(
 
 # Dashboard reactivity
 
-Following the instructions of this [script]() and running it will show you how the dashboard reacts. You'll notice that it currently is quite large--this is due to the many conditions created for the filters to be output as it is. It is largely recommended that there are less conditions as it arbitrarily adds burden to the code. There are ways where you can build the datasets more effectively or focus the data so that it does not depend on creating many conditions. Another potential danger of creating so many conditions is that it can cause a waterfall effect if you make a change. This creates a burden on the coder to know how the code dominoes.
+Following the instructions of this [script](https://github.com/klaxonklaxoff/SocialINC/blob/main/reactivity_log.R) and running it will show you how the dashboard reacts. You'll notice that it currently is quite large--this is due to the many conditions created for the filters to be output as it is. It is largely recommended that there are less conditions as it arbitrarily adds burden to the code. There are ways where you can build the datasets more effectively or focus the data so that it does not depend on creating many conditions. Another potential danger of creating so many conditions is that it can cause a waterfall effect if you make a change. This creates a burden on the coder to know how the code dominoes.
 
 # Moving forward
 
@@ -123,3 +123,7 @@ How things often get lost is that there is no documentation. When code is being 
 ## Adding more
 
 The code is already very large as it is, be wary in adding more because it will add to the memory usage. Additionally, consider what the limits are when it comes to memory. If you plan on disseminating this, can Dissemination run a dashboard this size? Let alone if you decide to add more to it? Will the new additions meet accessibility requirement?
+
+## Splitting up the work
+
+If at the end of the day, you really do want all of the data, an option could be to split it up into a couple of dashboards that would link to each other to look like they were connected but the memory would be disparsed.
