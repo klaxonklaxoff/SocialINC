@@ -18,7 +18,7 @@ rm(package_list, new_packages)
 # Load libraries ----
 library(arrow)
 library(dplyr)
-library(Scales)
+library(scales)
 library(plotly)
 library(shiny)
 library(shinyWidgets)
