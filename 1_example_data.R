@@ -7,8 +7,8 @@ package_list <- c(
   "plotly",
   "shiny",
   "shinyWidgets"
-
 )
+
 new_packages <-
   package_list[!(package_list %in% installed.packages()[, "Package"])]
 if (length(new_packages))
@@ -19,6 +19,7 @@ rm(package_list, new_packages)
 # Load libraries ----
 library(arrow)
 library(dplyr)
+library(stringr)
 library(scales)
 library(plotly)
 library(shiny)
