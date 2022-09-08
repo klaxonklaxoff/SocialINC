@@ -2,6 +2,7 @@
 package_list <- c(
   "arrow",
   "dplyr",
+  "stringr",
   "scales",
   "plotly",
   "shiny",
@@ -160,6 +161,38 @@ for (i in dfs_characteristics) {
 gc()
 
 rm(i, dfs_characteristics)
+
+## Discrimination data ----
+discriminationDT <-
+  discriminationDT %>%
+  mutate(
+    before_since = ifelse(
+      Indicator == "Experience(s) of discrimination since the beginning of COVID-19 pandemic",
+      "Since the beginning of covid-19 pandemic",
+      str_to_sentence(trimws(
+        sub(
+          pattern = ".*,",
+          replacement = "",
+          x = Indicator
+        )
+      ))
+    ),
+    before_since = sub(
+      pattern = "  ",
+      replacement = " ",
+      x = before_since
+    ),
+    ind = trimws(sub(
+      pattern = ", .*",
+      replacement = "",
+      x = Indicator
+    )),
+    ind = case_when(
+      ind == "Experience(s) of discrimination since the beginning of COVID-19 pandemic" ~ "Experience(s) of discrimination",
+      ind == "Discrimination at work or when applying for a job or promotion" ~ "Discrimination at work or when applying for a job or a promotion",
+      TRUE ~ ind
+    )
+  )
 
 ## Police data ----
 polData <-

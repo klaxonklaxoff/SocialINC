@@ -61,20 +61,20 @@ ui <-
             selectizeInput(
               inputId = "theme_1",
               label = "Theme",
-              choices = unique(as.character(template$Theme))
-            ),
+              #'NOTE [Not showing "Local community" until it's ready]
+              choices = unique(as.character(template$Theme)[template$Theme != "Local community"])
+            ), 
             
             ### 2. Indicator ----
             selectizeInput(
               inputId = "indicator_1",
               label = "Indicator",
-              #'NOTE [SHOULD WE ONLY SHOW THE INDICATORS THAT ARE ASSOCIATED WITH THIS VISMIN TAB?]
               choices = unique(as.character(template$Indicator))
-            ),
-            
-            #### 2.1. Participation in the Labour Market ----
-            ##### 2.1.1. Participation in the Labour Market (part 1) ----
-            #'NOTE [rateDT]
+          ),
+          
+          #### 2.1. Participation in the Labour Market ----
+          ##### 2.1.1. Participation in the Labour Market (part 1) ----
+          #'NOTE [rateDT]
             conditionalPanel(
               condition =
                 "input.indicator_1 == 'Working-age population in the labour force (participation rate)'
@@ -114,12 +114,6 @@ ui <-
                 inputId = "lm_immigration",
                 label = "Immigrant and generation status",
                 choices = unique(as.character(rateDT$Immigration))
-              ),
-              ###### Year ----
-              selectizeInput(
-                inputId = "lm_year",
-                label = "Year",
-                choices = unique(as.character(rateDT$Year))
               ),
               ###### Age ----
               selectizeInput(
@@ -172,12 +166,6 @@ ui <-
                 inputId = "lm_rep_immigration",
                 label = "Immigrant and generation status",
                 choices = unique(as.character(representationDT$Immigration))
-              ),
-              ###### Year ----
-              selectizeInput(
-                inputId = "lm_rep_year",
-                label = "Year",
-                choices = unique(as.character(representationDT$Year))
               ),
               ###### Age ----
               selectizeInput(
@@ -237,12 +225,6 @@ ui <-
                 label = "Groups designated by Immigration and Generational Status",
                 choices = unique(as.character(OverQualDT$Immigration))
               ),
-              ###### Year ----
-              selectizeInput(
-                inputId = "lm_over_year",
-                label = "Year",
-                choices = unique(as.character(OverQualDT$Year))
-              ),
               ###### Age ----
               selectizeInput(
                 inputId = "lm_over_age",
@@ -294,12 +276,6 @@ ui <-
                 inputId = "lm_youth_immigration",
                 label = "Immigrant and generation status",
                 choices = unique(as.character(youthDT$Immigration))
-              ),
-              ###### Year ----
-              selectizeInput(
-                inputId = "lm_youth_year",
-                label = "Year",
-                choices = unique(as.character(youthDT$Year))
               ),
               ###### Age ----
               selectizeInput(
@@ -360,12 +336,6 @@ ui <-
                 label = "Immigrant and generation status",
                 choices = unique(as.character(incomeDT$Immigration))
               ),
-              ###### Year ----
-              selectizeInput(
-                inputId = "lm_income_year",
-                label = "Year",
-                choices = unique(as.character(incomeDT$Year))
-              ),
               ###### Age ----
               selectizeInput(
                 inputId = "lm_income_age",
@@ -409,12 +379,6 @@ ui <-
             #     `deselect-all-text` = "Deselect all",
             #     `select-all-text` = "Select all"
             #   )),
-            #'   ###### Year ----
-            #'   selectizeInput(
-            #'     inputId = "lm_employmentyear",
-            #'     label = "Year",
-            #'     choices = unique(as.character(employmentDT$Year))
-            #'   ),
             #'   ###### Geography ----
             #'   selectizeInput(
             #'     inputId = "lm_employmentgeography",
@@ -478,12 +442,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
               )),
-              ###### Year ----
-              selectizeInput(
-                inputId = "civic_year",
-                label = "Year",
-                choices = unique(as.character(civicDT$Year))
-              ),
               ###### Geography  ----
               selectizeInput(
                 inputId = "civic_geography",
@@ -580,12 +538,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
               )),
-              ###### Year ----
-              selectizeInput(
-                inputId = "civic2_year",
-                label = "Year",
-                choices = unique(as.character(civicDT2$Year))
-              ),
               ###### Geography  ----
               selectizeInput(
                 inputId = "civic2_geography",
@@ -698,12 +650,6 @@ ui <-
               label = "Immigrant and generation status",
               choices = unique(as.character(representationDT$Immigration))
             ),
-            ##### Year ----
-            selectizeInput(
-              inputId = "rep_year",
-              label = "Immigrant and generation status",
-              choices = unique(as.character(representationDT$Year))
-            ),
             ##### Age group and first official language spoken ----
             selectizeInput(
               inputId = "rep_age",
@@ -742,13 +688,6 @@ ui <-
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
             )),
-            ##### Year ----
-            #'NOTE [do you only want to see one year at a time?]
-            # selectizeInput(
-            #   inputId = "basic_year",
-            #   label = "Year",
-            #   choices = unique(as.character(basicDT$Year))
-            # ),
             ##### Geography  ----
             selectizeInput(
               inputId = "basic_geography",
@@ -819,13 +758,6 @@ ui <-
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
             )),
-            ##### Year  ----
-            #'NOTE [do you only want to see one year at a time?]
-            # selectizeInput(
-            #   inputId = "health_year",
-            #   label = "Year",
-            #   choices = unique(as.character(basicDT$Year))
-            # ),
             ##### Geography  ----
             selectizeInput(
               inputId = "health_geography",
@@ -892,12 +824,6 @@ ui <-
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
             )),
-            ##### Year ----
-            selectizeInput(
-              inputId = "public_year",
-              label = "Year",
-              choices = unique(as.character(confidenceDT$Year))
-            ),
             ##### Geography ----
             selectizeInput(
               inputId = "public_geography",
@@ -988,12 +914,6 @@ ui <-
           #'     choices = unique(as.character(incomeDT$VisMin)),
           #'     multiple = TRUE,
           #'     selected = unique(as.character(incomeDT$VisMin))[1],
-          #'   ),
-          #'   ##### Year ----
-          #'   selectizeInput(
-          #'     inputId = "income_year",
-          #'     label = "Year",
-          #'     choices = unique(as.character(incomeDT$Year))
           #'   ),
           #'   ##### Geography ----
           #'   selectizeInput(
@@ -1089,12 +1009,6 @@ ui <-
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
             )),
-            ##### Year ----
-            selectizeInput(
-              inputId = "belonging_year",
-              label = "Year",
-              choices = unique(as.character(belongingDT$Year))
-            ),
             ##### Geography ----
             selectizeInput(
               inputId = "belonging_geography",
@@ -1191,12 +1105,6 @@ ui <-
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
             )),
-            ##### Year ----
-            selectizeInput(
-              inputId = "discrimination_year",
-              label = "Year",
-              choices = unique(as.character(discriminationDT$Year))
-            ),
             ##### Geography ----
             selectizeInput(
               inputId = "discrimination_geography",
@@ -1224,7 +1132,7 @@ ui <-
               selectizeInput(
                 inputId = "discrimination_sex",
                 label = "Gender",
-                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Age"])
+                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Gender"])
               )
             ),
             ###### Immigration Status ----
@@ -1233,7 +1141,7 @@ ui <-
               selectizeInput(
                 inputId = "discrimination_immigration",
                 label = "Immigration Status",
-                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Age"])
+                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Immigration Status"])
               )
             ),
             ###### Generation Status ----
@@ -1242,7 +1150,7 @@ ui <-
               selectizeInput(
                 inputId = "discrimination_generation",
                 label = "Gender",
-                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Age"])
+                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Generation Status"])
               )
             ),
             ###### Language Spoken ----
@@ -1251,7 +1159,7 @@ ui <-
               selectizeInput(
                 inputId = "discrimination_language",
                 label = "Language Spoken",
-                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Age"])
+                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Language Spoken"])
               )
             ),
             ###### Education Status ----
@@ -1260,7 +1168,7 @@ ui <-
               selectizeInput(
                 inputId = "discrimination_education",
                 label = "Education Status",
-                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Age"])
+                choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Education Status"])
               )
             ),
             ##### Confidence Interval ----
@@ -1269,61 +1177,7 @@ ui <-
               label = "Confidence Interval",
               choices = unique(as.character(discriminationDT$Confidence))
             )
-          ),
-          
-          ##### 2.10.2. Discrimination and victimization (part 2) ----
-          #'NOTE [discriminationDT]
-          conditionalPanel(
-            condition =
-              "input.indicator_1 == 'Hate Crime'",
-            
-            ##### Visible Minority ----
-            #'NOTE [this is the focal variable for this tab]
-            # selectizeInput(
-            #   inputId = "discrimination_vismin",
-            #   label = "Visible minority status",
-            #   choices = vm_10,
-            #   multiple = TRUE,
-            #   selected = vm_10[1],
-            # ),
-            ##### Year ----
-            selectizeInput(
-              inputId = "discrimination2_year",
-              label = "Year",
-              choices = unique(as.character(polData$Year))
-            ),
-            ##### Geography ----
-            selectizeInput(
-              inputId = "discrimination2_geography",
-              label = "Geography",
-              choices = unique(as.character(polData$Geography))
-            ),
-            ##### Motivation  ----
-            selectizeInput(
-              inputId = "discrimination2_motivation_type",
-              label = "Motivation",
-              choices = unique(as.character(polData$motivation_type))
-            ),
-            ###### Race or ethnicity and other characteristics ----
-            conditionalPanel(
-              condition = "input.discrimination2_motivation_type == 'Total police-reported hate crime'",
-              selectizeInput(
-                inputId = "discrimination_total",
-                label = "Race or ethnicity and other characteristics",
-                choices = unique(as.character(polData$Motivation)[polData$motivation_type == "Total police-reported hate crime"])
-              )
-            ),
-            ###### Groups designated as Visible Minority ----
-            conditionalPanel(
-              condition = "input.discrimination2_motivation_type == 'Race or ethnicity'",
-              selectizeInput(
-                inputId = "discrimination_groups",
-                label = "Groups designated as Visible Minority",
-                choices =  unique(as.character(polData$Motivation)[polData$motivation_type == "Race or ethnicity"])
-              )
-            )
           )
-
           ), # sidebarPanel closing bracket // should be blue
       
       ### Main panel ----
@@ -2149,18 +2003,6 @@ ui <-
           br(),
           helpText(source_gss)
         )
-        
-        ##### 10.10. Hate Crime ----
-        #'NOTE [this data set doesn't have breakdown by vismin]
-        # conditionalPanel(
-        #   condition = "input.indicator_1 == 'Hate Crime'",
-        #   br(),
-        #   br(),
-        #   plotlyOutput("plot_vm_discrimination_10",
-        #                inline = TRUE),
-        #   br(),
-        #   helpText(source_ucrs)
-        # )
 
         ) # Main panel closing bracket // should be blue
       

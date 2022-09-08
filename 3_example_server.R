@@ -26,7 +26,43 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session = session,
       inputId = "indicator_1",
-      choices = as.character(unique(template$Indicator[template$Theme == input$theme_1]))
+      #'NOTE [Not showing the following indicators until they are ready // and "Hate crime" because there's no breakdown by vismin]
+      choices = as.character(unique(template$Indicator[template$Theme == input$theme_1 &
+                                                         !template$Indicator %in% c(
+                                                           "Currently employed population considering their job related to their education",
+                                                           "Paid employees considering their current job good for career advancement",
+                                                           "Paid employees receiving at least one employment benefit in their current job",
+                                                           "Paid employees having pension plan in their current job",
+                                                           "Paid employees having paid sick leave in their current job",
+                                                           "Paid employees having paid vacation leave in their current job",
+                                                           "Paid employees having disability insurance in their current job",
+                                                           "Paid employees having supplemental medical care in their current job",
+                                                           "Paid employees having worker's compensation in their current job",
+                                                           "Paid employees having maternity, paternity or lay-off benefits in their current job",
+                                                           "Paid employees covered by union contract or collective agreement in their current job",
+                                                           "Paid employees receiving formal training in their current job",
+                                                           "Paid employees receiving informal training in their current job",
+                                                           
+                                                           "Average total household income, adjusted for the number of persons",
+                                                           "Percent of the population living in poverty (low-income MBM)",
+                                                           "Percent of the population living in low income situation (before-tax)",
+                                                           "Percent of the population living in low income situation (after-tax)",
+                                                           "Percent of the population reporting difficulty in meeting financial needs of their household",
+                                                           "Percent of the population reporting ease in meeting financial needs of their household",
+                                                           
+                                                           "Percent of the population living alone",
+                                                           "Median size of a personal local network with close ties",
+                                                           "Average size of a local personal network with close ties",
+                                                           "Percent of the population with a personal close-ties network of 10 or more people",
+                                                           "Percent of the population with a personal close-ties network of 5 or more relatives",
+                                                           "Percent of the population with a personal close-ties network of 5 or more friends",
+                                                           "Percent of the population with no personal network with weak ties",
+                                                           "Percent of the population with a personal weak-ties network of 1 to 19 people",
+                                                           "Percent of the population with a personal weak-ties network of 20 or more people",
+                                                           "Percent of the population with a personal ethnically-diverse network",
+                                                           
+                                                           "Hate Crime"
+                                                         )]))
     )
   )
   
@@ -44,7 +80,6 @@ server <- function(input, output, session) {
               Degree == input$lm_degree,
               Geography == input$lm_geography,
               Immigration == input$lm_immigration,
-              Year == input$lm_year,
               Age == input$lm_age,
               Sex == input$lm_sex
             )
@@ -60,7 +95,6 @@ server <- function(input, output, session) {
               Degree == input$lm_rep_degree,
               Geography == input$lm_rep_geography,
               Immigration == input$lm_rep_immigration,
-              Year == input$lm_rep_year,
               Age == input$lm_rep_age,
               Sex == input$lm_rep_sex
             )
@@ -76,7 +110,6 @@ server <- function(input, output, session) {
               Degree == input$lm_over_degree,
               Geography == input$lm_over_geography,
               Immigration == input$lm_over_immigration,
-              Year == input$lm_over_year,
               Age == input$lm_over_age,
               Sex == input$lm_over_sex,
               Language == input$lm_over_language
@@ -91,7 +124,6 @@ server <- function(input, output, session) {
               VisMin %in% input$lm_youth_vismin,
               Geography == input$lm_youth_geography,
               Immigration == input$lm_youth_immigration,
-              Year == input$lm_youth_year,
               Age == input$lm_youth_age,
               Sex == input$lm_youth_sex,
               Language == input$lm_youth_language
@@ -108,7 +140,6 @@ server <- function(input, output, session) {
               Degree == input$lm_income_degree,
               Geography == input$lm_income_geography,
               Immigration == input$lm_income_immigration,
-              Year == input$lm_income_year,
               Age == input$lm_income_age,
               Sex == input$lm_income_sex
             )
@@ -121,7 +152,6 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin %in% input$civic_vismin,
-              Year == input$civic_year,
               Geography == input$civic_geography,
               Confidence == input$civic_conf_interval,
               char_type == input$civic_sociodem,
@@ -142,7 +172,6 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin %in% input$civic2_vismin,
-              Year == input$civic2_year,
               Geography == input$civic2_geography,
               Confidence == input$civic2_conf_interval,
               char_type == input$civic2_sociodem,
@@ -167,7 +196,6 @@ server <- function(input, output, session) {
               Geography == input$rep_geography,
               Immigration == input$rep_immigration,
               Generation == input$rep_generation,
-              Year == input$rep_year,
               Age == input$rep_age,
               Sex == input$rep_sex
             )
@@ -197,7 +225,6 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin %in% input$public_vismin,
-              Year == input$public_year,
               Geography == input$public_geography,
               Confidence == input$public_conf_interval,
               char_type == input$public_sociodem,
@@ -210,66 +237,7 @@ server <- function(input, output, session) {
               )
             )
         })
-    } 
-    #'NOTE [is this needed for this tab?]
-    # else if (df == "belongingDT") {
-    #   filtered_data <-
-    #     reactive({
-    #       belongingDT %>%
-    #         filter(
-    #           Indicator == filter_var,
-    #           VisMin %in% input$belonging_vismin,
-    #           Year == input$belonging_year,
-    #           Geography == input$belonging_geography,
-    #           Confidence == input$belonging_conf_interval,
-    #           char_type == input$belonging_sociodem,
-    #           (Characteristic == input$belonging_age |
-    #              Characteristic == input$belonging_sex |
-    #              Characteristic == input$belonging_immigration |
-    #              Characteristic == input$belonging_generation |
-    #              Characteristic == input$belonging_language |
-    #              Characteristic == input$belonging_education
-    #           )
-    #         )
-    #     })
-    # } 
-    else if (df == "discriminationDT") {
-      # Discrimination and victimization ----
-      filtered_data <-
-        reactive({
-          discriminationDT %>%
-            filter(
-              Indicator == filter_var,
-              VisMin %in% input$discrimination_vismin,
-              Year == input$discrimination_year,
-              Geography == input$discrimination_geography,
-              Confidence == input$discrimination_conf_interval,
-              char_type == input$discrimination_sociodem,
-              (Characteristic == input$discrimination_age |
-                 Characteristic == input$discrimination_sex |
-                 Characteristic == input$discrimination_immigration |
-                 Characteristic == input$discrimination_generation |
-                 Characteristic == input$discrimination_language |
-                 Characteristic == input$discrimination_education
-              )
-            )
-        })
-    } 
-    #'NOTE [This dataset doesn't have a breakdown by vismin]
-    # else if (df == "polData") {
-    #   # Hate Crime ----
-    #   filtered_data <-
-    #     reactive({
-    #       polData %>%
-    #         filter(
-    #           Year == input$discrimination2_year,
-    #           Geography == input$discrimination2_geography,
-    #           motivation_type == input$discrimination2_motivation_type,
-    #           (Motivation == input$discrimination_total |
-    #              Motivation == input$discrimination_groups)
-    #         )
-    #     })
-    # }
+    }
     
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
@@ -282,7 +250,7 @@ server <- function(input, output, session) {
             colour = VisMin,
             fill = VisMin,
             text = paste0(
-              "Visible Minority group: ",
+              "Visible Minority group(s): ",
               VisMin,
               "<br>",
               "Value: ",
@@ -298,12 +266,67 @@ server <- function(input, output, session) {
         labs(
           x = "Year",
           y = "Value",
-          colour = "Visible Minority group",
-          fill = "Visible Minority group"
+          colour = "Visible Minority group(s)",
+          fill = "Visible Minority group(s)"
         )
     }, tooltip = "text"))
   }
   
+  #'NOTE [This chart doesn't follow the same x-axis as the other charts]
+  func_plot_discrimination <- function(filter_var){
+    # Discrimination and victimization ----
+    filtered_data <-
+      reactive({
+        discriminationDT %>%
+          filter(
+            ind == filter_var,
+            VisMin %in% input$discrimination_vismin,
+            Geography == input$discrimination_geography,
+            Confidence == input$discrimination_conf_interval,
+            char_type == input$discrimination_sociodem,
+            (Characteristic == input$discrimination_age |
+               Characteristic == input$discrimination_sex |
+               Characteristic == input$discrimination_immigration |
+               Characteristic == input$discrimination_generation |
+               Characteristic == input$discrimination_language |
+               Characteristic == input$discrimination_education
+            )
+          )
+      })
+
+    renderPlotly(ggplotly({
+      ggplot(filtered_data()) +
+        geom_bar(
+          stat = "identity",
+          position = "dodge",
+          aes(
+            x = before_since,
+            y = Value,
+            colour = VisMin,
+            fill = VisMin,
+            text = paste0(
+              "Visible Minority group(s): ",
+              VisMin,
+              "<br>",
+              "Value: ",
+              format(Value, big.mark = ","),
+              "<br>",
+              "Reference Period in Relation to the covid-19 Pandemic: ",
+              before_since
+            )
+          )
+        ) +
+        theme_minimal() +
+        scale_y_continuous(labels = comma) +
+        labs(
+          x = "Reference Period in Relation to the covid-19 Pandemic",
+          y = "Value",
+          colour = "Visible Minority group(s)",
+          fill = "Visible Minority group(s)"
+        )
+    }, tooltip = "text"))
+  }
+
   ### Plots ----
   #### 1. Participation in the Labour Market ----
   ##### 1.1. Working-age population in the labour force (participation rate) ----
@@ -540,42 +563,42 @@ server <- function(input, output, session) {
   ##### 7.1. Population expressing confidence in Federal Parliament ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[4])
+              filter_var = unique(as.character(confidenceDT$Indicator))[4])
   
   ##### 7.2. Population expressing Confidence in the Canadian media ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[8])
+              filter_var = unique(as.character(confidenceDT$Indicator))[8])
   
   ##### 7.3. Population expressing confidence in the school system ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[3])
+              filter_var = unique(as.character(confidenceDT$Indicator))[3])
   
   ##### 7.4. Population expressing confidence in the justice system, courts ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[2])
+              filter_var = unique(as.character(confidenceDT$Indicator))[2])
   
   ##### 7.5. Population expressing confidence in the police ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[1])
+              filter_var = unique(as.character(confidenceDT$Indicator))[1])
   
   ##### 7.6. Population expressing confidence in major corporations ----
   output$plot_vm_public_6 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[6])
+              filter_var = unique(as.character(confidenceDT$Indicator))[6])
   
   ##### 7.7. Population expressing confidence in merchants and business people ----
   output$plot_vm_public_7 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[7])
+              filter_var = unique(as.character(confidenceDT$Indicator))[7])
   
   ##### 7.8. Population expressing confidence in banks ----
   output$plot_vm_public_8 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(confidenceDT$Indicator)[5])
+              filter_var = unique(as.character(confidenceDT$Indicator))[5])
   
   #### 8. Income and wealth ----
   #'NOTE [TBD]
@@ -634,55 +657,40 @@ server <- function(input, output, session) {
   #### 10. Discrimination and victimization ----
   ##### 10.1. Experience(s) of discrimination ----
   output$plot_vm_discrimination_1 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[1])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[1])
   
-  ##### 10.2. Experience(s) of discrimination based on ethnicity or culture ----
+  # ##### 10.2. Experience(s) of discrimination based on ethnicity or culture ----
   output$plot_vm_discrimination_2 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[2])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[2])
   
-  ##### 10.3. Experience(s) of discrimination based on race or colour ----
+  # ##### 10.3. Experience(s) of discrimination based on race or colour ----
   output$plot_vm_discrimination_3 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[3])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[3])
   
-  ##### 10.4. Experience(s) of discrimination based on religion ----
+  # ##### 10.4. Experience(s) of discrimination based on religion ----
   output$plot_vm_discrimination_4 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[4])
-
-  ##### 10.5. Experience(s) of discrimination based on language ----
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[4])
+  
+  # ##### 10.5. Experience(s) of discrimination based on language ----
   output$plot_vm_discrimination_5 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[5])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[5])
 
-  ##### 10.6. Discrimination at work or when applying for a job or promotion ----
+  # ##### 10.6. Discrimination at work or when applying for a job or promotion ----
   output$plot_vm_discrimination_6 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[6])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[6])
 
-  ##### 10.7. Discrimination when dealing with the police ----
+  # ##### 10.7. Discrimination when dealing with the police ----
   output$plot_vm_discrimination_7<-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[7])
-
-  ##### 10.8. Discrimination when in a store, bank or restaurant ----
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[7])
+  
+  # ##### 10.8. Discrimination when in a store, bank or restaurant ----
   output$plot_vm_discrimination_8 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[8])
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[8])
 
-  ##### 10.9. Discrimination when attending school or classes ----
+  # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_vm_discrimination_9 <-
-    func_plot_1(df = "discriminationDT",
-              filter_var = unique(discriminationDT$Indicator)[9])
-  
-  ##### 10.10. Hate Crime ----
-  output$plot_vm_discrimination_10 <-
-    func_plot_1(df = "polData")
-  
-  #'NOTE [This only looks at before COVID, did you want to compare the before and after here?]
-  
+    func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
+
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   
 }
