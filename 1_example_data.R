@@ -183,15 +183,21 @@ discriminationDT <-
       replacement = " ",
       x = before_since
     ),
-    ind = trimws(sub(
-      pattern = ", .*",
-      replacement = "",
-      x = Indicator
-    )),
     ind = case_when(
-      ind == "Experience(s) of discrimination since the beginning of COVID-19 pandemic" ~ "Experience(s) of discrimination",
-      ind == "Discrimination at work or when applying for a job or promotion" ~ "Discrimination at work or when applying for a job or a promotion",
-      TRUE ~ ind
+      Indicator == "Experience(s) of discrimination since the beginning of COVID-19 pandemic" ~ "Experience(s) of discrimination",
+      Indicator %in% c(
+        "Discrimination at work or when applying for a job or promotion, since the beginning of COVID-19 pandemic",
+        "Discrimination at work or when applying for a job or a promotion, 5 years before COVID-19 pandemic"
+      ) ~ "Discrimination at work or when applying for a job or a promotion",
+      Indicator %in% c(
+        "Discrimination in a store, bank or restaurant, since the  beginning of COVID-19 pandemic",
+        "Discrimination in a store, bank or restaurant, 5 years before COVID-19 pandemic"
+      ) ~ "Discrimination in a store, bank or restaurant",
+      TRUE ~ trimws(sub(
+        pattern = ", .*",
+        replacement = "",
+        x = Indicator
+      ))
     )
   )
 
