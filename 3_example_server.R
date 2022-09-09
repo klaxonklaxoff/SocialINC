@@ -78,6 +78,7 @@ server <- function(input, output, session) {
               Indicator == filter_var,
               VisMin %in% input$lm_vismin,
               Degree == input$lm_degree,
+              Year %in% input$lm_year,
               Geography == input$lm_geography,
               Immigration == input$lm_immigration,
               Age == input$lm_age,
@@ -156,11 +157,11 @@ server <- function(input, output, session) {
               Confidence == input$civic_conf_interval,
               char_type == input$civic_sociodem,
               (Characteristic == input$civic_age |
-                  Characteristic == input$civic_sex |
-                  Characteristic == input$civic_immigration |
-                  Characteristic == input$civic_generation |
-                  Characteristic == input$civic_language |
-                  Characteristic == input$civic_education
+                 Characteristic == input$civic_sex |
+                 Characteristic == input$civic_immigration |
+                 Characteristic == input$civic_generation |
+                 Characteristic == input$civic_language |
+                 Characteristic == input$civic_education
               )
             )
         })
@@ -293,7 +294,7 @@ server <- function(input, output, session) {
             )
           )
       })
-
+    
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
         geom_bar(
@@ -326,33 +327,33 @@ server <- function(input, output, session) {
         )
     }, tooltip = "text"))
   }
-
+  
   ### Plots ----
   #### 1. Participation in the Labour Market ----
   ##### 1.1. Working-age population in the labour force (participation rate) ----
   output$plot_vm_lm_1 <-
     func_plot_1(df = "rateDT",
-              filter_var = unique(rateDT$Indicator)[1])
+                filter_var = unique(as.character(rateDT$Indicator))[1])
   
   ##### 1.2. Working-age population in employment (employment rate) ----
   output$plot_vm_lm_2 <-
     func_plot_1(df = "rateDT",
-              filter_var = unique(rateDT$Indicator)[2])
+                filter_var = unique(as.character(rateDT$Indicator))[2])
   
   ##### 1.3. Working-age population in employment (unemployment rate) ----
   output$plot_vm_lm_3 <-
     func_plot_1(df = "rateDT",
-              filter_var = unique(rateDT$Indicator)[3])
+                filter_var = unique(as.character(rateDT$Indicator))[3])
   
   ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
   output$plot_vm_lm_4 <-
     func_plot_1(df = "rateDT",
-              filter_var = unique(rateDT$Indicator)[4])
+                filter_var = unique(as.character(rateDT$Indicator))[4])
   
   ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
   output$plot_vm_lm_5 <-
     func_plot_1(df = "representationDT",
-              filter_var = unique(rateDT$Indicator)[4])
+                filter_var = unique(as.character(representationDT$Indicator))[4])
   
   ##### 1.6. Overqualified workers with a university degree ----
   output$plot_vm_lm_6 <-
@@ -365,104 +366,104 @@ server <- function(input, output, session) {
   ##### 1.8. Average employment income of the population ----
   output$plot_vm_lm_8 <-
     func_plot_1(df = "incomeDT",
-              filter_var = unique(incomeDT$Indicator)[1])
+                filter_var = unique(as.character(incomeDT$Indicator))[1])
   
   ##### 1.9. Average weekly wage of paid employees ----
   output$plot_vm_lm_9 <-
     func_plot_1(df = "incomeDT",
-              filter_var = unique(incomeDT$Indicator)[2])
+                filter_var = unique(as.character(incomeDT$Indicator))[2])
   
   #### 2. Civic engagement and political participation ----
   ##### 2.1. Percent of the population members of at least one civic group or organization ----
   output$plot_vm_civic_1 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[1])
+                filter_var = unique(as.character(civicDT$Indicator))[1])
   
   ##### 2.2. Percent of the population members in a sports or recreational organization ----    
   output$plot_vm_civic_2 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[2])
+                filter_var = unique(as.character(civicDT$Indicator))[2])
   
   ##### 2.3. Percent of the population members in a cultural, educational or hobby organization ---- 
   output$plot_vm_civic_3 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[3])
+                filter_var = unique(as.character(civicDT$Indicator))[3])
   
   ##### 2.4. Percent of the population members in union or professional association ----  
   output$plot_vm_civic_4 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[4])
+                filter_var = unique(as.character(civicDT$Indicator))[4])
   
   ##### 2.5. Percent of the population members in a political party or group ----     
   output$plot_vm_civic_5 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[5])
+                filter_var = unique(as.character(civicDT$Indicator))[5])
   
   ##### 2.6. Percent of the population members in a religious-affiliated group ----  
   output$plot_vm_civic_6 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[6])
+                filter_var = unique(as.character(civicDT$Indicator))[6])
   
   ##### 2.7. Percent of the population members in a school group, neighbourhood, civic or community association ----
   output$plot_vm_civic_7 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[7])
+                filter_var = unique(as.character(civicDT$Indicator))[7])
   
   ##### 2.8. Percent of the population members in a humanitarian or charitable organization or service club ----  
   output$plot_vm_civic_8 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[8])
+                filter_var = unique(as.character(civicDT$Indicator))[8])
   
   ##### 2.9. Percent of the population members in a seniors' group ----       
   output$plot_vm_civic_9 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[9])
+                filter_var = unique(as.character(civicDT$Indicator))[9])
   
   ##### 2.10. Percent of the population members in a youth organization ----
   output$plot_vm_civic_10 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[10])
+                filter_var = unique(as.character(civicDT$Indicator))[10])
   
   ##### 2.11. Percent of the population members in an immigrant or ethnic association or club ----  
   output$plot_vm_civic_11 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[11])
+                filter_var = unique(as.character(civicDT$Indicator))[11])
   
   ##### 2.12. Percent of the population members in an environmental group ----
   output$plot_vm_civic_12 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[12])
+                filter_var = unique(as.character(civicDT$Indicator))[12])
   
   ##### 2.13. Percent of the population engaged in political activities ---- 
   output$plot_vm_civic_13 <-
     func_plot_1(df = "civicDT",
-              filter_var = unique(civicDT$Indicator)[13])
+                filter_var = unique(as.character(civicDT$Indicator))[13])
   
   ##### 2.14. Percent of the population voting in the last federal election ----
   output$plot_vm_civic_14 <-
     func_plot_1(df = "civicDT2",
-              filter_var = unique(civicDT2$Indicator)[1])
+                filter_var = unique(as.character(civicDT2$Indicator))[1])
   
   ##### 2.15. Percent of the population voting in the last provincial election ----    
   output$plot_vm_civic_15 <-
     func_plot_1(df = "civicDT2",
-              filter_var = unique(civicDT2$Indicator)[2])
+                filter_var = unique(as.character(civicDT2$Indicator))[2])
   
   ##### 2.16. Percent of the population voting in the last municipal election ---- 
   output$plot_vm_civic_16 <-
     func_plot_1(df = "civicDT2",
-              filter_var = unique(civicDT2$Indicator)[3])
+                filter_var = unique(as.character(civicDT2$Indicator))[3])
   
   #### 3. Representation in decision-making positions ----
   ##### 3.1. Percent of workers in all management occupations ----
   output$plot_vm_rep_1 <-
     func_plot_1(df = "representationDT",
-              filter_var = unique(representationDT$Indicator)[1])
+                filter_var = unique(as.character(representationDT$Indicator))[1])
   
   ##### 3.2. Percent of workers in senior management occupations ----
   output$plot_vm_rep_2 <-
     func_plot_1(df = "representationDT",
-              filter_var = unique(representationDT$Indicator)[2])
+                filter_var = unique(as.character(representationDT$Indicator))[2])
   
   #'NOTE [Not sure what's happening with this middle manager section]
   ##### 3.3. Percent of workers in specialized middle management occupations ----
@@ -495,27 +496,27 @@ server <- function(input, output, session) {
   ##### 4.5. Percent of the population living in a food-secure household ----
   output$plot_vm_basic_5 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[14])
+                filter_var = unique(as.character(basicDT$Indicator))[14])
   
   ##### 4.6. Percent of the population living in a household with marginal food security ----
   output$plot_vm_basic_6 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[15])
+                filter_var = unique(as.character(basicDT$Indicator))[15])
   
   ##### 4.7. Percent of the population living in a food-insecure household, moderate or severe ----
   output$plot_vm_basic_7 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[16])
+                filter_var = unique(as.character(basicDT$Indicator))[16])
   
   ##### 4.8. Percent of the population living in a household with moderate food insecurity ----
   output$plot_vm_basic_8 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[17])
+                filter_var = unique(as.character(basicDT$Indicator))[17])
   
   ##### 4.9. Percent of the population living in a household with severe food insecurity ----
   output$plot_vm_basic_9 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[18])
+                filter_var = unique(as.character(basicDT$Indicator))[18])
   
   #### 5. Local community ----
   #'NOTE [TBD]
@@ -524,33 +525,33 @@ server <- function(input, output, session) {
   ##### 6.1. Percent of the population reporting very good or excellent general health ----
   output$plot_vm_health_1 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[1])
+                filter_var = unique(as.character(basicDT$Indicator))[1])
   
   ##### 6.2. Percent of the population reporting fair or poor general health ----
   output$plot_vm_health_2 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[2])
+                filter_var = unique(as.character(basicDT$Indicator))[2])
   
   ##### 6.3. Percent of the population reporting very good or excellent mental health ----
   output$plot_vm_health_3 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[3])
+                filter_var = unique(as.character(basicDT$Indicator))[3])
   
   ##### 6.4. Percent of the population reporting fair or poor mental health ----
   output$plot_vm_health_4 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[4])
+                filter_var = unique(as.character(basicDT$Indicator))[4])
   
   ##### 6.5. Percent of the population reporting their life stressful ----
   output$plot_vm_health_5 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[6])
-
+                filter_var = unique(as.character(basicDT$Indicator))[6])
+  
   ##### 6.6. Percent of the population satisfied with life as a whole ----
   # FIXME: is this the correct variable
   output$plot_vm_health_6 <-
     func_plot_1(df = "basicDT",
-              filter_var = unique(basicDT$Indicator)[5])
+                filter_var = unique(as.character(basicDT$Indicator))[5])
   
   ##### 6.7. Percent of the population predicting their life opportunities will improve in the next 5 years ----
   # FIXME: Which variable is connected to this?
@@ -563,42 +564,42 @@ server <- function(input, output, session) {
   ##### 7.1. Population expressing confidence in Federal Parliament ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[4])
+                filter_var = unique(as.character(confidenceDT$Indicator))[4])
   
   ##### 7.2. Population expressing Confidence in the Canadian media ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[8])
+                filter_var = unique(as.character(confidenceDT$Indicator))[8])
   
   ##### 7.3. Population expressing confidence in the school system ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[3])
+                filter_var = unique(as.character(confidenceDT$Indicator))[3])
   
   ##### 7.4. Population expressing confidence in the justice system, courts ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[2])
+                filter_var = unique(as.character(confidenceDT$Indicator))[2])
   
   ##### 7.5. Population expressing confidence in the police ----
   output$plot_vm_public_1 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[1])
+                filter_var = unique(as.character(confidenceDT$Indicator))[1])
   
   ##### 7.6. Population expressing confidence in major corporations ----
   output$plot_vm_public_6 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[6])
+                filter_var = unique(as.character(confidenceDT$Indicator))[6])
   
   ##### 7.7. Population expressing confidence in merchants and business people ----
   output$plot_vm_public_7 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[7])
+                filter_var = unique(as.character(confidenceDT$Indicator))[7])
   
   ##### 7.8. Population expressing confidence in banks ----
   output$plot_vm_public_8 <-
     func_plot_1(df = "confidenceDT",
-              filter_var = unique(as.character(confidenceDT$Indicator))[5])
+                filter_var = unique(as.character(confidenceDT$Indicator))[5])
   
   #### 8. Income and wealth ----
   #'NOTE [TBD]
@@ -628,22 +629,22 @@ server <- function(input, output, session) {
   # output$plot_vm_social_5 <-
   #   func_plot_1(df = "belongingDT",
   #             filter_var = unique(belongingDT$Indicator)[])
-
+  
   ##### 9.6. Percent of the population with a personal close-ties network of 5 or more friends ----
   # output$plot_vm_social_6 <-
   #   func_plot_1(df = "belongingDT",
   #             filter_var = unique(belongingDT$Indicator)[])
-
+  
   ##### 9.7. Percent of the population with no personal network with weak ties ----
   # output$plot_vm_social_7<-
   #   func_plot_1(df = "belongingDT",
   #             filter_var = unique(belongingDT$Indicator)[])
-
+  
   ##### 9.8. Percent of the population with a personal weak-ties network of 1 to 19 people ----
   # output$plot_vm_social_8 <-
   #   func_plot_1(df = "belongingDT",
   #             filter_var = unique(belongingDT$Indicator)[])
-
+  
   ##### 9.9. Percent of the population with a personal weak-ties network of 20 or more people ----
   # output$plot_vm_social_9 <-
   #   func_plot_1(df = "belongingDT",
@@ -653,7 +654,7 @@ server <- function(input, output, session) {
   # output$plot_vm_social_10 <-
   #   func_plot_1(df = "belongingDT",
   #             filter_var = unique(belongingDT$Indicator)[])
-
+  
   #### 10. Discrimination and victimization ----
   ##### 10.1. Experience(s) of discrimination ----
   output$plot_vm_discrimination_1 <-
@@ -674,11 +675,11 @@ server <- function(input, output, session) {
   # ##### 10.5. Experience(s) of discrimination based on language ----
   output$plot_vm_discrimination_5 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[5])
-
+  
   # ##### 10.6. Discrimination at work or when applying for a job or promotion ----
   output$plot_vm_discrimination_6 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[6])
-
+  
   # ##### 10.7. Discrimination when dealing with the police ----
   output$plot_vm_discrimination_7<-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[7])
@@ -686,11 +687,11 @@ server <- function(input, output, session) {
   # ##### 10.8. Discrimination when in a store, bank or restaurant ----
   output$plot_vm_discrimination_8 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[8])
-
+  
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_vm_discrimination_9 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
-
+  
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   
 }
