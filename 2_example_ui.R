@@ -26,10 +26,11 @@ ui <-
   fluidPage(
     titlePanel("Social Inclusion Data Visualization Tool"),
     # title of dashboard
+    h5("Example"),
     tabsetPanel(
       type = "pills",
       # type of navigation button
-      
+
       ## Themes and Definitions of Indicators ----
       tabPanel(
         "Themes and Definitions of Indicators",
@@ -48,30 +49,30 @@ ui <-
           mainPanel(dataTableOutput("def_table"))
         )
       ), #'NOTE [END OF FIRST TAB]
-      
-      ## 1. Theme: Groups designated as visible Minorities  ----      
+
+      ## 1. Theme: Groups designated as visible Minorities  ----
       tabPanel(
         "Groups designated as Visible Minorities",
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(
             width = 3,
-            
+
             ### 1. Theme ----
             selectizeInput(
               inputId = "theme_1",
               label = "Theme",
               #'NOTE [Not showing "Local community" until it's ready]
               choices = unique(as.character(template$Theme)[template$Theme != "Local community"])
-            ), 
-            
+            ),
+
             ### 2. Indicator ----
             selectizeInput(
               inputId = "indicator_1",
               label = "Indicator",
               choices = unique(as.character(template$Indicator))
             ),
-            
+
             #### 2.1. Participation in the Labour Market ----
             ##### 2.1.1. Participation in the Labour Market (part 1) ----
             #'NOTE [rateDT]
@@ -82,7 +83,7 @@ ui <-
               || input.indicator_1 == 'Working-age population in unemployment (unemployment rate)'
               || input.indicator_1 == 'Workers working mainly full-time weeks in the previous year'",
               #'NOTE [indicators 1:4/22]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
@@ -135,14 +136,14 @@ ui <-
                 choices = unique(as.character(rateDT$Sex))
               )
             ),
-            
+
             ##### 2.1.2. Participation in the Labour Market (part 2) ----
             #'NOTE [representationDT]
             conditionalPanel(
               condition =
                 "input.indicator_1 == 'Self-employed workers in the labour force (unincorporated)'",
               #'NOTE [indicators 5/22]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -187,14 +188,14 @@ ui <-
                 choices = unique(as.character(representationDT$Sex))
               )
             ),
-            
+
             ##### 2.1.3. Participation in the Labour Market (part 3) ----
             #'NOTE [OverQualDT]
             conditionalPanel(
               condition =
                 "input.indicator_1 == 'Overqualified workers with a university degree'",
               #'NOTE [indicators 6/22]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -207,7 +208,7 @@ ui <-
                   `actions-box` = TRUE,
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
-                )), 
+                )),
               ###### Location of Study ----
               selectizeInput(
                 inputId = "lm_over_location",
@@ -251,14 +252,14 @@ ui <-
                 choices = unique(as.character(OverQualDT$Language))
               )
             ),
-            
+
             ##### 2.1.4. Participation in the Labour Market (part 4) ----
             #'NOTE [youthDT]
             conditionalPanel(
               condition =
                 "input.indicator_1 == 'Youth not in employment, education or training (NEET)'",
               #'NOTE [indicators 7/22]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -303,7 +304,7 @@ ui <-
                 choices = unique(as.character(youthDT$Language))
               )
             ),
-            
+
             ##### 2.1.5. Participation in the Labour Market (part 5) ----
             #'NOTE [incomeDT]
             conditionalPanel(
@@ -311,7 +312,7 @@ ui <-
                 "input.indicator_1 == 'Average employment income of the population'
               || input.indicator_1 == 'Average weekly wage of paid employees'",
               #'NOTE [indicators 8:9/22]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -356,12 +357,12 @@ ui <-
                 choices = unique(as.character(incomeDT$Sex))
               )
             ),
-            
+
             ##### 2.1.6. Participation in the Labour Market (part 6) ----
             #'NOTE [employmentDT]
             #' [THIS TABLE HAS NOT BEEN PUBLISHED YET]
             #'NOTE [indicators 10:16/22]
-            
+
             #' conditionalPanel(
             #'   condition =
             #'     "input.ind_labour_market == 'Paid employees considering their current job good for career advancement'
@@ -405,7 +406,7 @@ ui <-
             #'     choices = unique(as.character(employmentDT$Confidence))
             #'   )
             #' ),
-            
+
             #'NOTE [end of Participation in the Labour Market section]
             #'NOTE [MISSING INDICATORS 17:22]
             #'[17 "Paid employees having supplemental medical care in their current job"]
@@ -414,7 +415,7 @@ ui <-
             #'[20 "Paid employees covered by union contract or collective agreement in their current job"]
             #'[21 "Paid employees receiving formal training in their current job"]
             #'[22 "Paid employees receiving informal training in their current job"]
-            
+
             #### 2.2. Civic engagement and political participation ----
             ##### 2.2.1. Civic engagement and political participation (part 1) ----
             #'NOTE [civicDT]
@@ -435,7 +436,7 @@ ui <-
               || input.indicator_1 == 'Percent of the population engaged in political activities'",
               #'NOTE [indicators 1:13/16]
               #'#'NOTE [you need 2 backslashes to escape that single quotation used in "Percent of the population members in a seniors' group" because otherwise it thinks that's where the condition ends (AKA: "Percent of the population members in a seniors")]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -522,7 +523,7 @@ ui <-
                 choices = unique(as.character(civicDT$Confidence))
               )
             ),
-            
+
             ##### 2.2.2. Civic engagement and political participation (part 2) ----
             #'NOTE [civicDT2]
             conditionalPanel(
@@ -531,7 +532,7 @@ ui <-
               || input.indicator_1 == 'Percent of the population voting in the last provincial election'
               || input.indicator_1 == 'Percent of the population voting in the last municipal election'",
               #'NOTE [indicators 14:16/16]
-              
+
               ###### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -618,14 +619,14 @@ ui <-
                 choices = unique(as.character(civicDT2$Confidence))
               )
             ),
-            
+
             #### 2.3. Representation in decision-making positions ----
             #'NOTE [representationDT]
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Representation in decision-making positions'",
               #'NOTE [indicators 1:4/4]
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -670,7 +671,7 @@ ui <-
                 choices = unique(as.character(representationDT$Sex))
               )
             ),
-            
+
             #### 2.4. Basic needs and housing ----
             #'NOTE [basicDT]
             conditionalPanel(
@@ -681,7 +682,7 @@ ui <-
               #'[Percent of the population living in core need household]
               #'[Percent of the population living in suitable housing]
               #'[Percent of the population living in an affordable housing]
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -741,17 +742,17 @@ ui <-
                 choices = unique(as.character(basicDT$Confidence))
               )
             ),
-            
+
             #### 2.5. Local community ----
             #'NOTE [it doesn't look like there'a any conditions following this theme?]
             #'[from my notes it looks like it should take from incomeDT]
-            
+
             #### 2.6. Health and wellbeing ----
             #'NOTE [basicDT]
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Health and wellbeing'",
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -770,7 +771,7 @@ ui <-
                 inputId = "health_geography",
                 label = "Geography",
                 choices = unique(as.character(basicDT$Geography))
-              ), 
+              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "health_sociodem",
@@ -811,13 +812,13 @@ ui <-
                 choices = unique(as.character(basicDT$Confidence))
               )
             ),
-            
+
             #### 2.7. Public services and institutions ----
             #'NOTE [confidenceDT]
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Public services and institutions'",
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -843,7 +844,7 @@ ui <-
                 label = "Selected sociodemographic characteristics",
                 choices = unique(as.character(confidenceDT$char_type))
               ),
-              
+
               ###### Age ----
               conditionalPanel(
                 condition = "input.public_sociodem == 'Age'",
@@ -905,14 +906,14 @@ ui <-
                 choices = unique(as.character(confidenceDT$Confidence))
               )
             ),
-            
+
             #### 2.8. Income and wealth ----
             #'NOTE [THIS IS ALL IN THE LABOUR MARKET SECTION ALREADY]
             #'NOTE [incomeDT]
             #' conditionalPanel(
             #'   condition =
             #'     "input.theme_1 == 'Income and wealth'",
-            #' 
+            #'
             #'   ##### Visible Minority ----
             #'   #'NOTE [this is the focal variable for this tab]
             #'   selectizeInput(
@@ -934,7 +935,7 @@ ui <-
             #'     label = "Selected sociodemographic characteristics",
             #'     choices = unique(as.character(incomeDT$char_type))
             #'   ),
-            #' 
+            #'
             #'   ###### Age ----
             #'   conditionalPanel(
             #'     condition = "input.income_sociodem == 'Age'",
@@ -996,13 +997,13 @@ ui <-
             #'     choices = unique(as.character(incomeDT$Confidence))
             #'   )
             #' ),
-            
+
             #### 2.9. Social connections and personnal networks ----
             #'NOTE [belongingDT]
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Social connections and personnal networks'",
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -1028,7 +1029,7 @@ ui <-
                 label = "Selected sociodemographic characteristics",
                 choices = unique(as.character(belongingDT$char_type))
               ),
-              
+
               ###### Age ----
               conditionalPanel(
                 condition = "input.belonging_sociodem == 'Age'",
@@ -1090,7 +1091,7 @@ ui <-
                 choices = unique(as.character(belongingDT$Confidence))
               )
             ),
-            
+
             #### 2.10. Discrimination and victimization ----
             ##### 2.10.1. Discrimination and victimization (part 1) ----
             #'NOTE [discriminationDT]
@@ -1098,7 +1099,7 @@ ui <-
               condition =
                 "input.theme_1 == 'Discrimination and victimization'
               && input.indicator_1 != 'Hate Crime'",
-              
+
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -1186,11 +1187,11 @@ ui <-
               )
             )
           ), # sidebarPanel closing bracket // should be blue
-          
+
           ### Main panel ----
           mainPanel(
             h2("Groups Designated as Visible Minorities"),
-            
+
             #'NOTE [EXAMPLE OF PREVIOUS CODE]
             # conditionalPanel(
             #   condition = "input.dim == 'Health and wellbeing' & input.dimHealth == 'Percent of the population reporting very good or excellent mental health' & input.healthCharacteristics == 'Immigration Status'",
@@ -1203,7 +1204,7 @@ ui <-
             #   br(),
             #   helpText("Source: Canadian Community Health Survey (CCHS), September to December 2020")
             # )
-            
+
             #### 1. Participation in the Labour Market ----
             ##### 1.1. Working-age population in the labour force (participation rate) ----
             conditionalPanel(
@@ -1215,7 +1216,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.2. Working-age population in employment (employment rate) ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Working-age population in employment (employment rate)'",
@@ -1226,7 +1227,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.3. Working-age population in unemployment (unemployment rate) ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Working-age population in unemployment (unemployment rate)'",
@@ -1237,7 +1238,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Workers working mainly full-time weeks in the previous year'",
@@ -1248,7 +1249,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Self-employed workers in the labour force (unincorporated)'",
@@ -1259,7 +1260,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.6. Overqualified workers with a university degree ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Overqualified workers with a university degree'",
@@ -1270,7 +1271,7 @@ ui <-
               br(),
               helpText(source_census_nhs)
             ),
-            
+
             ##### 1.7. Youth not in employment, education or training (NEET) ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Youth not in employment, education or training (NEET)'",
@@ -1281,7 +1282,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.8. Average employment income of the population ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Average employment income of the population'",
@@ -1292,7 +1293,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 1.9. Average weekly wage of paid employees ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Average weekly wage of paid employees'",
@@ -1303,7 +1304,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             #### 2. Civic engagement and political participation ----
             ##### 2.1. Percent of the population members of at least one civic group or organization ----
             conditionalPanel(
@@ -1315,7 +1316,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.2. Percent of the population members in a sports or recreational organization ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a sports or recreational organization'",
@@ -1326,7 +1327,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.3. Percent of the population members in a cultural, educational or hobby organization ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a cultural, educational or hobby organization'",
@@ -1337,7 +1338,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.4. Percent of the population members in union or professional association ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in union or professional association'",
@@ -1348,7 +1349,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.5. Percent of the population members in a political party or group ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a political party or group'",
@@ -1359,7 +1360,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.6. Percent of the population members in a religious-affiliated group ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a religious-affiliated group'",
@@ -1370,7 +1371,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.7. Percent of the population members in a school group, neighbourhood, civic or community association ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a school group, neighbourhood, civic or community association'",
@@ -1381,7 +1382,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.8. Percent of the population members in a humanitarian or charitable organization or service club ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a humanitarian or charitable organization or service club'",
@@ -1392,7 +1393,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.9. Percent of the population members in a seniors' group ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a seniors\\' group'",
@@ -1403,7 +1404,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.10. Percent of the population members in a youth organization ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in a youth organization'",
@@ -1414,7 +1415,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.11. Percent of the population members in an immigrant or ethnic association or club ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in an immigrant or ethnic association or club'",
@@ -1425,7 +1426,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.12. Percent of the population members in an environmental group ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population members in an environmental group'",
@@ -1436,7 +1437,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.13. Percent of the population engaged in political activities ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population engaged in political activities'",
@@ -1447,7 +1448,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.14 Percent of the population voting in the last federal election ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population voting in the last federal election'",
@@ -1458,7 +1459,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.15 Percent of the population voting in the last provincial election ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population voting in the last provincial election'",
@@ -1469,7 +1470,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 2.16 Percent of the population voting in the last municipal election ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population voting in the last municipal election'",
@@ -1480,7 +1481,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             #### 3. Representation in decision-making positions ----
             ##### 3.1. Percent of workers in all management occupations ----
             conditionalPanel(
@@ -1492,7 +1493,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             ##### 3.2. Percent of workers in senior management occupations ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of workers in senior management occupations'",
@@ -1503,7 +1504,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            
+
             #'NOTE [WHY IS THIS SEPARATED?]
             ##### 3.3. Percent of workers in specialized middle management occupations ----
             # conditionalPanel(
@@ -1515,7 +1516,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 3.4. Percent of workers in other middle management occupations ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of workers in other middle management occupations'",
@@ -1526,7 +1527,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             #### 4. Basic needs and housing ----
             ##### 4.1. Percent of workers in senior management occupations ----
             # conditionalPanel(
@@ -1538,7 +1539,7 @@ ui <-
             #   br(),
             #   helpText(source_cchs)
             # ),
-            
+
             ##### 4.2. Percent of the population living in core need household ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population living in core need household'",
@@ -1549,7 +1550,7 @@ ui <-
             #   br(),
             #   helpText(source_cchs)
             # ),
-            
+
             ##### 4.3. Percent of the population living in suitable housing ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population living in suitable housing'",
@@ -1560,7 +1561,7 @@ ui <-
             #   br(),
             #   helpText(source_cchs)
             # ),
-            
+
             ##### 4.4. Percent of the population living in an affordable housing ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population living in an affordable housing'",
@@ -1571,7 +1572,7 @@ ui <-
             #   br(),
             #   helpText(source_cchs)
             # ),
-            
+
             ##### 4.5. Percent of the population living in a food-secure household ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population living in a food-secure household'",
@@ -1582,7 +1583,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 4.6. Percent of the population living in a household with marginal food security ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population living in a household with marginal food security'",
@@ -1593,7 +1594,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 4.7. Percent of the population living in a food-insecure household, moderate or severe ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population living in a food-insecure household, moderate or severe'",
@@ -1604,7 +1605,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 4.8. Percent of the population living in a household with moderate food insecurity ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population living in a household with moderate food insecurity'",
@@ -1615,7 +1616,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 4.9. Percent of the population living in a household with severe food insecurity ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population living in a household with severe food insecurity'",
@@ -1626,10 +1627,10 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             #### 5. Local community ----
             #'NOTE [TBD]
-            
+
             #### 6. Health and wellbeing ----
             ##### 6.1. Percent of the population reporting very good or excellent general health ----
             conditionalPanel(
@@ -1641,7 +1642,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.2. Percent of the population reporting fair or poor general health ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population reporting fair or poor general health'",
@@ -1652,7 +1653,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.3. Percent of the population reporting very good or excellent mental health ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population reporting very good or excellent mental health'",
@@ -1663,7 +1664,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.4. Percent of the population reporting fair or poor mental health ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population reporting fair or poor mental health'",
@@ -1674,7 +1675,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.5. Percent of the population reporting their life stressful ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population reporting their life stressful'",
@@ -1685,7 +1686,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.6. Percent of the population satisfied with life as a whole ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Percent of the population satisfied with life as a whole'",
@@ -1696,7 +1697,7 @@ ui <-
               br(),
               helpText(source_cchs)
             ),
-            
+
             ##### 6.7. Percent of the population predicting their life opportunities will improve in the next 5 years ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population predicting their life opportunities will improve in the next 5 years'",
@@ -1707,7 +1708,7 @@ ui <-
             #   br(),
             #   helpText(source_cchs)
             # ),
-            
+
             #### 7. Public services and institutions ----
             ##### 7.1. Population expressing confidence in Federal Parliament ----
             conditionalPanel(
@@ -1719,7 +1720,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.2. Population expressing Confidence in the Canadian media ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing Confidence in the Canadian media'",
@@ -1730,7 +1731,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.3. Population expressing confidence in the school system ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in the school system'",
@@ -1741,7 +1742,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.4. Population expressing confidence in the justice system, courts ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in the justice system, courts'",
@@ -1752,7 +1753,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.5. Population expressing confidence in the police ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in the police'",
@@ -1763,7 +1764,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.6. Population expressing confidence in major corporations ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in major corporations'",
@@ -1774,7 +1775,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.7. Population expressing confidence in merchants and business people ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in merchants and business people'",
@@ -1785,7 +1786,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 7.8. Population expressing confidence in banks ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Population expressing confidence in banks'",
@@ -1796,10 +1797,10 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             #### 8. Income and wealth ----
             #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
-            
+
             #### 9. Social connections and personnal networks ----
             ##### 9.1. Percent of the population living alone ----
             # conditionalPanel(
@@ -1811,7 +1812,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.2. Median size of a personal local network with close ties ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Median size of a personal local network with close ties'",
@@ -1822,7 +1823,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.3. Average size of a local personal network with close ties ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Average size of a local personal network with close ties'",
@@ -1833,7 +1834,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.4. Percent of the population with a personal close-ties network of 10 or more people ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal close-ties network of 10 or more people'",
@@ -1844,7 +1845,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.5. Percent of the population with a personal close-ties network of 5 or more relatives ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal close-ties network of 5 or more relatives'",
@@ -1855,7 +1856,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.6. Percent of the population with a personal close-ties network of 5 or more friends ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal close-ties network of 5 or more friends'",
@@ -1866,7 +1867,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.7. Percent of the population with no personal network with weak ties ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with no personal network with weak ties'",
@@ -1877,7 +1878,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.8. Percent of the population with a personal weak-ties network of 1 to 19 people ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal weak-ties network of 1 to 19 people'",
@@ -1888,7 +1889,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.9. Percent of the population with a personal weak-ties network of 20 or more people ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal weak-ties network of 20 or more people'",
@@ -1899,7 +1900,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             ##### 9.10. Percent of the population with a personal ethnically-diverse network ----
             # conditionalPanel(
             #   condition = "input.indicator_1 == 'Percent of the population with a personal ethnically-diverse network'",
@@ -1910,7 +1911,7 @@ ui <-
             #   br(),
             #   helpText(source_census_nhs_census)
             # ),
-            
+
             #### 10. Discrimination and victimization ----
             ##### 10.1. Experience(s) of discrimination ----
             conditionalPanel(
@@ -1922,7 +1923,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.2. Experience(s) of discrimination based on ethnicity or culture ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Experience(s) of discrimination based on ethnicity or culture'",
@@ -1933,7 +1934,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.3. Experience(s) of discrimination based on race or colour ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Experience(s) of discrimination based on race or colour'",
@@ -1944,7 +1945,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.4. Experience(s) of discrimination based on religion ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Experience(s) of discrimination based on religion'",
@@ -1955,7 +1956,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.5. Experience(s) of discrimination based on language ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Experience(s) of discrimination based on language'",
@@ -1966,7 +1967,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.6. Discrimination at work or when applying for a job or promotion ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Discrimination at work or when applying for a job or promotion'",
@@ -1977,7 +1978,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.7. Discrimination when dealing with the police ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Discrimination when dealing with the police'",
@@ -1988,7 +1989,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.8. Discrimination when in a store, bank or restaurant ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Discrimination when in a store, bank or restaurant'",
@@ -1999,7 +2000,7 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            
+
             ##### 10.9. Discrimination when attending school or classes ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Discrimination when attending school or classes'",
@@ -2010,15 +2011,15 @@ ui <-
               br(),
               helpText(source_gss)
             )
-            
+
           ) # Main panel closing bracket // should be blue
-          
+
         ) # sidebarLayout closing bracket // should be greenish-blue
       )
       #'NOTE [END OF VISMIN TAB]
-      
+
       #'NOTE [HERE IS WHERE YOU WOULD ADD A NEW TAB // use what's in the Visible Minority tab as a reference]
-      
+
     )
   )
 
