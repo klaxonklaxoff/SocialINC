@@ -45,10 +45,12 @@ geo_filter <-
     "Nunavut",
     "Canada, selected police services",
     "Canada (selected provinces - see notes)",
-    "Montréal,Quebec",
-    "Toronto,Ontario",
-    "Vancouver,British Columbia"
+    "Montréal, Quebec",
+    "Toronto, Ontario",
+    "Vancouver, British Columbia"
 ) # can only retrieve at the provincial level because otherwise it costs too much memory
+
+#' NOTE [you can use names() and unique() to figure out stuff about the data]
 
 df_list <-
   list.files("./_tempdata/", ".*\\.parquet$", ignore.case = TRUE) %>%
@@ -73,22 +75,6 @@ for (i in df_list) {
 gc()
 
 rm(i, df_list, OverQualDT_cma, geo_filter)
-
-### Combine data to relevant themes ----
-# #### Participation in the Labour Market ----
-# rateDT <-
-#   bind_rows(rateDT, OverQualDT, youthDT)
-# rm(OverQualDT, youthDT)
-#
-# #### Civic engagement and political participation	 ----
-# civicDT <-
-#   bind_rows(civicDT, civicDT2)
-# rm(civicDT2)
-#
-# #### Discrimination and victimization ----
-# discriminationDT <-
-#   bind_rows(discriminationDT, polData)
-# rm(polData)
 
 ## Return list of current data tables ----
 dfs_all <- names(which(unlist(eapply(
