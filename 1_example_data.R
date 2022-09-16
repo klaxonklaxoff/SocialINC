@@ -27,7 +27,7 @@ library(shinyWidgets)
 
 # Import data ----
 ## Datasets ----
-geo_filter <- 
+geo_filter <-
   c(
     "Canada",
     "Newfoundland and Labrador",
@@ -44,8 +44,11 @@ geo_filter <-
     "Yukon",
     "Nunavut",
     "Canada, selected police services",
-    "Canada (selected provinces - see notes)"
-  ) # can only retrieve at the provincial level because otherwise it costs too much memory
+    "Canada (selected provinces - see notes)",
+    "Montréal,Quebec",
+    "Toronto,Ontario",
+    "Vancouver,British Columbia"
+) # can only retrieve at the provincial level because otherwise it costs too much memory
 
 df_list <-
   list.files("./_tempdata/", ".*\\.parquet$", ignore.case = TRUE) %>%
@@ -55,7 +58,7 @@ df_list <-
     pattern = "\\.parquet",
     replacement = "",
     x = df_list
-  )) %>% 
+  )) %>%
   unlist()
 
 ### Filter data--it's too much to hande ----
@@ -73,17 +76,17 @@ rm(i, df_list, OverQualDT_cma, geo_filter)
 
 ### Combine data to relevant themes ----
 # #### Participation in the Labour Market ----
-# rateDT <- 
+# rateDT <-
 #   bind_rows(rateDT, OverQualDT, youthDT)
 # rm(OverQualDT, youthDT)
-# 
+#
 # #### Civic engagement and political participation	 ----
 # civicDT <-
 #   bind_rows(civicDT, civicDT2)
 # rm(civicDT2)
-# 
+#
 # #### Discrimination and victimization ----
-# discriminationDT <- 
+# discriminationDT <-
 #   bind_rows(discriminationDT, polData)
 # rm(polData)
 
@@ -221,14 +224,14 @@ polData <-
   ))
 
 ## Indicators template ----
-template <- 
-  read.csv("indicators_template.csv") %>% 
+template <-
+  read.csv("indicators_template.csv") %>%
   mutate_all(trimws)
 
 # Repetitive code ----
 ## Sources ----
 #'NOTE [these are the reoccuring sources I seen, I might be missing something]
-source_ucrs <- 
+source_ucrs <-
   "Source: Uniform Crime Reporting Survey (UCR), 2022"
 source_cchs <-
   "Source: Canadian Community Health Survey (CCHS), September to December 2020"
