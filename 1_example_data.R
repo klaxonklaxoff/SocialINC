@@ -74,7 +74,7 @@ for (i in df_list) {
 
 gc()
 
-rm(i, df_list, OverQualDT_cma, geo_filter)
+rm(i, df_list, geo_filter)
 
 ## Return list of current data tables ----
 dfs_all <- names(which(unlist(eapply(
