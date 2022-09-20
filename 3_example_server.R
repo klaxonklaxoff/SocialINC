@@ -100,7 +100,7 @@ server <- function(input, output, session) {
               Sex == input$lm_sex
             )
         })
-    } else if (df == "representationDT") {
+    } else if (df == "representationDT_lm") {
       # Participation in the Labour Market (representationDT) ----
       filtered_data <-
         reactive({
@@ -212,16 +212,15 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin %in% input$rep_vismin,
-              Year  %in% input$rep_year,
+              Year %in% input$rep_year,
               Degree == input$rep_degree,
               Geography == input$rep_geography,
               Immigration == input$rep_immigration,
-              Generation == input$rep_generation,
-              Age == input$rep_age,
-              Sex == input$rep_sex
+              Sex == input$rep_sex,
+              Age == input$rep_age
             )
         })
-    }else if (df == "educationDT") {
+    } else if (df == "educationDT") {
       # Education training and skills ----
       filtered_data <-
         reactive({
@@ -229,7 +228,7 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin %in% input$education_vismin,
-              Year  %in% input$education_year,
+              Year %in% input$education_year,
               Language == input$education_language,
               Geography == input$education_geography,
               Immigration == input$education_immigration,
@@ -428,7 +427,7 @@ server <- function(input, output, session) {
 
   ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
   output$plot_vm_lm_5 <-
-    func_plot_1(df = "representationDT",
+    func_plot_1(df = "representationDT_lm",
                 filter_var = unique(as.character(representationDT$Indicator))[4])
 
   ##### 1.6. Overqualified workers with a university degree ----
@@ -546,7 +545,7 @@ server <- function(input, output, session) {
   #### 3.4. Percent of workers in other middle management occupations ----
   output$plot_vm_rep_4 <-
     func_plot_1(df = "representationDT",
-              filter_var = unique(representationDT$Indicator)[4])
+              filter_var = unique(as.character(representationDT$Indicator))[4])
 
   #### 4. Basic needs and housing ----
   ##### 4.1. Percent of the population living in a dwelling owned by one member of the household ----
