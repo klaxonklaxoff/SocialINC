@@ -2296,13 +2296,13 @@ ui <-
       #'NOTE [END OF VISMIN TAB]
 
       #'NOTE [HERE IS WHERE YOU WOULD ADD A NEW TAB // use what's in the Visible Minority tab as a reference]
-      # Geography------
+      # Geography ------
       tabPanel(
         "Geography",
-      fluid = TRUE,
-      # sidebarLayout(
-        sidebarPanel(
-          width = 3,
+        fluid = TRUE,
+        fluidRow(
+          column (
+          width = 2,
 
           ### 1. Theme ----
           selectizeInput(
@@ -2380,13 +2380,14 @@ ui <-
               inputId = "lm_sex_geo",
               label = "Choose a sex",
               choices = unique(as.character(rateDT$Sex))
-            )
+            ),
+          )
           ),
 
 
         ### Main panel ----
         mainPanel(
-          h2("Geography"),
+          h2("Geography - Provinces"),
 
           #'NOTE [EXAMPLE OF PREVIOUS CODE]
           # conditionalPanel(
@@ -2447,17 +2448,12 @@ ui <-
           ),
         ),
         ),
-      # ),
-
           #Border separator------
           hr(style = "border-color: black"),
-
-          h2("Geography - CMAs"),
+          # h2("Geography - CMAs"),
           fluidRow(
-          #sidebarLayout(
-            sidebarPanel(
-              width = 3,
-
+          column (
+              width = 2,
               ### 1. Theme ----
               selectizeInput(
                 inputId = "theme_2",
@@ -2535,7 +2531,10 @@ ui <-
                   label = "Choose a sex",
                   choices = unique(as.character(rateDT$Sex))
                 )
-              ),
+              )
+            ),
+
+
 
 
               ### Main panel ----
@@ -2600,19 +2599,13 @@ ui <-
                   helpText(source_census_nhs_census)
                 ),
 
+        ), # Main panel closing bracket // should be blue
+        ),
+      ),
 
-
-
-        ) # Main panel closing bracket // should be blue
-        )
-
-      ) # sidebarLayout closing bracket // should be greenish-blue
+      # ) # sidebarLayout closing bracket // should be greenish-blue
       # Note ...
     )
-    ),
-
-
-
   )
 
 
