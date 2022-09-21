@@ -25,7 +25,9 @@ ui <-
   fluidPage(
     titlePanel("Social Inclusion Data Visualization Tool"),
     # title of dashboard
-    h5("Example"),
+    h5("This one-stop data tool introduces a framework to organize and access data on social inclusion
+       for ethnocultural groups and immigrants in Canada and responds to an increased demand for statistical
+       indicators to support evidence-based decision-making aimed at building a more equitable and inclusive society."),
     tabsetPanel(
       type = "pills",
       # type of navigation button
@@ -793,7 +795,6 @@ ui <-
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Health and wellbeing'",
-
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
               pickerInput(
@@ -954,7 +955,7 @@ ui <-
                 choices = unique(as.character(confidenceDT$Confidence))
               )
             ),
-            #### 2.8. Education and training skills ----
+            #### 2.8. Education, training and skills ----
             #'NOTE [educationDT]
             conditionalPanel(
               condition =
@@ -1987,28 +1988,46 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-            # ##### 8.3. Population with postsecondary certificate or diploma below bachelor level ----
-            # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Population with postsecondary certificate or diploma below bachelor level'",
-            #   br(),
-            #   br(),
-            #   plotlyOutput("plot_vm_education_3",
-            #                inline = TRUE),
-            #   br(),
-            #   helpText(source_census_nhs_census)
-            # ),
-            # ##### 8.4. Population with university certificate or diploma above bachelor level ----
-            # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Population with university certificate or diploma above bachelor level'",
-            #   br(),
-            #   br(),
-            #   plotlyOutput("plot_vm_education_4",
-            #                inline = TRUE),
-            #   br(),
-            #   helpText(source_census_nhs_census)
-            # ),
-            #
-
+            ##### 8.3. Population with postsecondary certificate or diploma below bachelor level ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Population with postsecondary certificate or diploma below bachelor level'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_education_3",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
+            ##### 8.4. Population with university certificate or diploma above bachelor level ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Population with university certificate or diploma above bachelor level'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_education_4",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
+            ##### 8.5. Population with bachelor's degree ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Population with bachelor\\'s degree'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_education_5",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
+            ##### 8.6. Population with university certificate or diploma or degree at bachelor level or above ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Population with university certificate or diploma or degree at bachelor level or above'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_education_6",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
             #### 9. Social connections and personnal networks ----
             ##### 9.1. Percent of the population living alone ----
             # conditionalPanel(
@@ -2273,12 +2292,328 @@ ui <-
           ) # Main panel closing bracket // should be blue
 
         ) # sidebarLayout closing bracket // should be greenish-blue
-      )
+      ),
       #'NOTE [END OF VISMIN TAB]
 
       #'NOTE [HERE IS WHERE YOU WOULD ADD A NEW TAB // use what's in the Visible Minority tab as a reference]
+      # Geography------
+      tabPanel(
+        "Geography",
+      fluid = TRUE,
+      # sidebarLayout(
+        sidebarPanel(
+          width = 3,
 
+          ### 1. Theme ----
+          selectizeInput(
+            inputId = "theme_2",
+            label = "Choose a theme",
+            #'NOTE [Not showing "Local community" until it's ready]
+            choices = unique(as.character(template$Theme)[template$Theme != "Local community"])
+          ),
+
+          ### 2. Indicator ----
+          selectizeInput(
+            inputId = "indicator_2",
+            label = "Choose an indicator",
+            choices = unique(as.character(template$Indicator))
+          ),
+
+          #### 2.1. Participation in the Labour Market ----
+          ##### 2.1.1. Participation in the Labour Market (part 1) ----
+          #'NOTE [rateDT]
+          conditionalPanel(
+            condition =
+              "input.indicator_2 == 'Working-age population in the labour force (participation rate)'
+              || input.indicator_2 == 'Working-age population in employment (employment rate)'
+              || input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'
+              || input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+            #'NOTE [indicators 1:4/22]
+
+            ###### Visible Minority ----
+            #'NOTE [this is the focal variable for this tab]
+            #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
+            pickerInput(
+              inputId = "lm_vismin_geo", # name this for the server
+              label = "Choose a visible minority status", # label of filter
+              choices = as.character(unique(rateDT$VisMin)), # create drop-down list option
+              multiple = TRUE,# multi-select
+              selected = as.character(unique(rateDT$VisMin))[1],
+              options = list(
+                `actions-box` = TRUE,
+                `deselect-all-text` = "Deselect all",
+                `select-all-text` = "Select all"
+              )),
+            ###### Degree ----
+            selectizeInput(
+              inputId = "lm_degree_geo",
+              label = "Choose a highest certificate, diploma or degree",
+              choices = unique(as.character(rateDT$Degree))
+            ),
+            ###### Year ----
+            pickerInput(
+              inputId = "lm_year_geo", # name this for the server
+              label = "Choose a year", # label of filter
+              choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
+              selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
+              multiple = TRUE), # multi-select
+            ###### Geography ----
+            selectizeInput(
+              inputId = "lm_geography_geo",
+              label = "Choose a geography",
+              choices = unique(as.character(rateDT$Geography))
+            ),
+            ###### Immigration ----
+            selectizeInput(
+              inputId = "lm_immigration_geo",
+              label = "Choose an immigrant or generation status",
+              choices = unique(as.character(rateDT$Immigration))
+            ),
+            ###### Age ----
+            selectizeInput(
+              inputId = "lm_age_geo",
+              label = "Choose an age group or first official language spoken",
+              choices = unique(as.character(rateDT$Age))
+            ),
+            ###### Sex ----
+            selectizeInput(
+              inputId = "lm_sex_geo",
+              label = "Choose a sex",
+              choices = unique(as.character(rateDT$Sex))
+            )
+          ),
+
+
+        ### Main panel ----
+        mainPanel(
+          h2("Geography"),
+
+          #'NOTE [EXAMPLE OF PREVIOUS CODE]
+          # conditionalPanel(
+          #   condition = "input.dim == 'Health and wellbeing' & input.dimHealth == 'Percent of the population reporting very good or excellent mental health' & input.healthCharacteristics == 'Immigration Status'",
+          #   br(),
+          #   br(),
+          #   plotlyOutput("sBarHealth3",
+          #                inline = TRUE,
+          #                width = 700,
+          #                height = 500),
+          #   br(),
+          #   helpText("Source: Canadian Community Health Survey (CCHS), September to December 2020")
+          # )
+
+          #### 1. Participation in the Labour Market ----
+          ##### 1.1. Working-age population in the labour force (participation rate) ----
+          conditionalPanel(
+            condition = "input.indicator_2 == 'Working-age population in the labour force (participation rate)'",
+            br(),
+            br(),
+            plotlyOutput("plot_geo_lm_1",
+                         inline = TRUE),
+            br(),
+            helpText(source_census_nhs_census)
+          ),
+
+          ##### 1.2. Working-age population in employment (employment rate) ----
+          conditionalPanel(
+            condition = "input.indicator_2 == 'Working-age population in employment (employment rate)'",
+            br(),
+            br(),
+            plotlyOutput("plot_geo_lm_2",
+                         inline = TRUE),
+            br(),
+            helpText(source_census_nhs_census)
+          ),
+
+          ##### 1.3. Working-age population in unemployment (unemployment rate) ----
+          conditionalPanel(
+            condition = "input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'",
+            br(),
+            br(),
+            plotlyOutput("plot_geo_lm_3",
+                         inline = TRUE),
+            br(),
+            helpText(source_census_nhs_census)
+          ),
+
+          ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+          conditionalPanel(
+            condition = "input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+            br(),
+            br(),
+            plotlyOutput("plot_geo_lm_4",
+                         inline = TRUE),
+            br(),
+            helpText(source_census_nhs_census)
+          ),
+        ),
+        ),
+      # ),
+
+          #Border separator------
+          hr(style = "border-color: black"),
+
+          h2("Geography - CMAs"),
+          fluidRow(
+          #sidebarLayout(
+            sidebarPanel(
+              width = 3,
+
+              ### 1. Theme ----
+              selectizeInput(
+                inputId = "theme_2",
+                label = "Choose a theme",
+                #'NOTE [Not showing "Local community" until it's ready]
+                choices = unique(as.character(template$Theme)[template$Theme != "Local community"])
+              ),
+
+              ### 2. Indicator ----
+              selectizeInput(
+                inputId = "indicator_2",
+                label = "Choose an indicator",
+                choices = unique(as.character(template$Indicator))
+              ),
+
+              #### 2.1. Participation in the Labour Market ----
+              ##### 2.1.1. Participation in the Labour Market (part 1) ----
+              #'NOTE [rateDT]
+              conditionalPanel(
+                condition =
+                  "input.indicator_2 == 'Working-age population in the labour force (participation rate)'
+              || input.indicator_2 == 'Working-age population in employment (employment rate)'
+              || input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'
+              || input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+                #'NOTE [indicators 1:4/22]
+
+                ###### Visible Minority ----
+                #'NOTE [this is the focal variable for this tab]
+                #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
+                pickerInput(
+                  inputId = "lm_vismin_cma", # name this for the server
+                  label = "Choose a visible minority status", # label of filter
+                  choices = as.character(unique(rateDT$VisMin)), # create drop-down list option
+                  multiple = TRUE,# multi-select
+                  selected = as.character(unique(rateDT$VisMin))[1],
+                  options = list(
+                    `actions-box` = TRUE,
+                    `deselect-all-text` = "Deselect all",
+                    `select-all-text` = "Select all"
+                  )),
+                ###### Degree ----
+                selectizeInput(
+                  inputId = "lm_degree_cma",
+                  label = "Choose a highest certificate, diploma or degree",
+                  choices = unique(as.character(rateDT$Degree))
+                ),
+                ###### Year ----
+                pickerInput(
+                  inputId = "lm_year_cma", # name this for the server
+                  label = "Choose a year", # label of filter
+                  choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
+                  selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
+                  multiple = TRUE), # multi-select
+                ###### cmagraphy ----
+                selectizeInput(
+                  inputId = "lm_geography_cma",
+                  label = "Choose a geography",
+                  choices = unique(as.character(rateDT$Geography))
+                ),
+                ###### Immigration ----
+                selectizeInput(
+                  inputId = "lm_immigration_cma",
+                  label = "Choose an immigrant or generation status",
+                  choices = unique(as.character(rateDT$Immigration))
+                ),
+                ###### Age ----
+                selectizeInput(
+                  inputId = "lm_age_cma",
+                  label = "Choose an age group or first official language spoken",
+                  choices = unique(as.character(rateDT$Age))
+                ),
+                ###### Sex ----
+                selectizeInput(
+                  inputId = "lm_sex_cma",
+                  label = "Choose a sex",
+                  choices = unique(as.character(rateDT$Sex))
+                )
+              ),
+
+
+              ### Main panel ----
+              mainPanel(
+                h2("Geography - CMAs"),
+
+                #'NOTE [EXAMPLE OF PREVIOUS CODE]
+                # conditionalPanel(
+                #   condition = "input.dim == 'Health and wellbeing' & input.dimHealth == 'Percent of the population reporting very good or excellent mental health' & input.healthCharacteristics == 'Immigration Status'",
+                #   br(),
+                #   br(),
+                #   plotlyOutput("sBarHealth3",
+                #                inline = TRUE,
+                #                width = 700,
+                #                height = 500),
+                #   br(),
+                #   helpText("Source: Canadian Community Health Survey (CCHS), September to December 2020")
+                # )
+
+                #### 1. Participation in the Labour Market ----
+                ##### 1.1. Working-age population in the labour force (participation rate) ----
+                conditionalPanel(
+                  condition = "input.indicator_2 == 'Working-age population in the labour force (participation rate)'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_lm_1",
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
+                ##### 1.2. Working-age population in employment (employment rate) ----
+                conditionalPanel(
+                  condition = "input.indicator_2 == 'Working-age population in employment (employment rate)'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_lm_2",
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
+                ##### 1.3. Working-age population in unemployment (unemployment rate) ----
+                conditionalPanel(
+                  condition = "input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_lm_3",
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
+                ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+                conditionalPanel(
+                  condition = "input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_lm_4",
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
+
+
+
+        ) # Main panel closing bracket // should be blue
+        )
+
+      ) # sidebarLayout closing bracket // should be greenish-blue
+      # Note ...
     )
+    ),
+
+
+
   )
 
-gc()
+
+#gc()

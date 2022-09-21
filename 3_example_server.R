@@ -275,7 +275,7 @@ server <- function(input, output, session) {
               )
             )
         })
-    } else if (df == "basicDT") {
+    } else if (df == "basicDT_health") {
       # Health and well being ----
       filtered_data <-
         reactive({
@@ -599,61 +599,61 @@ server <- function(input, output, session) {
   #### 6. Health and wellbeing ----
   ##### 6.1. Percent of the population reporting very good or excellent general health ----
   output$plot_vm_health_1 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[1])
 
   ##### 6.2. Percent of the population reporting fair or poor general health ----
   output$plot_vm_health_2 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[2])
 
   ##### 6.3. Percent of the population reporting very good or excellent mental health ----
   output$plot_vm_health_3 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[3])
 
   ##### 6.4. Percent of the population reporting fair or poor mental health ----
   output$plot_vm_health_4 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[4])
 
   ##### 6.5. Percent of the population reporting their life stressful ----
   output$plot_vm_health_5 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[5])
 
   ##### 6.6. Percent of the population reporting life satisfaction, satisfied or very satisfied ----
   output$plot_vm_health_6 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator))[6])
 
   # ##### 6.7. Percent of the population reporting having a regular healthcare providers ----
   output$plot_vm_health_7 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[7]))
   ##### 6.8. Percent of the population reporting no need for mental health care ----
   output$plot_vm_health_8 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[8]))
   ##### 6.9. Percent of the population reporting all needs met for mental health care ----
   output$plot_vm_health_9 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[9]))
   ##### 6.10. Percent of the population reporting needs partially met for mental health care ----
   output$plot_vm_health_10 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[10]))
   ##### 6.11. Percent of the population reporting needs partially met or needs not met for mental health care ----
   output$plot_vm_health_11 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[11]))
   ##### 6.12. Percent of the population reporting needs not met for mental health cares ----
   output$plot_vm_health_12 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[12]))
   ##### 6.13. Percent of the population reporting unmet health care needs ----
   output$plot_vm_health_13 <-
-    func_plot_1(df = "basicDT",
+    func_plot_1(df = "basicDT_health",
                 filter_var = unique(as.character(basicDT$Indicator)[13]))
 
   #### 7. Public services and institutions ----
@@ -700,16 +700,32 @@ server <- function(input, output, session) {
 
   #### 11. Income and wealth ----
   #'NOTE [TBD]
+
   #### 8. Education training and skills ----
   ##### 8.1. Population with no certificate, diploma or degree ----
   output$plot_vm_education_1 <-
     func_plot_1(df = "educationDT",
-              filter_var = unique(educationDT$Indicator)[1])
-
-  ##### 9.2. Population with high school diploma or equivalency certificate ----
+               filter_var = unique(as.character(educationDT$Indicator)[1]))
+  ##### 8.2. Population with high school diploma or equivalency certificate ----
   output$plot_vm_education_2 <-
     func_plot_1(df = "educationDT",
-              filter_var = unique(educationDT$Indicator)[2])
+                filter_var = unique(as.character(educationDT$Indicator)[2]))
+  ##### 8.3.  Population with postsecondary certificate or diploma below bachelor level ----
+  output$plot_vm_education_3 <-
+    func_plot_1(df = "educationDT",
+                filter_var = unique(as.character(educationDT$Indicator)[3]))
+  ##### 8.4.  Population with university certificate or diploma above bachelor level ----
+  output$plot_vm_education_4 <-
+    func_plot_1(df = "educationDT",
+                filter_var = unique(as.character(educationDT$Indicator)[4]))
+  ##### 8.5.  Population with bachelor's degree----
+  output$plot_vm_education_5 <-
+    func_plot_1(df = "educationDT",
+                filter_var = unique(as.character(educationDT$Indicator)[5]))
+  ##### 8.6.  Population with university certificate or diploma or degree at bachelor level or above ----
+  output$plot_vm_education_6 <-
+    func_plot_1(df = "educationDT",
+                filter_var = unique(as.character(educationDT$Indicator)[6]))
 
   #### 9. Social connections and personnal networks ----
   ##### 9.1. Percent of the population living alone ----

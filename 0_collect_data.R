@@ -23,8 +23,8 @@ library(arrow) # to write files to parquet (smaller than .csv files)
 func_codr <- function(codr_no, df_name, pull_type) {
   if (pull_type == "base") {
     #'NOTE [Return reference period, geography, visible minority, characteristic, indicator, and value as a base retrieval]
-    df <- 
-      get_cansim(codr_no) %>% 
+    df <-
+      get_cansim(codr_no) %>%
       select(
         Year = REF_DATE,
         Geography = GEO,
@@ -35,7 +35,7 @@ func_codr <- function(codr_no, df_name, pull_type) {
       ) # select and rename the relevant variables
   } else if (pull_type == "condfidence") {
     #'NOTE [Retrieve confidence/**characteristics** on top of base retrieval]
-    df <- 
+    df <-
       get_cansim(codr_no) %>%
       select(
         Year = REF_DATE,
@@ -48,7 +48,7 @@ func_codr <- function(codr_no, df_name, pull_type) {
       ) # select and rename the relevant variables
   } else if (pull_type == "characteristics") {
     #'NOTE [Retrieve confidence/**statistics** on top of base retrieval]
-    df <- 
+    df <-
       get_cansim(codr_no) %>%
       select(
         Year = REF_DATE,
@@ -60,9 +60,9 @@ func_codr <- function(codr_no, df_name, pull_type) {
         Value = VALUE
       ) # select and rename the relevant variables
   }
-  
+
   write_parquet(x = df, sink = paste0("./_tempdata/", df_name,".parquet"))
-  
+
   gc()
 }
 
@@ -74,8 +74,8 @@ func_sql <- function(codr_no, df_name) {
                             refresh = TRUE,
                             timeout = 1000,
                             language = "en")
-  
-  df <- 
+
+  df <-
     conn %>%
     collect_and_normalize() %>% # required to properly index the data
     select(
@@ -89,12 +89,12 @@ func_sql <- function(codr_no, df_name) {
       Indicator = Indicators,
       Value = VALUE
     ) # select and rename the relevant variables
-  
+
   gc() # this clears up the memory so we can continute to retrieve more data
   disconnect_cansim_sqlite(conn) # this disconnects the SQL connection
   remove_cansim_sqlite_cached_table(cansimTableNumber = codr_no) # this removes cached data
   write_parquet(x = df, sink = paste0("./_tempdata/", df_name, ".parquet")) # this exports the dataframe into a parquet file
-  
+
 }
 
 # Data loading and pre-processing ----
@@ -155,7 +155,7 @@ func_codr(codr_no = "43-10-0064",
 
 ## Confidence in Canadian institutions ----
 func_codr(codr_no = "43-10-0062",
-          df_name = "confidenceDT", 
+          df_name = "confidenceDT",
           pull_type = "characteristics")
 
 ## Discrimination ----
@@ -193,10 +193,10 @@ conn <-
     language = "en"
   )
 
-educationDT_prov <- 
+educationDT_prov <-
   conn %>%
   filter(GeoUID %in% education_filter) %>%
-  collect_and_normalize() %>% 
+  collect_and_normalize() %>%
   select(
     Year = REF_DATE,
     Geography = GEO,
@@ -212,10 +212,10 @@ educationDT_prov <-
 
 gc()
 
-educationDT_cma <- 
+educationDT_cma <-
   conn %>%
   filter(!GeoUID %in% education_filter) %>%
-  collect_and_normalize() %>% 
+  collect_and_normalize() %>%
   select(
     Year = REF_DATE,
     Geography = GEO,
@@ -247,7 +247,7 @@ conn <-
     language = "en"
   )
 
-### Canada ----  
+### Canada ----
 OverQualDT_canada <-
   conn %>%
   filter(GeoUID == "11124") %>% # Canada
@@ -274,7 +274,7 @@ gc()
 ### Regions ----
 OverQualDT_region <-
   conn %>%
-  filter(GeoUID %in% 
+  filter(GeoUID %in%
            c("1", # Maritimes
              "2", # Quebec
              "3", # Ontario
@@ -282,7 +282,7 @@ OverQualDT_region <-
              "5", # British Columbia
              "6") # Territories
          ) %>%
-  collect_and_normalize() %>% 
+  collect_and_normalize() %>%
   select(
     Year = REF_DATE,
     Geography = GEO,
@@ -305,21 +305,21 @@ gc()
 ### Provinces & territories ----
 OverQualDT_prov <-
   conn %>%
-  filter(GeoUID %in% 
+  filter(GeoUID %in%
            c("10", # Newfoundland and Labrador
              "11", # Prince Edward Island Nova Scotia
              "12", # Nova Scotia
              "13", # New Brunswick
-             
+
              "46", # Manitoba
              "47", # Saskatchewan
              "48", # Alberta
-             
+
              "60", # Northwest Territories
              "61", # Yukon
              "62") # Nunavut
-         ) %>% 
-  collect_and_normalize() %>% 
+         ) %>%
+  collect_and_normalize() %>%
   select(
     Year = REF_DATE,
     Geography = GEO,
@@ -364,7 +364,7 @@ OverQualDT_cma_1 <-
              "433",
              "442",
              "462",
-             
+
              "505",
              "24505",
              "35505"
@@ -491,4 +491,15 @@ get_cansim("35-10-0066") %>%
     Value = VALUE
   ) %>% # select and rename the relevant variables
   write_parquet(sink = paste0("./_tempdata/polData.parquet"))
+gc()
+## Health data ----
+get_cansim("13-10-0842") %>%
+  select(
+    Year = REF_DATE,
+    Geography = GEO,
+    Characteristic = `Selected sociodemographic characteristics`,
+    Confidence = `Characteristics`,
+    Value = VALUE
+  ) %>% # select and rename the relevant variables
+  write_parquet(sink = paste0("./_tempdata/healthDT.parquet"))
 gc()

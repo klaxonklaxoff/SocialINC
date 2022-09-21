@@ -43,11 +43,26 @@ geo_filter <-
     "Northwest Territories",
     "Yukon",
     "Nunavut",
+    "Atlantic provinces",
+    "Ontario",
+    "Quebec",
+    "Prairie provinces",
+    "British Columbia",
     "Canada, selected police services",
     "Canada (selected provinces - see notes)",
-    "Montréal, Quebec",
+
     "Toronto, Ontario",
-    "Vancouver, British Columbia"
+    "Montréal, Quebec",
+    "Vancouver, British Columbia",
+    "Ottawa-Gatineau, Ontario/Quebec",
+    "Calgary, Alberta",
+    "Edmonton, Alberta",
+    "Quebec, Quebec",
+    "Winnipeg, Manitoba",
+    "Hamilton, Ontario",
+    "Kitchener–Cambridge–Waterloo, Ontario",
+    "London, Ontario"
+
 ) # can only retrieve at the provincial level because otherwise it costs too much memory
 
 #' NOTE [you can use names() and unique() to figure out stuff about the data]
@@ -99,7 +114,8 @@ dfs_characteristics <-
     "civicDT",
     "civicDT2",
     "confidenceDT",
-    "discriminationDT"
+    "discriminationDT",
+    "healthDT"
   )
 
 ### Define characteristics
@@ -142,7 +158,12 @@ for (i in dfs_characteristics) {
             "Secondary (high) school diploma or equivalency certificate or less",
             "Postsecondary certificate or diploma (non-university)",
             "University certificate or diploma"
-          ) ~ "Education Status"
+          ) ~ "Education Status",
+          Characteristic %in% c("Total, by visible minority group",
+            "Total visible minority population", "South Asian", "Chinese",
+            "Black", "Filipino", "Arab", "Latin American", "Southeast Asian",
+            "Not a visible minority")~ "Visible minority status"
+
         ) # adding a column to group relevant characteristics together
       )
   })
