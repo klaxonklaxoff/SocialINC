@@ -54,7 +54,7 @@ geo_filter <-
     "Toronto, Ontario",
     "Montréal, Quebec",
     "Vancouver, British Columbia",
-    "Ottawa-Gatineau, Ontario/Quebec",
+    "Ottawa–Gatineau, Ontario/Quebec",
     "Calgary, Alberta",
     "Edmonton, Alberta",
     "Quebec, Quebec",
