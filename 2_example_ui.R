@@ -2346,19 +2346,19 @@ ui <-
               #   `select-all-text` = "Select all"
               # )
               ),
-            ###### Degree ----
-            selectizeInput(
-              inputId = "lm_degree_geo",
-              label = "Choose a highest certificate, diploma or degree",
-              choices = unique(as.character(rateDT$Degree))
-            ),
-            ###### Year ----
-            pickerInput(
-              inputId = "lm_year_geo", # name this for the server
-              label = "Choose a year", # label of filter
-              choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
-              selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
-              multiple = TRUE), # multi-select
+            # ###### Degree ----
+            # selectizeInput(
+            #   inputId = "lm_degree_geo",
+            #   label = "Choose a highest certificate, diploma or degree",
+            #   choices = unique(as.character(rateDT$Degree))
+            # ),
+            # ###### Year ----
+            # pickerInput(
+            #   inputId = "lm_year_geo", # name this for the server
+            #   label = "Choose a year", # label of filter
+            #   choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
+            #   selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
+            #   multiple = TRUE), # multi-select
             ###### Geography ----
             #'NOTE [this is the focal variable for this tab]
             pickerInput(
@@ -2373,24 +2373,24 @@ ui <-
                 `select-all-text` = "Select all"
               ),
             ),
-            ###### Immigration ----
-            selectizeInput(
-              inputId = "lm_immigration_geo",
-              label = "Choose an immigrant or generation status",
-              choices = unique(as.character(rateDT$Immigration))
-            ),
-            ###### Age ----
-            selectizeInput(
-              inputId = "lm_age_geo",
-              label = "Choose an age group or first official language spoken",
-              choices = unique(as.character(rateDT$Age))
-            ),
-            ###### Sex ----
-            selectizeInput(
-              inputId = "lm_sex_geo",
-              label = "Choose a sex",
-              choices = unique(as.character(rateDT$Sex))
-            ),
+            # ###### Immigration ----
+            # selectizeInput(
+            #   inputId = "lm_immigration_geo",
+            #   label = "Choose an immigrant or generation status",
+            #   choices = unique(as.character(rateDT$Immigration))
+            # ),
+            # ###### Age ----
+            # selectizeInput(
+            #   inputId = "lm_age_geo",
+            #   label = "Choose an age group or first official language spoken",
+            #   choices = unique(as.character(rateDT$Age))
+            # ),
+            # ###### Sex ----
+            # selectizeInput(
+            #   inputId = "lm_sex_geo",
+            #   label = "Choose a sex",
+            #   choices = unique(as.character(rateDT$Sex))
+            # ),
           )
           ),
 
@@ -2494,9 +2494,9 @@ ui <-
                 pickerInput(
                   inputId = "lm_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((rateDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(rateDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -2560,9 +2560,9 @@ ui <-
                 pickerInput(
                   inputId = "lm_rep_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((representationDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(representationDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -2628,9 +2628,9 @@ ui <-
                 pickerInput(
                   inputId = "lm_over_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((OverQualDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(OverQualDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -2708,9 +2708,9 @@ ui <-
                 pickerInput(
                   inputId = "lm_youth_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((youthDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(youthDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -2777,9 +2777,9 @@ ui <-
                 pickerInput(
                   inputId = "lm_income_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((incomeDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(incomeDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -3065,9 +3065,9 @@ ui <-
                 pickerInput(
                   inputId = "rep_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((representationDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(representationDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -3384,9 +3384,9 @@ ui <-
                 pickerInput(
                   inputId = "education_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((educationDT$Geography))),
+                  choices = cma_filter,
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(educationDT$Geography))[1],
+                  selected = cma_filter[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
@@ -4719,7 +4719,17 @@ ui <-
       ),
 
       # ) # sidebarLayout closing bracket // should be greenish-blue
-      # Note ...
+     #Plotly Output
+
+tabPanel(
+  "Groups designated as Visible Minorities",
+  fluid = TRUE,
+  mainPanel(
+    plotlyOutput("map",
+                 inline = TRUE),
+  )
+)
+ 
     )
   )
 

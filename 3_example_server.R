@@ -837,6 +837,442 @@ server <- function(input, output, session) {
 
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   ## Tab 2: Geography ------
+  ### Filters - Provinces and Regions----
+  #'NOTE [This makes it so the theme filter affects the indicator filter]
+  observe(
+    updateSelectizeInput(
+      session = session,
+      inputId = "indicator_2",
+      #'NOTE [Not showing the following indicators until they are ready // and "Hate crime" because there's no breakdown by vismin]
+      choices = as.character(unique(template$Indicator[template$Theme == input$theme_2 &
+                                                         !template$Indicator %in% c(
+                                                           "Currently employed population considering their job related to their education",
+                                                           "Paid employees considering their current job good for career advancement",
+                                                           "Paid employees receiving at least one employment benefit in their current job",
+                                                           "Paid employees having pension plan in their current job",
+                                                           "Paid employees having paid sick leave in their current job",
+                                                           "Paid employees having paid vacation leave in their current job",
+                                                           "Paid employees having disability insurance in their current job",
+                                                           "Paid employees having supplemental medical care in their current job",
+                                                           "Paid employees having worker's compensation in their current job",
+                                                           "Paid employees having maternity, paternity or lay-off benefits in their current job",
+                                                           "Paid employees covered by union contract or collective agreement in their current job",
+                                                           "Paid employees receiving formal training in their current job",
+                                                           "Paid employees receiving informal training in their current job",
+                                                           
+                                                           "Percent of workers in specialized middle management occupations",
+                                                           
+                                                           "Percent of the population living in a dwelling owned by one member of the household",
+                                                           "Percent of the population living in core need household",
+                                                           "Percent of the population living in suitable housing",
+                                                           "Percent of the population living in an affordable housing",
+                                                           
+                                                           "Knowledge of official languages, English only",
+                                                           "Knowledge of official languages, French only",
+                                                           "Knowledge of official languages, English and French",
+                                                           "Knowledge of official languages, neither English nor French",
+                                                           "Received a formal training paid by the employer in the past 12 months",
+                                                           "Received an informal on-the-job training (from co-workers or supervisors) in the past 12 months",
+                                                           
+                                                           
+                                                           "Average total household income, adjusted for the number of persons",
+                                                           "Percent of the population living in poverty (low-income MBM)",
+                                                           "Percent of the population living in low income situation (before-tax)",
+                                                           "Percent of the population living in low income situation (after-tax)",
+                                                           "Percent of the population reporting difficulty in meeting financial needs of their household",
+                                                           "Percent of the population reporting ease in meeting financial needs of their household",
+                                                           
+                                                           "Percent of the population living alone",
+                                                           "Median size of a personal local network with close ties",
+                                                           "Average size of a local personal network with close ties",
+                                                           "Percent of the population with a personal close-ties network of 10 or more people",
+                                                           "Percent of the population with a personal close-ties network of 5 or more relatives",
+                                                           "Percent of the population with a personal close-ties network of 5 or more friends",
+                                                           "Percent of the population with no personal network with weak ties",
+                                                           "Percent of the population with a personal weak-ties network of 1 to 19 people",
+                                                           "Percent of the population with a personal weak-ties network of 20 or more people",
+                                                           "Percent of the population with a personal ethnically-diverse network",
+                                                           
+                                                           "Hate Crime"
+                                                         )]))
+    )
+  )
+  
+  #### Functions for Visible Minority----
+  func_plot_3 <- function(df, filter_var = NULL)
+  {
+    if (df == "rateDT_geo") {
+      # Participation in the Labour Market (general) - Geo ----
+      filtered_data <-
+        reactive({
+          rateDT %>%
+            filter(
+              Indicator == filter_var,
+              VisMin == input$lm_vismin_geo,
+              #Degree == input$lm_degree_geo,
+              #Year == input$lm_year_geo,
+              Geography %in% input$lm_geography_geo,
+              #Immigration == input$lm_immigration_geo,
+              #Age == input$lm_age_geo,
+              #Sex == input$lm_sex_geo
+            )
+        })
+    }
+    # else if (df == "rateDT_cma") {
+    #   # Participation in the Labour Market (general) - Geo(CMAs) ----
+    #   filtered_data <-
+    #     reactive({
+    #       rateDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$lm_vismin_cma,
+    #           Degree == input$lm_degree_cma,
+    #           Year %in% input$lm_year_cma,
+    #           Geography %in%  input$lm_geography_cma,
+    #           Immigration == input$lm_immigration_cma,
+    #           Age == input$lm_age_cma,
+    #           Sex == input$lm_sex_cma
+    #         )
+    #     })
+    # }else if (df == "representationDT_cma") {
+    #   # Participation in the Labour Market (representationDT) - CMAs----
+    #   filtered_data <-
+    #     reactive({
+    #       representationDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$lm_rep_vismin_cma,
+    #           Year  %in% input$lm_rep_year_cma,
+    #           Degree == input$lm_rep_degree_cma,
+    #           Geography %in%input$lm_rep_geography_cma,
+    #           Immigration == input$lm_rep_immigration_cma,
+    #           Age == input$lm_rep_age_cma,
+    #           Sex == input$lm_rep_sex_cma
+    #         )
+    #     })
+    # } else if (df == "OverQualDT_cma") {
+    #   # Participation in the Labour Market (OverQualDT)- CMAs----
+    #   filtered_data <-
+    #     reactive({
+    #       OverQualDT %>%
+    #         filter(
+    #           VisMin == input$lm_over_vismin_cma,
+    #           Year %in% input$lm_over_year_cma,
+    #           Location == input$lm_over_location_cma,
+    #           Degree == input$lm_over_degree_cma,
+    #           Geography %in%  input$lm_over_geography_cma,
+    #           Immigration == input$lm_over_immigration_cma,
+    #           Age == input$lm_over_age_cma,
+    #           Sex == input$lm_over_sex_cma,
+    #           Language == input$lm_over_language_cma
+    #         )
+    #     })
+    # } else if (df == "youthDT_cma") {
+    #   # Participation in the Labour Market (youthDT)- CMAs ----
+    #   filtered_data <-
+    #     reactive({
+    #       youthDT %>%
+    #         filter(
+    #           VisMin == input$lm_youth_vismin_cma,
+    #           Year  %in% input$lm_youth_year_cma,
+    #           Geography %in%  input$lm_youth_geography_cma,
+    #           Immigration == input$lm_youth_immigration_cma,
+    #           Age == input$lm_youth_age_cma,
+    #           Sex == input$lm_youth_sex_cma,
+    #           Language == input$lm_youth_language_cma
+    #         )
+    #     })
+    # } else if (df == "incomeDT_cma") {
+    #   # Participation in the Labour Market (incomeDT)- CMAs----
+    #   filtered_data <-
+    #     reactive({
+    #       incomeDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin ==  input$lm_income_vismin_cma,
+    #           Year  %in% input$lm_income_year_cma,
+    #           Degree == input$lm_income_degree_cma,
+    #           Geography %in% input$lm_income_geography_cma,
+    #           Immigration == input$lm_income_immigration_cma,
+    #           Age == input$lm_income_age_cma,
+    #           Sex == input$lm_income_sex_cma
+    #         )
+    #     })
+    # } 
+    # else if (df == "civicDT_cma") {      
+    #   # Civic engagement and political participation (civicDT) - CMAs ----
+    #   filtered_data <-
+    #     reactive({
+    #       civicDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$civic_vismin_cma,
+    #           Geography %in% input$civic_geography_cma,
+    #           Confidence == input$civic_conf_interval_cma,
+    #           char_type == input$civic_sociodem_cma,
+    #           (Characteristic == input$civic_age_cma |
+    #              Characteristic == input$civic_sex_cma |
+    #              Characteristic == input$civic_immigration_cma |
+    #              Characteristic == input$civic_generation_cma |
+    #              Characteristic == input$civic_language_cma |
+    #              Characteristic == input$civic_education_cma
+    #           )
+    #         )
+    #     })
+    # } else if (df == "civicDT2_cma") {
+    #   # Civic engagement and political participation (civicDT2)- CMAs ----
+    #   filtered_data <-
+    #     reactive({
+    #       civicDT2 %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$civic2_vismin_cma,
+    #           Geography %in% input$civic2_geography_cma,
+    #           Confidence == input$civic2_conf_interval_cma,
+    #           char_type == input$civic2_sociodem_cma,
+    #           (Characteristic == input$civic2_age_cma |
+    #              Characteristic == input$civic2_sex_cma |
+    #              Characteristic == input$civic2_immigration_cma |
+    #              Characteristic == input$civic2_generation_cma |
+    #              Characteristic == input$civic2_language_cma |
+    #              Characteristic == input$civic2_education_cma
+    #           )
+    #         )
+    #     })
+    # }
+    # else if (df == "representationDT_cma2") {
+    #   # Representation in decision-making positions ----
+    #   filtered_data <-
+    #     reactive({
+    #       representationDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin ==  input$rep_vismin_cma,
+    #           Year %in% input$rep_year_cma,
+    #           Degree == input$rep_degree_cma,
+    #           Geography %in%input$rep_geography_cma,
+    #           Immigration == input$rep_immigration_cma,
+    #           Sex == input$rep_sex_cma,
+    #           Age == input$rep_age_cma
+    #         )
+    #     }) 
+    # }
+    # else if (df == "educationDT_cma") {
+    #   # Education training and skills ----
+    #   filtered_data <-
+    #     reactive({
+    #       educationDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$education_vismin_cma,
+    #           Year %in% input$education_year_cma,
+    #           Language == input$education_language_cma,
+    #           Geography %in% input$education_geography_cma,
+    #           Immigration == input$education_immigration_cma,
+    #           Age == input$education_age_cma,
+    #           Sex == input$education_sex_cma
+    #         )
+    #     })
+    # }
+    # else if (df == "belongingDT_cma") {
+    #   # Social connections and personal networks ----
+    #   filtered_data <-
+    #     reactive({
+    #       belongingDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$belonging_vismin_cma,
+    #           Geography %in% input$belonging_geography_cma,
+    #           Confidence == input$belonging_conf_interval_cma,
+    #           char_type == input$belonging_sociodem_cma,
+    #           (Characteristic == input$belonging_age_cma |
+    #              Characteristic == input$public_income_social_gender_cma |
+    #              Characteristic == input$belonging_immigration_cma |
+    #              Characteristic == input$belonging_generation_cma |
+    #              Characteristic == input$belonging_language_cma |
+    #              Characteristic == input$belonging_education_cma
+    #           )
+    #         )
+    #     })
+    # }
+    # else if (df == "basicDT_cma") {
+    #   # Basic needs and housing  ----
+    #   filtered_data <-
+    #     reactive({
+    #       basicDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$basic_vismin_cma,
+    #           Year %in%  input$basic_year_cma,
+    #           Geography  %in% input$basic_geography_cma,
+    #           Confidence == input$basic_conf_interval_cma,
+    #           char_type == input$basic_sociodem_cma,
+    #           (Characteristic == input$basic_age_cma |
+    #              Characteristic == input$basic_sex_cma |
+    #              Characteristic == input$basic_immigration_cma
+    #           )
+    #         )
+    #     })
+    # }
+    # else if (df == "healthDT_cma") {
+    #   # Health and well being ----
+    #   filtered_data <-
+    #     reactive({
+    #       healthDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           Year  %in% input$health_year_cma,
+    #           Geography %in% input$health_geography_cma,
+    #           Confidence == input$health_conf_interval_cma,
+    #           char_type == input$health_sociodem_cma,
+    #           (VisMin == input$health_vismin_cma|
+    #              Characteristic == input$health_sex_cma |
+    #              Characteristic == input$health_immigration_cma
+    #           )
+    #         )
+    #     })
+    # }
+    # else if (df == "confidenceDT_cma") {
+    #   # Public services and institutions ----
+    #   filtered_data <-
+    #     reactive({
+    #       confidenceDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin == input$public_vismin_cma,
+    #           Geography %in% input$public_geography_cma,
+    #           Confidence == input$public_conf_interval_cma,
+    #           char_type == input$public_sociodem_cma,
+    #           (Characteristic == input$public_age_cma |
+    #              Characteristic == input$public_sex_cma |
+    #              Characteristic == input$public_immigration_cma |
+    #              Characteristic == input$public_generation_cma |
+    #              Characteristic == input$public_language_cma |
+    #              Characteristic == input$public_education_cma
+    #           )
+    #         )
+    #     })
+    # }
+    # fig <- ggplotly(
+    #   canada_shapefile %>%
+    #     st_join(.,canada_shapefile, by = Geography) %>%
+    #     ggplot() +
+    #     geom_sf(
+    #       aes(
+    #       fill = Geography)) +
+    #     ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
+    # )
+    # fig
+    # 
+    renderPlotly(ggplotly({
+      ggplot(filtered_data()) +
+        geom_bar(
+          stat = "identity",
+          position = "dodge",
+          aes(
+            x = Year,
+            y = Value,
+            colour = Geography,
+            fill = Geography,
+            text = paste0(
+              "Geography: ",
+              Geography,
+              "<br>",
+              "Value: ",
+              format(Value, big.mark = ","),
+              "<br>",
+              "Year: ",
+              Year
+            )
+          )
+        ) +
+        theme_minimal() +
+        scale_y_continuous(labels = comma) +
+        labs(
+          x = "Year",
+          y = "Value",
+          colour = "Geography",
+          fill = "Geography"
+        )
+    }, tooltip = "text"))
+   }
+  
+  #' #'NOTE [This chart doesn't follow the same x-axis as the other charts]
+  #' func_plot2_discrimination <- function(filter_var){
+  #'   # Discrimination and victimization ----
+  #'   filtered_data <-
+  #'     reactive({
+  #'       discriminationDT %>%
+  #'         filter(
+  #'           ind == filter_var,
+  #'           VisMin ==  input$discrimination_vismin_cma,
+  #'           Geography %in% input$discrimination_geography_cma,
+  #'           Confidence == input$discrimination_conf_interval_cma,
+  #'           char_type == input$discrimination_sociodem_cma,
+  #'           (Characteristic == input$discrimination_age_cma |
+  #'              Characteristic == input$discrimination_sex_cma |
+  #'              Characteristic == input$discrimination_immigration_cma |
+  #'              Characteristic == input$discrimination_generation_cma |
+  #'              Characteristic == input$discrimination_language_cma |
+  #'              Characteristic == input$discrimination_education_cma
+  #'           )
+  #'         )
+  #'     })
+  #'   
+  #'   renderPlotly(ggplotly({
+  #'     ggplot(filtered_data()) +
+  #'       geom_bar(
+  #'         stat = "identity",
+  #'         position = "dodge",
+  #'         aes(
+  #'           x = before_since,
+  #'           y = Value,
+  #'           colour = Geography,
+  #'           fill = Geography,
+  #'           text = paste0(
+  #'             "Geography:",
+  #'             Geography,
+  #'             "<br>",
+  #'             "Value: ",
+  #'             format(Value, big.mark = ","),
+  #'             "<br>",
+  #'             "Reference Period in Relation to the covid-19 Pandemic: ",
+  #'             before_since
+  #'           )
+  #'         )
+  #'       ) +
+  #'       theme_minimal() +
+  #'       scale_y_continuous(labels = comma) +
+  #'       labs(
+  #'         x = "Reference Period in Relation to the covid-19 Pandemic",
+  #'         y = "Value",
+  #'         colour = "Geography)",
+  #'         fill = "Geography"
+  #'       )
+  #'   }, tooltip = "text"))
+  #' }
+  ### Plots Provinces and Regions ----
+  #### 1. Participation in the Labour Market ----
+  ##### 1.1. Working-age population in the labour force (participation rate) ----
+output$plot_geo_lm_1 <- 
+    func_plot_3(df = "rateDT_geo",
+                filter_var = unique(as.character(rateDT$Indicator))[1])
+  
+  ##### 1.2. Working-age population in employment (employment rate) ----
+  output$plot_geo_lm_2 <-
+    func_plot_3(df = "rateDT_geo",
+                filter_var = unique(as.character(rateDT$Indicator))[2])
+
+  ##### 1.3. Working-age population in employment (unemployment rate) ----
+  output$plot_geo_lm_3 <-
+    func_plot_3(df = "rateDT_geo",
+                filter_var = unique(as.character(rateDT$Indicator))[3])
+
+  ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+  output$plot_geo_lm_4 <-
+    func_plot_3(df = "rateDT_geo",
+                filter_var = unique(as.character(rateDT$Indicator))[4])
+  
   ### Filters ----
   #'NOTE [This makes it so the theme filter affects the indicator filter]
   observe(
@@ -898,7 +1334,7 @@ server <- function(input, output, session) {
     )
   )
 
-  #### Functions for Visible Minority----
+  #### Functions for Geography ----
   func_plot_2 <- function(df, filter_var = NULL)
   {
     if (df == "rateDT_geo") {
@@ -1241,29 +1677,6 @@ server <- function(input, output, session) {
         )
     }, tooltip = "text"))
     }
-
-  ### Plots ----
-  #### 1. Participation in the Labour Market ----
-  ##### 1.1. Working-age population in the labour force (participation rate) ----
-  output$plot_geo_lm_1 <-
-    func_plot_2(df = "rateDT_geo",
-                filter_var = unique(as.character(rateDT$Indicator))[1])
-
-  ##### 1.2. Working-age population in employment (employment rate) ----
-  output$plot_geo_lm_2 <-
-    func_plot_2(df = "rateDT_geo",
-                filter_var = unique(as.character(rateDT$Indicator))[2])
-
-  ##### 1.3. Working-age population in employment (unemployment rate) ----
-  output$plot_geo_lm_3 <-
-    func_plot_2(df = "rateDT_geo",
-                filter_var = unique(as.character(rateDT$Indicator))[3])
-
-  ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
-  output$plot_geo_lm_4 <-
-    func_plot_2(df = "rateDT_geo",
-                filter_var = unique(as.character(rateDT$Indicator))[4])
-
   ### Plots CMAs----
   #### 1. Participation in the Labour Market ----
   ##### 1.1. Working-age population in the labour force (participation rate) ----
@@ -1408,7 +1821,7 @@ server <- function(input, output, session) {
   #### 4. Basic needs and housing ----
   ##### 4.1. Percent of the population living in a dwelling owned by one member of the household ----
   # output$plot_cma_basic_1 <-
-  #   func_plot_2(df = "basicDT_cma",
+  #   func_plot_2(df = "",
   #             filter_var = unique(basicDT$Indicator)[])
   
   ##### 4.2. Percent of the population living in core need household ----
@@ -1694,6 +2107,16 @@ server <- function(input, output, session) {
     func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
   
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
+  output$map <- renderPlotly(
+    ggplotly(
+        ggplot(youthDT) +
+        geom_sf(
+          aes(
+            fill = Geography,geometry = geometry)) +
+        ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
+    )
+    
+  )
 }
 
 # All together now ----

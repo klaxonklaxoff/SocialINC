@@ -503,3 +503,4 @@ get_cansim("13-10-0842") %>%
   ) %>% # select and rename the relevant variables
   write_parquet(sink = paste0("./_tempdata/healthDT.parquet"))
 gc()
+

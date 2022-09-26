@@ -11,12 +11,13 @@ data <- st_read("lpr_000b21a_e.shp")%>%
 #Reading the csv file containing our data----
 rate_69 <- read.csv("Book2.csv")%>%
   select(c("PRENAME","VALUE", "Indicators", "Visible.minority.status"))
-#View(rate_69)
+
+View(rate_69)
 new_rate<- rate_69%>% filter(!is.na(rate_69$VALUE))
 View(new_rate)
 # 
 # #Merging the files using PRENAME as the unique variable in both files----
-# provinces <- left_join(rate_69,data,by = "PRENAME")
+# provinces <- merge(rate_69,data,by = "PRENAME")
 # #View(provinces)
 # #names(provinces)
 # 
@@ -42,5 +43,6 @@ fig
 # )
 # 
 # fig
-# #,method = "quantiles", nclass = 8
-# #, geometry = geometry
+
+# rate_69<- rename(rate_69,c(VALUE="PERCENT"))
+# View(rate_69)
