@@ -1,12 +1,13 @@
 # Install packages ----
 package_list <- c(
   "arrow",
-  "dplyr",
   "stringr",
   "scales",
   "plotly",
   "shiny",
-  "shinyWidgets"
+  "shinyWidgets",
+  "sf",
+  "tidyverse"
 )
 
 new_packages <-
@@ -18,7 +19,6 @@ rm(package_list, new_packages)
 
 # Load libraries ----
 library(arrow)
-library(dplyr)
 library(stringr)
 library(scales)
 library(plotly)
@@ -90,17 +90,13 @@ df_list <-
     x = df_list
   )) %>%
   unlist()
-#Shapefile-----
-canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
-canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
-#View(canada_shapefile)
 
 ### Filter data--it's too much to hande ----
 #'NOTE [make sure the working directory is pointing to the right location]
 for (i in df_list) {
   assign(i, {
     read_parquet(file = paste0("./_tempdata/", i, ".parquet")) %>%
-      filter(Geography %in% geo_filter)%>% merge(y = canada_shapefile, by = "Geography" )
+      filter(Geography %in% geo_filter)
   })
 }
 
@@ -186,8 +182,6 @@ for (i in dfs_characteristics) {
   })
 }
 
-gc()
-
 rm(i, dfs_characteristics)
 
 ## Discrimination data ----
@@ -247,6 +241,33 @@ polData <-
     "Race or ethnicity"
   ))
 
+# Shapefile -----
+canada_shapefile <-
+  st_read("lpr_000b21a_e.shp") %>% 
+  select(Geography = "PRENAME", "geometry")
+#View(canada_shapefile)
+
+## Merge relevant datafiles ----
+dfs_shapefile <-
+  c(
+    "educationDT",
+    "healthDT",
+    "incomeDT",
+    "OverQualDT",
+    "OverQualDT_cma",
+    "rateDT",
+    "youthDT"
+  )
+
+for (i in dfs_shapefile) {
+  assign(i, {
+    canada_shapefile %>%
+      right_join(get(i), by = "Geography")
+  })
+}
+
+rm(dfs_shapefile)
+
 ## Indicators template ----
 template <-
   read.csv("indicators_template.csv") %>%
@@ -264,3 +285,5 @@ source_census_nhs_census <-
   "Source: Census of Population, 2016, National Household Survey, 2011,  Census of Population, 2006."
 source_census_nhs <-
   "Source: Censuses of population, 2006 and 2016; National Household Survey, 2011"
+
+gc()
