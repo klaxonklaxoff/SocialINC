@@ -1,3 +1,4 @@
+
 source("1_example_data.R")
 
 ui <-
@@ -34,7 +35,7 @@ server <- function(input, output, session) {
         geom_sf(aes(fill = Value, geometry = geometry)) +
         ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
     }))
-  
+
 }
 
 # All together now ----

@@ -6,14 +6,15 @@ package_list <- c(
   "scales",
   "plotly",
   "shiny",
-  "shinyWidgets"
+  "shinyWidgets",
+  "sf",
+  "tidyverse"
 )
 
 new_packages <-
   package_list[!(package_list %in% installed.packages()[, "Package"])]
 if (length(new_packages))
   install.packages(new_packages)
-
 rm(package_list, new_packages)
 
 # Load libraries ----
@@ -26,7 +27,6 @@ library(shiny)
 library(shinyWidgets)
 library(sf)
 library(tidyverse)
-
 # Import data ----
 ## Datasets ----
 geo_filter <-
@@ -52,7 +52,6 @@ geo_filter <-
     "British Columbia",
     "Canada, selected police services",
     "Canada (selected provinces - see notes)",
-
     "Toronto, Ontario",
     "Montréal, Quebec",
     "Vancouver, British Columbia",
@@ -63,23 +62,8 @@ geo_filter <-
     "Winnipeg, Manitoba",
     "Hamilton, Ontario",
     "Kitchener–Cambridge–Waterloo, Ontario",
-    "London, Ontario",
-    "Halifax, Nova Scotia",
-    "Abbotsford–Mission, British Columbia",
-    "Sherbrooke, Quebec",
-    "Regina, Saskatchewan",
-    "Saskatoon, Saskatchewan",
-    "Victoria, British Columbia",
-    "St. Catharines–Niagara, Ontario",
-    "St. John's, Newfoundland and Labrador",
-    "Windsor, Ontario",
-    "Barrie, Ontario",
-    "Kingston, Ontario",
-    "Oshawa, Ontario",
-    "Kelowna, British Columbia"
-    
-) # can only retrieve at the provincial level because otherwise it costs too much memory
-
+    "London, Ontario"
+  ) # can only retrieve at the provincial level because otherwise it costs too much memory
 cma_filter <- c("Toronto, Ontario",
                 "Montréal, Quebec",
                 "Vancouver, British Columbia",
@@ -90,22 +74,8 @@ cma_filter <- c("Toronto, Ontario",
                 "Winnipeg, Manitoba",
                 "Hamilton, Ontario",
                 "Kitchener–Cambridge–Waterloo, Ontario",
-                "London, Ontario","Halifax, Nova Scotia",
-                "Abbotsford–Mission, British Columbia",
-                "Sherbrooke, Quebec",
-                "Regina, Saskatchewan",
-                "Saskatoon, Saskatchewan",
-                "VictoriaBritish, Columbia",
-                "St. Catharines–Niagara, Ontario",
-                "St. John's, Newfoundland and Labrador",
-                "Windsor, Ontario",
-                "Barrie, Ontario",
-                "Kingston, Ontario",
-                "Oshawa, Ontario",
-                "Kelowna, British Columbia")
-
+                "London, Ontario")
 #' NOTE [you can use names() and unique() to figure out stuff about the data]
-
 df_list <-
   list.files("./_tempdata/", ".*\\.parquet$", ignore.case = TRUE) %>%
   as.data.frame() %>%
@@ -116,30 +86,27 @@ df_list <-
     x = df_list
   )) %>%
   unlist()
-# #Shapefile-----
-# canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
-# canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
-# #View(canada_shapefile)
+#Shapefile-----
+canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
+canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
+#View(canada_shapefile)
 
 ### Filter data--it's too much to hande ----
 #'NOTE [make sure the working directory is pointing to the right location]
 for (i in df_list) {
   assign(i, {
     read_parquet(file = paste0("./_tempdata/", i, ".parquet")) %>%
-      filter(Geography %in% geo_filter)
-    # %>% merge(y = canada_shapefile, by = "Geography" )
+      filter(Geography %in% geo_filter)%>% merge(y = canada_shapefile, by = "Geography" )
+    #filter(Geography %in% geo_filter)
   })
 }
 
 gc()
-
 rm(i, df_list, geo_filter)
-
 ## Return list of current data tables ----
 dfs_all <- names(which(unlist(eapply(
   .GlobalEnv, is.data.frame
 ))))
-
 # ### Add date ----
 # for (i in dfs_all) {
 #   assign(i, {
@@ -149,7 +116,6 @@ dfs_all <- names(which(unlist(eapply(
 #   })
 # }
 # rm(i, dfs_all)
-
 #' NOTE [only the following data sets have the characteristic variable]
 dfs_characteristics <-
   c(
@@ -161,7 +127,6 @@ dfs_characteristics <-
     "discriminationDT",
     "healthDT"
   )
-
 ### Define characteristics
 for (i in dfs_characteristics) {
   assign(i, {
@@ -204,10 +169,9 @@ for (i in dfs_characteristics) {
             "University certificate or diploma"
           ) ~ "Education Status",
           Characteristic %in% c("Total, by visible minority group",
-            "Total visible minority population", "South Asian", "Chinese",
-            "Black", "Filipino", "Arab", "Latin American", "Southeast Asian",
-            "Not a visible minority")~ "Visible minority status"
-
+                                "Total visible minority population", "South Asian", "Chinese",
+                                "Black", "Filipino", "Arab", "Latin American", "Southeast Asian",
+                                "Not a visible minority")~ "Visible minority status"
         ) # adding a column to group relevant characteristics together
       )
   })
@@ -254,7 +218,6 @@ discriminationDT <-
       ))
     )
   )
-
 ## Police data ----
 polData <-
   polData %>%
@@ -274,6 +237,33 @@ polData <-
     "Race or ethnicity"
   ))
 
+# Shapefile -----
+canada_shapefile <-
+  st_read("lpr_000b21a_e.shp") %>% 
+  select(Geography = "PRENAME", "geometry")
+#View(canada_shapefile)
+
+## Merge relevant datafiles ----
+dfs_shapefile <-
+  c(
+    "educationDT",
+    "healthDT",
+    "incomeDT",
+    "OverQualDT",
+    "OverQualDT_cma",
+    "rateDT",
+    "youthDT"
+  )
+
+for (i in dfs_shapefile) {
+  assign(i, {
+    canada_shapefile %>%
+      right_join(get(i), by = "Geography")
+  })
+}
+
+rm(dfs_shapefile)
+
 ## Indicators template ----
 template <-
   read.csv("indicators_template.csv") %>%
@@ -291,3 +281,5 @@ source_census_nhs_census <-
   "Source: Census of Population, 2016, National Household Survey, 2011,  Census of Population, 2006."
 source_census_nhs <-
   "Source: Censuses of population, 2006 and 2016; National Household Survey, 2011"
+
+gc()
