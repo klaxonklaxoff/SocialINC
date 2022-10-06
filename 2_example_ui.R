@@ -327,66 +327,6 @@ ui <-
               )
             ),
 
-            ##### 2.1.5. Participation in the Labour Market (part 5) ----
-            #'NOTE [incomeDT]
-            conditionalPanel(
-              condition =
-                "input.indicator_1 == 'Average employment income of the population'
-              || input.indicator_1 == 'Average weekly wage of paid employees'",
-              #'NOTE [indicators 8:9/22]
-
-              ###### Visible Minority ----
-              #'NOTE [this is the focal variable for this tab]
-              pickerInput(
-                inputId = "lm_income_vismin", # name this for the server
-                label = "Choose a visible minority status", # label of filter
-                choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
-                multiple = TRUE, # multi-select
-                selected = as.character(unique(incomeDT$VisMin))[1],
-                options = list(
-                  `actions-box` = TRUE,
-                  `deselect-all-text` = "Deselect all",
-                  `select-all-text` = "Select all"
-                )),
-              ###### Year ----
-              pickerInput(
-                inputId = "lm_income_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ###### Degree ----
-              selectizeInput(
-                inputId = "lm_income_degree",
-                label = "Choose a highest certificate, diploma or degree",
-                choices = unique(as.character(incomeDT$Degree))
-              ),
-              ###### Geography ----
-              selectizeInput(
-                inputId = "lm_income_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(incomeDT$Geography))
-              ),
-              ###### Immigration ----
-              selectizeInput(
-                inputId = "lm_income_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(incomeDT$Immigration))
-              ),
-              ###### Age ----
-              selectizeInput(
-                inputId = "lm_income_age",
-                label = "Choose an age group or first official language spoken",
-                choices = unique(as.character(incomeDT$Age))
-              ),
-              ###### Sex ----
-              selectizeInput(
-                inputId = "lm_income_sex",
-                label = "Choose a sex",
-                choices = unique(as.character(incomeDT$Sex))
-              )
-            ),
-
             ##### 2.1.6. Participation in the Labour Market (part 6) ----
             #'NOTE [employmentDT]
             #' [THIS TABLE HAS NOT BEEN PUBLISHED YET]
@@ -1013,98 +953,6 @@ ui <-
                 choices = unique(as.character(educationDT$Language))
               ),
             ),
-
-            #### 2.8. Income and wealth ----
-            #'NOTE [THIS IS ALL IN THE LABOUR MARKET SECTION ALREADY]
-            #'NOTE [incomeDT]
-            #' conditionalPanel(
-            #'   condition =
-            #'     "input.theme_1 == 'Income and wealth'",
-            #'
-            #'   ##### Visible Minority ----
-            #'   #'NOTE [this is the focal variable for this tab]
-            #'   selectizeInput(
-            #'     inputId = "income_vismin",
-            #'     label = "Choose a visible minority status",
-            #'     choices = unique(as.character(incomeDT$VisMin)),
-            #'     multiple = TRUE,
-            #'     selected = unique(as.character(incomeDT$VisMin))[1],
-            #'   ),
-            #'   ##### Geography ----
-            #'   selectizeInput(
-            #'     inputId = "income_geography",
-            #'     label = "Choose a geography",
-            #'     choices = unique(as.character(incomeDT$Geography))
-            #'   ),
-            #'   ##### Selected sociodemographic characteristics ----
-            #'   selectizeInput(
-            #'     inputId = "income_sociodem",
-            #'     label = "Choose a sociodemographic characteristic",
-            #'     choices = unique(as.character(incomeDT$char_type))
-            #'   ),
-            #'
-            #'   ###### Age ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Age'",
-            #'     selectizeInput(
-            #'       inputId = "income_age",
-            #'       label = "Choose an age group",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Age"])
-            #'     )
-            #'   ),
-            #'   ###### Gender ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Gender'",
-            #'     selectizeInput(
-            #'       inputId = "income_gender",
-            #'       label = "Choose a gender",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Gender"])
-            #'     )
-            #'   ),
-            #'   ###### Immigration Status ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Immigration Status'",
-            #'     selectizeInput(
-            #'       inputId = "income_immigration",
-            #'       label = "Choose an immigration status",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Immigration Status"])
-            #'     )
-            #'   ),
-            #'   ###### Generation Status ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Generation Status'",
-            #'     selectizeInput(
-            #'       inputId = "income_generation",
-            #'       label = "Choose an immigration status",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Generation Status"])
-            #'     )
-            #'   ),
-            #'   ###### Language Spoken ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Language Spoken'",
-            #'     selectizeInput(
-            #'       inputId = "income_language",
-            #'       label = "Choose a language spoken",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Language Spoken"])
-            #'     )
-            #'   ),
-            #'   ###### Education Status ----
-            #'   conditionalPanel(
-            #'     condition = "input.income_sociodem == 'Education Status'",
-            #'     selectizeInput(
-            #'       inputId = "income_education",
-            #'       label = "Choose an education status",
-            #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Education Status"])
-            #'     )
-            #'   ),
-            #'   ##### Confidence Interval ----
-            #'   selectizeInput(
-            #'     inputId = "income_conf_interval",
-            #'     label = "Choose a confidence interval",
-            #'     choices = unique(as.character(incomeDT$Confidence))
-            #'   )
-            #' ),
-
             #### 2.9. Social connections and personnal networks ----
             #'NOTE [belongingDT]
             conditionalPanel(
@@ -1292,7 +1140,66 @@ ui <-
                 label = "Choose a confidence interval",
                 choices = unique(as.character(discriminationDT$Confidence))
               )
-            )
+            ),
+              #' #### 2.11. Income and wealth ----
+              #' #'NOTE [incomeDT]
+              #' conditionalPanel(
+              #'   condition =
+              #'     "input.indicator_1 == 'Average employment income of the population'
+              #'  || input.indicator_1 == 'Average weekly wage of paid employees'",
+              #'  #'NOTE [indicators 1:2/8]
+              #'  ###### Visible Minority ----
+              #'  #'NOTE [this is the focal variable for this tab]
+              #'  pickerInput(
+              #'    inputId = "lm_income_vismin", # name this for the server
+              #'    label = "Choose a visible minority status", # label of filter
+              #'    choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
+              #'    multiple = TRUE, # multi-select
+              #'    selected = as.character(unique(incomeDT$VisMin))[1],
+              #'    options = list(
+              #'      `actions-box` = TRUE,
+              #'      `deselect-all-text` = "Deselect all",
+              #'      `select-all-text` = "Select all"
+              #'    )),
+              #'  ###### Year ----
+              #'  pickerInput(
+              #'    inputId = "lm_income_year", # name this for the server
+              #'    label = "Choose a year", # label of filter
+              #'    choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
+              #'    selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
+              #'    multiple = TRUE), # multi-select
+              #'  ###### Degree ----
+              #'  selectizeInput(
+              #'    inputId = "lm_income_degree",
+              #'    label = "Choose a highest certificate, diploma or degree",
+              #'    choices = unique(as.character(incomeDT$Degree))
+              #'  ),
+              #'  ###### Geography ----
+              #'  selectizeInput(
+              #'    inputId = "lm_income_geography",
+              #'    label = "Choose a geography",
+              #'    choices = unique(as.character(incomeDT$Geography))
+              #'  ),
+              #'  ###### Immigration ----
+              #'  selectizeInput(
+              #'    inputId = "lm_income_immigration",
+              #'    label = "Choose an immigrant or generation status",
+              #'    choices = unique(as.character(incomeDT$Immigration))
+              #'  ),
+              #'  ###### Age ----
+              #'  selectizeInput(
+              #'    inputId = "lm_income_age",
+              #'    label = "Choose an age group or first official language spoken",
+              #'    choices = unique(as.character(incomeDT$Age))
+              #'  ),
+              #'  ###### Sex ----
+              #'  selectizeInput(
+              #'    inputId = "lm_income_sex",
+              #'    label = "Choose a sex",
+              #'    choices = unique(as.character(incomeDT$Sex))
+              #'  )
+              #' ),
+            
           ), # sidebarPanel closing bracket // should be blue
 
           ### Main panel ----
@@ -1389,29 +1296,6 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-
-            ##### 1.8. Average employment income of the population ----
-            conditionalPanel(
-              condition = "input.indicator_1 == 'Average employment income of the population'",
-              br(),
-              br(),
-              plotlyOutput("plot_vm_lm_8",
-                           inline = TRUE),
-              br(),
-              helpText(source_census_nhs_census)
-            ),
-
-            ##### 1.9. Average weekly wage of paid employees ----
-            conditionalPanel(
-              condition = "input.indicator_1 == 'Average weekly wage of paid employees'",
-              br(),
-              br(),
-              plotlyOutput("plot_vm_lm_9",
-                           inline = TRUE),
-              br(),
-              helpText(source_census_nhs_census)
-            ),
-
             #### 2. Civic engagement and political participation ----
             ##### 2.1. Percent of the population members of at least one civic group or organization ----
             conditionalPanel(
@@ -1962,10 +1846,6 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-
-            #### 11. Income and wealth ----
-            #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
-
             #### 8. Education and training skills ----
             ##### 8.1. Population with no certificate, diploma or degree ----
             conditionalPanel(
@@ -2287,7 +2167,30 @@ ui <-
                            inline = TRUE),
               br(),
               helpText(source_gss)
-            )
+            ),
+            #' #### 11. Income and wealth ----
+            #' #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
+            #' ##### 11.1. Average employment income of the population ----
+            #' conditionalPanel(
+            #'   condition = "input.indicator_1 == 'Average employment income of the population'",
+            #'   br(),
+            #'   br(),
+            #'   plotlyOutput("plot_vm_lm_1",
+            #'                inline = TRUE),
+            #'   br(),
+            #'   helpText(source_census_nhs_census)
+            #' ),
+            #' 
+            #' ##### 11.2. Average weekly wage of paid employees ----
+            #' conditionalPanel(
+            #'   condition = "input.indicator_1 == 'Average weekly wage of paid employees'",
+            #'   br(),
+            #'   br(),
+            #'   plotlyOutput("plot_vm_lm_2",
+            #'                inline = TRUE),
+            #'   br(),
+            #'   helpText(source_census_nhs_census)
+            #' ),
 
           ) # Main panel closing bracket // should be blue
 
@@ -2763,74 +2666,74 @@ ui <-
                 )
               ),
               
-              ##### 2.1.5. Participation in the Labour Market (part 5) ----
-              #'NOTE [incomeDT]
-              conditionalPanel(
-                condition =
-                  "input.indicator_3 == 'Average employment income of the population'
-              || input.indicator_3 == 'Average weekly wage of paid employees'",
-                #'NOTE [indicators 8:9/22]
-                
-                ###### Geography ----
-                #'NOTE [this is the focal variable for this tab]
-                #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
-                pickerInput(
-                  inputId = "lm_income_geography_cma",
-                  label = "Choose a geography",
-                  choices = cma_filter,
-                  multiple = TRUE,# multi-select
-                  selected = cma_filter[1],
-                  options = list(
-                    `actions-box` = TRUE,
-                    `deselect-all-text` = "Deselect all",
-                    `select-all-text` = "Select all"
-                  ),
-                ),
-                ###### Visible Minority ----
-                pickerInput(
-                  inputId = "lm_income_vismin_cma", # name this for the server
-                  label = "Choose a visible minority status", # label of filter
-                  choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
-                  selected = as.character(unique(incomeDT$VisMin))[1],
-                  # multiple = TRUE,# multi-select
-                  # options = list(
-                  #   `actions-box` = TRUE,
-                  #   `deselect-all-text` = "Deselect all",
-                  #   `select-all-text` = "Select all"
-                  # )
-                ),
-                ###### Year ----
-                pickerInput(
-                  inputId = "lm_income_year_cma", # name this for the server
-                  label = "Choose a year", # label of filter
-                  choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
-                  selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
-                  multiple = TRUE), # multi-select
-                ###### Degree ----
-                selectizeInput(
-                  inputId = "lm_income_degree_cma",
-                  label = "Choose a highest certificate, diploma or degree",
-                  choices = unique(as.character(incomeDT$Degree))
-                ),
-                ###### Immigration ----
-                selectizeInput(
-                  inputId = "lm_income_immigration_cma",
-                  label = "Choose an immigrant or generation status",
-                  choices = unique(as.character(incomeDT$Immigration))
-                ),
-                ###### Age ----
-                selectizeInput(
-                  inputId = "lm_income_age_cma",
-                  label = "Choose an age group or first official language spoken",
-                  choices = unique(as.character(incomeDT$Age))
-                ),
-                ###### Sex ----
-                selectizeInput(
-                  inputId = "lm_income_sex_cma",
-                  label = "Choose a sex",
-                  choices = unique(as.character(incomeDT$Sex))
-                )
-              ), 
+              #' ##### 2.1.5. Participation in the Labour Market (part 5) ----
+              #' #'NOTE [incomeDT]
+              #' conditionalPanel(
+              #'   condition =
+              #'     "input.indicator_3 == 'Average employment income of the population'
+              #' || input.indicator_3 == 'Average weekly wage of paid employees'",
+              #'   #'NOTE [indicators 8:9/22]
+              #'   
+              #'   ###### Geography ----
+              #'   #'NOTE [this is the focal variable for this tab]
+              #'   #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
+              #'   pickerInput(
+              #'     inputId = "lm_income_geography_cma",
+              #'     label = "Choose a geography",
+              #'     choices = cma_filter,
+              #'     multiple = TRUE,# multi-select
+              #'     selected = cma_filter[1],
+              #'     options = list(
+              #'       `actions-box` = TRUE,
+              #'       `deselect-all-text` = "Deselect all",
+              #'       `select-all-text` = "Select all"
+              #'     ),
+              #'   ),
+              #'   ###### Visible Minority ----
+              #'   pickerInput(
+              #'     inputId = "lm_income_vismin_cma", # name this for the server
+              #'     label = "Choose a visible minority status", # label of filter
+              #'     choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
+              #'     selected = as.character(unique(incomeDT$VisMin))[1],
+              #'     # multiple = TRUE,# multi-select
+              #'     # options = list(
+              #'     #   `actions-box` = TRUE,
+              #'     #   `deselect-all-text` = "Deselect all",
+              #'     #   `select-all-text` = "Select all"
+              #'     # )
+              #'   ),
+              #'   ###### Year ----
+              #'   pickerInput(
+              #'     inputId = "lm_income_year_cma", # name this for the server
+              #'     label = "Choose a year", # label of filter
+              #'     choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
+              #'     selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
+              #'     multiple = TRUE), # multi-select
+              #'   ###### Degree ----
+              #'   selectizeInput(
+              #'     inputId = "lm_income_degree_cma",
+              #'     label = "Choose a highest certificate, diploma or degree",
+              #'     choices = unique(as.character(incomeDT$Degree))
+              #'   ),
+              #'   ###### Immigration ----
+              #'   selectizeInput(
+              #'     inputId = "lm_income_immigration_cma",
+              #'     label = "Choose an immigrant or generation status",
+              #'     choices = unique(as.character(incomeDT$Immigration))
+              #'   ),
+              #'   ###### Age ----
+              #'   selectizeInput(
+              #'     inputId = "lm_income_age_cma",
+              #'     label = "Choose an age group or first official language spoken",
+              #'     choices = unique(as.character(incomeDT$Age))
+              #'   ),
+              #'   ###### Sex ----
+              #'   selectizeInput(
+              #'     inputId = "lm_income_sex_cma",
+              #'     label = "Choose a sex",
+              #'     choices = unique(as.character(incomeDT$Sex))
+              #'   )
+              #' ), 
               #### 2.2. Civic engagement and political participation ----
               ##### 2.2.1. Civic engagement and political participation (part 1) ----
               #'NOTE [civicDT]
@@ -2956,7 +2859,6 @@ ui <-
               || input.indicator_3 == 'Percent of the population voting in the last provincial election'
               || input.indicator_3 == 'Percent of the population voting in the last municipal election'",
                 #'NOTE [indicators 14:16/16]
-                
                 ###### Geography ----
                 #'NOTE [this is the focal variable for this tab]
                 #'NOTE [I made this one different (pickerInput) because I like the select all option but I think overall it's slower so I kept the other ones at selectizeInput]
@@ -3433,104 +3335,6 @@ ui <-
                   choices = unique(as.character(educationDT$Language))
                 ),
               ),
-              #### 2.8. Income and wealth ----
-              #'NOTE [THIS IS ALL IN THE LABOUR MARKET SECTION ALREADY]
-              #'NOTE [incomeDT]
-              #' conditionalPanel(
-              #'   condition =
-              #'     "input.theme_3 == 'Income and wealth'",
-              #'  ###### Geography ----
-              #'  NOTE [this is the focal variable for this tab]
-              #' pickerInput(
-              #'   inputId = "income_geography_cma",
-              #'   label = "Choose a geography",
-              #'   choices = as.character(unique((incomeDT$Geography))),
-              #'   multiple = TRUE,# multi-select
-              #'   selected = as.character(unique(incomeDT$Geography))[1],
-              #'   options = list(
-              #'     `actions-box` = TRUE,
-              #'     `deselect-all-text` = "Deselect all",
-              #'     `select-all-text` = "Select all"
-              #'   ),
-              #' ),
-              #' 
-              #'   ##### Visible Minority ----
-              #'   #'NOTE [this is the focal variable for this tab]
-              #'   selectizeInput(
-              #'     inputId = "income_vismin_cma",
-              #'     label = "Choose a visible minority status",
-              #'     choices = unique(as.character(incomeDT$VisMin)),
-              #'     selected = unique(as.character(incomeDT$VisMin))[1],
-              #'   ),
-              #'   ##### Selected sociodemographic characteristics ----
-              #'   selectizeInput(
-              #'     inputId = "income_sociodem_cma",
-              #'     label = "Choose a sociodemographic characteristic",
-              #'     choices = unique(as.character(incomeDT$char_type))
-              #'   ),
-              #'
-              #'   ###### Age ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Age'",
-              #'     selectizeInput(
-              #'       inputId = "income_age_cma",
-              #'       label = "Choose an age group",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Age"])
-              #'     )
-              #'   ),
-              #'   ###### Gender ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Gender'",
-              #'     selectizeInput(
-              #'       inputId = "income_gender_cma",
-              #'       label = "Choose a gender",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Gender"])
-              #'     )
-              #'   ),
-              #'   ###### Immigration Status ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Immigration Status'",
-              #'     selectizeInput(
-              #'       inputId = "income_immigration_cma",
-              #'       label = "Choose an immigration status",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Immigration Status"])
-              #'     )
-              #'   ),
-              #'   ###### Generation Status ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Generation Status'",
-              #'     selectizeInput(
-              #'       inputId = "income_generation_cma",
-              #'       label = "Choose an immigration status",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Generation Status"])
-              #'     )
-              #'   ),
-              #'   ###### Language Spoken ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Language Spoken'",
-              #'     selectizeInput(
-              #'       inputId = "income_language_cma",
-              #'       label = "Choose a language spoken",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Language Spoken"])
-              #'     )
-              #'   ),
-              #'   ###### Education Status ----
-              #'   conditionalPanel(
-              #'     condition = "input.income_sociodem_cma == 'Education Status'",
-              #'     selectizeInput(
-              #'       inputId = "income_education_cma",
-              #'       label = "Choose an education status",
-              #'       choices = unique(as.character(incomeDT$Characteristic)[incomeDT$char_type == "Education Status"])
-              #'     )
-              #'   ),
-              #'   ##### Confidence Interval ----
-              #'   selectizeInput(
-              #'     inputId = "income_conf_interval_cma",
-              #'     label = "Choose a confidence interval",
-              #'     choices = unique(as.character(incomeDT$Confidence))
-              #'   )
-              #' ),
-              
               #### 2.9. Social connections and personnal networks ----
               #'NOTE [belongingDT]
               conditionalPanel(
@@ -3721,8 +3525,70 @@ ui <-
                   label = "Choose a confidence interval",
                   choices = unique(as.character(discriminationDT$Confidence))
                 )
-              )
-              
+              ),
+              #' #### 2.11. Income and wealth ----
+              #' #'NOTE [incomeDT]
+              #' conditionalPanel(
+              #'   condition =
+              #'     "input.indicator_3 == 'Average employment income of the population'
+              #'   || input.indicator_3 == 'Average weekly wage of paid employees'",
+              #' #'NOTE [indicators :2/8]
+              #' 
+              #' ###### Geography ----
+              #' #'  NOTE [this is the focal variable for this tab]
+              #' pickerInput(
+              #'   inputId = "lm_income_geography_cma",
+              #'   label = "Choose a geography",
+              #'   choices = as.character(unique((incomeDT$Geography))),
+              #'   multiple = TRUE,# multi-select
+              #'   selected = as.character(unique(incomeDT$Geography))[1],
+              #'   options = list(
+              #'     `actions-box` = TRUE,
+              #'     `deselect-all-text` = "Deselect all",
+              #'     `select-all-text` = "Select all"
+              #'   ),
+              #' ),
+              #' ###### Visible Minority ----
+              #' #'NOTE [this is the focal variable for this tab]
+              #' selectizeInput(
+              #'   inputId = "lm_income_vismin_cma", # name this for the server
+              #'   label = "Choose a visible minority status", # label of filter
+              #'   choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
+              #'   selected = as.character(unique(incomeDT$VisMin))[1],
+              #'   ),
+              #' ###### Year ----
+              #' pickerInput(
+              #'   inputId = "lm_income_year_cma", # name this for the server
+              #'   label = "Choose a year", # label of filter
+              #'   choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
+              #'   selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
+              #'   multiple = TRUE), # multi-select
+              #' ###### Degree ----
+              #' selectizeInput(
+              #'   inputId = "lm_income_degree_cma",
+              #'   label = "Choose a highest certificate, diploma or degree",
+              #'   choices = unique(as.character(incomeDT$Degree))
+              #' ),
+              #' ###### Immigration ----
+              #' selectizeInput(
+              #'   inputId = "lm_income_immigration_cma",
+              #'   label = "Choose an immigrant or generation status",
+              #'   choices = unique(as.character(incomeDT$Immigration))
+              #' ),
+              #' ###### Age ----
+              #' selectizeInput(
+              #'   inputId = "lm_income_age_cma",
+              #'   label = "Choose an age group or first official language spoken",
+              #'   choices = unique(as.character(incomeDT$Age))
+              #' ),
+              #' ###### Sex ----
+              #' selectizeInput(
+              #'   inputId = "lm_income_sex_cma",
+              #'   label = "Choose a sex",
+              #'   choices = unique(as.character(incomeDT$Sex))
+              #' )
+              #' ),
+              #' 
             ),
               ### Main panel ----
               mainPanel(
@@ -3747,7 +3613,7 @@ ui <-
                   condition = "input.indicator_3 == 'Working-age population in the labour force (participation rate)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_1",
+                  plotlyOutput("plot_cma_lm_1", 
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3758,7 +3624,7 @@ ui <-
                   condition = "input.indicator_3 == 'Working-age population in employment (employment rate)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_2",
+                  plotlyOutput("plot_cma_lm_2", 
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4387,10 +4253,6 @@ ui <-
                   br(),
                   helpText(source_gss)
                 ),
-                
-                #### 11. Income and wealth ----
-                #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
-                
                 #### 8. Education and training skills ----
                 ##### 8.1. Population with no certificate, diploma or degree ----
                 conditionalPanel(
@@ -4712,7 +4574,30 @@ ui <-
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
-                )
+                ),
+                #' #### 11. Income and wealth ----
+                #' #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
+                #' ##### 11.1. Average employment income of the population ----
+                #' conditionalPanel(
+                #'   condition = "input.indicator_3 == 'Average employment income of the population'",
+                #'   br(),
+                #'   br(),
+                #'   plotlyOutput("plot_cma_lm_1",
+                #'                inline = TRUE),
+                #'   br(),
+                #'   helpText(source_census_nhs_census)
+                #' ),
+                #' 
+                #' ##### 11.2. Average weekly wage of paid employees ----
+                #' conditionalPanel(
+                #'   condition = "input.indicator_3 == 'Average weekly wage of paid employees'",
+                #'   br(),
+                #'   br(),
+                #'   plotlyOutput("plot_cma_lm_2",
+                #'                inline = TRUE),
+                #'   br(),
+                #'   helpText(source_census_nhs_census)
+                #' ),
                 
         ), # Main panel closing bracket // should be blue
         ),
@@ -4721,14 +4606,14 @@ ui <-
       # ) # sidebarLayout closing bracket // should be greenish-blue
      #Plotly Output
 
-tabPanel(
-  "Groups designated as Visible Minorities",
-  fluid = TRUE,
-  mainPanel(
-    plotlyOutput("map",
-                 inline = TRUE),
-  )
-)
+# tabPanel(
+#   "Geography",
+#   fluid = TRUE,
+#   mainPanel(
+#     plotlyOutput("map",
+#                  inline = TRUE),
+#   )
+# )
  
     )
   )

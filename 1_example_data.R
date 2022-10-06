@@ -63,9 +63,23 @@ geo_filter <-
     "Winnipeg, Manitoba",
     "Hamilton, Ontario",
     "Kitchener–Cambridge–Waterloo, Ontario",
-    "London, Ontario"
-
+    "London, Ontario",
+    "Halifax, Nova Scotia",
+    "Abbotsford–Mission, British Columbia",
+    "Sherbrooke, Quebec",
+    "Regina, Saskatchewan",
+    "Saskatoon, Saskatchewan",
+    "Victoria, British Columbia",
+    "St. Catharines–Niagara, Ontario",
+    "St. John's, Newfoundland and Labrador",
+    "Windsor, Ontario",
+    "Barrie, Ontario",
+    "Kingston, Ontario",
+    "Oshawa, Ontario",
+    "Kelowna, British Columbia"
+    
 ) # can only retrieve at the provincial level because otherwise it costs too much memory
+
 cma_filter <- c("Toronto, Ontario",
                 "Montréal, Quebec",
                 "Vancouver, British Columbia",
@@ -76,7 +90,19 @@ cma_filter <- c("Toronto, Ontario",
                 "Winnipeg, Manitoba",
                 "Hamilton, Ontario",
                 "Kitchener–Cambridge–Waterloo, Ontario",
-                "London, Ontario")
+                "London, Ontario","Halifax, Nova Scotia",
+                "Abbotsford–Mission, British Columbia",
+                "Sherbrooke, Quebec",
+                "Regina, Saskatchewan",
+                "Saskatoon, Saskatchewan",
+                "VictoriaBritish, Columbia",
+                "St. Catharines–Niagara, Ontario",
+                "St. John's, Newfoundland and Labrador",
+                "Windsor, Ontario",
+                "Barrie, Ontario",
+                "Kingston, Ontario",
+                "Oshawa, Ontario",
+                "Kelowna, British Columbia")
 
 #' NOTE [you can use names() and unique() to figure out stuff about the data]
 
@@ -90,17 +116,18 @@ df_list <-
     x = df_list
   )) %>%
   unlist()
-#Shapefile-----
-canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
-canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
-#View(canada_shapefile)
+# #Shapefile-----
+# canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
+# canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
+# #View(canada_shapefile)
 
 ### Filter data--it's too much to hande ----
 #'NOTE [make sure the working directory is pointing to the right location]
 for (i in df_list) {
   assign(i, {
     read_parquet(file = paste0("./_tempdata/", i, ".parquet")) %>%
-      filter(Geography %in% geo_filter)%>% merge(y = canada_shapefile, by = "Geography" )
+      filter(Geography %in% geo_filter)
+    # %>% merge(y = canada_shapefile, by = "Geography" )
   })
 }
 

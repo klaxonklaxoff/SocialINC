@@ -148,22 +148,6 @@ server <- function(input, output, session) {
               Language == input$lm_youth_language
             )
         })
-    } else if (df == "incomeDT") {
-      # Participation in the Labour Market (incomeDT) ----
-      filtered_data <-
-        reactive({
-          incomeDT %>%
-            filter(
-              Indicator == filter_var,
-              VisMin %in% input$lm_income_vismin,
-              Year  %in% input$lm_income_year,
-              Degree == input$lm_income_degree,
-              Geography == input$lm_income_geography,
-              Immigration == input$lm_income_immigration,
-              Age == input$lm_income_age,
-              Sex == input$lm_income_sex
-            )
-        })
     } else if (df == "civicDT") {
       # Civic engagement and political participation (civicDT) ----
       filtered_data <-
@@ -293,7 +277,25 @@ server <- function(input, output, session) {
               )
             )
         })
-    } else if (df == "confidenceDT") {
+    }
+    # else if (df == "incomeDT") {
+    #   # Income and wealth (incomeDT) ----
+    #   filtered_data <-
+    #     reactive({
+    #       incomeDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin %in% input$lm_income_vismin,
+    #           Year  %in% input$lm_income_year,
+    #           Degree == input$lm_income_degree,
+    #           Geography == input$lm_income_geography,
+    #           Immigration == input$lm_income_immigration,
+    #           Age == input$lm_income_age,
+    #           Sex == input$lm_income_sex
+    #         )
+    #     })
+    # }
+    else if (df == "confidenceDT") {
       # Public services and institutions ----
       filtered_data <-
         reactive({
@@ -319,7 +321,8 @@ server <- function(input, output, session) {
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.3,
+          position = position_dodge(width = 0.9),
           aes(
             x = Year,
             y = Value,
@@ -342,6 +345,7 @@ server <- function(input, output, session) {
         labs(
           x = "Year",
           y = "Value",
+      
           colour = "Visible Minority group(s)",
           fill = "Visible Minority group(s)"
         )
@@ -437,17 +441,6 @@ server <- function(input, output, session) {
   ##### 1.7. Youth not in employment, education or training (NEET) ----
   output$plot_vm_lm_7 <-
     func_plot_1(df = "youthDT")
-
-  ##### 1.8. Average employment income of the population ----
-  output$plot_vm_lm_8 <-
-    func_plot_1(df = "incomeDT",
-                filter_var = unique(as.character(incomeDT$Indicator))[1])
-
-  ##### 1.9. Average weekly wage of paid employees ----
-  output$plot_vm_lm_9 <-
-    func_plot_1(df = "incomeDT",
-                filter_var = unique(as.character(incomeDT$Indicator))[2])
-
   #### 2. Civic engagement and political participation ----
   ##### 2.1. Percent of the population members of at least one civic group or organization ----
   output$plot_vm_civic_1 <-
@@ -834,6 +827,14 @@ server <- function(input, output, session) {
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_vm_discrimination_9 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
+  # ##### 11.1. Average employment income of the population ----
+  # output$plot_vm_lm_1 <-
+  #   func_plot_1(df = "incomeDT",
+  #               filter_var = unique(as.character(incomeDT$Indicator))[1])
+  # ##### 11.2. Average weekly wage of paid employees ----
+  # output$plot_vm_lm_2 <-
+  #   func_plot_1(df = "incomeDT",
+  #               filter_var = unique(as.character(incomeDT$Indicator))[2])
 
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   ## Tab 2: Geography ------
@@ -1418,24 +1419,7 @@ output$plot_geo_lm_1 <-
               Language == input$lm_youth_language_cma
             )
         })
-    } else if (df == "incomeDT_cma") {
-      # Participation in the Labour Market (incomeDT)- CMAs----
-      filtered_data <-
-        reactive({
-          incomeDT %>%
-            filter(
-              Indicator == filter_var,
-              VisMin ==  input$lm_income_vismin_cma,
-              Year  %in% input$lm_income_year_cma,
-              Degree == input$lm_income_degree_cma,
-              Geography %in% input$lm_income_geography_cma,
-              Immigration == input$lm_income_immigration_cma,
-              Age == input$lm_income_age_cma,
-              Sex == input$lm_income_sex_cma
-            )
-        })
-    } 
-    else if (df == "civicDT_cma") {      
+    } else if (df == "civicDT_cma") {      
       # Civic engagement and political participation (civicDT) - CMAs ----
       filtered_data <-
         reactive({
@@ -1589,12 +1573,30 @@ output$plot_geo_lm_1 <-
             )
         })
     }
-  
+    # else if (df == "incomeDT_cma") {
+    #   # Income and wealth (incomeDT)- CMAs----
+    #   filtered_data <-
+    #     reactive({
+    #       incomeDT %>%
+    #         filter(
+    #           Indicator == filter_var,
+    #           VisMin ==  input$lm_income_vismin_cma,
+    #           Year  %in% input$lm_income_year_cma,
+    #           Degree == input$lm_income_degree_cma,
+    #           Geography %in% input$lm_income_geography_cma,
+    #           Immigration == input$lm_income_immigration_cma,
+    #           Age == input$lm_income_age_cma,
+    #           Sex == input$lm_income_sex_cma
+    #         )
+    #     })
+    # } 
+    # 
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.4,
+          position = position_dodge(width = 1.5),
           aes(
             x = Year,
             y = Value,
@@ -1611,12 +1613,13 @@ output$plot_geo_lm_1 <-
               Year
             )
           )
-        ) +
+        ) + coord_flip()+
         theme_minimal() +
         scale_y_continuous(labels = comma) +
         labs(
           x = "Year",
           y = "Value",
+          # orientation = "h",
           colour = "Geography",
           fill = "Geography"
         )
@@ -1710,16 +1713,6 @@ output$plot_geo_lm_1 <-
   ##### 1.7. Youth not in employment, education or training (NEET) ----
   output$plot_cma_lm_7 <-
     func_plot_2(df = "youthDT_cma")
-  
-  ##### 1.8. Average employment income of the population ----
-  output$plot_cma_lm_8 <-
-    func_plot_2(df = "incomeDT_cma",
-                filter_var = unique(as.character(incomeDT$Indicator))[1])
-  
-  ##### 1.9. Average weekly wage of paid employees ----
-  output$plot_cma_lm_9 <-
-    func_plot_2(df = "incomeDT_cma",
-                filter_var = unique(as.character(incomeDT$Indicator))[2])
   #### 2. Civic engagement and political participation ----
   ##### 2.1. Percent of the population members of at least one civic group or organization ----
   output$plot_cma_civic_1 <-
@@ -2105,18 +2098,27 @@ output$plot_geo_lm_1 <-
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_cma_discrimination_9 <-
     func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
-  
+ #  ##### 11.1. Average employment income of the population ----
+ #  output$plot_cma_lm_1 <-
+ #    func_plot_2(df = "incomeDT_cma",
+ #                filter_var = unique(as.character(incomeDT$Indicator))[1])
+ #  
+ # ##### 11.2. Average weekly wage of paid employees ----
+ #  output$plot_cma_lm_2 <-
+ #    func_plot_2(df = "incomeDT_cma",
+ #                filter_var = unique(as.character(incomeDT$Indicator))[2])
+ #  
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
-  output$map <- renderPlotly(
-    ggplotly(
-        ggplot(youthDT) +
-        geom_sf(
-          aes(
-            fill = Geography,geometry = geometry)) +
-        ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
-    )
-    
-  )
+  # output$map <- renderPlotly(
+  #   ggplotly(
+  #       ggplot(youthDT) +
+  #       geom_sf(
+  #         aes(
+  #           fill = Geography,geometry = geometry)) +
+  #       ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
+  #   )
+  #   
+  # )
 }
 
 # All together now ----
