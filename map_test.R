@@ -20,23 +20,24 @@ server <- function(input, output, session) {
   #'NOTE [created this smaller dataset to test map feasibility]
   test <- 
     educationDT %>% 
-    filter(Year == "2016",
+    filter(
+      Year == "2016",
            Sex == "Females",
            Age == "15 to 64 years",
            Language == "English only",
            Immigration == "Immigrants",
-           VisMin == "Black",
-           Indicator == "Population with no certificate, diploma or degree")
+            VisMin == "Black",
+           Indicator == "Population with no certificate, diploma or degree")                                           
   test <- test[c(1:8), ]
   
   output$map <- 
     renderPlotly(ggplotly({
       ggplot(test) +
-        geom_sf(aes(fill = Value, geometry = geometry)) +
+        geom_sf(aes(fill = Value)) +
         ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
     }))
 
 }
-
+#, geometry = geometry
 # All together now ----
 shinyApp(ui, server)

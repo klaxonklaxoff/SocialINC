@@ -1143,62 +1143,62 @@ ui <-
             ),
               #' #### 2.11. Income and wealth ----
               #' #'NOTE [incomeDT]
-              #' conditionalPanel(
-              #'   condition =
-              #'     "input.indicator_1 == 'Average employment income of the population'
-              #'  || input.indicator_1 == 'Average weekly wage of paid employees'",
-              #'  #'NOTE [indicators 1:2/8]
-              #'  ###### Visible Minority ----
-              #'  #'NOTE [this is the focal variable for this tab]
-              #'  pickerInput(
-              #'    inputId = "lm_income_vismin", # name this for the server
-              #'    label = "Choose a visible minority status", # label of filter
-              #'    choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
-              #'    multiple = TRUE, # multi-select
-              #'    selected = as.character(unique(incomeDT$VisMin))[1],
-              #'    options = list(
-              #'      `actions-box` = TRUE,
-              #'      `deselect-all-text` = "Deselect all",
-              #'      `select-all-text` = "Select all"
-              #'    )),
-              #'  ###### Year ----
-              #'  pickerInput(
-              #'    inputId = "lm_income_year", # name this for the server
-              #'    label = "Choose a year", # label of filter
-              #'    choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
-              #'    selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
-              #'    multiple = TRUE), # multi-select
-              #'  ###### Degree ----
-              #'  selectizeInput(
-              #'    inputId = "lm_income_degree",
-              #'    label = "Choose a highest certificate, diploma or degree",
-              #'    choices = unique(as.character(incomeDT$Degree))
-              #'  ),
-              #'  ###### Geography ----
-              #'  selectizeInput(
-              #'    inputId = "lm_income_geography",
-              #'    label = "Choose a geography",
-              #'    choices = unique(as.character(incomeDT$Geography))
-              #'  ),
-              #'  ###### Immigration ----
-              #'  selectizeInput(
-              #'    inputId = "lm_income_immigration",
-              #'    label = "Choose an immigrant or generation status",
-              #'    choices = unique(as.character(incomeDT$Immigration))
-              #'  ),
-              #'  ###### Age ----
-              #'  selectizeInput(
-              #'    inputId = "lm_income_age",
-              #'    label = "Choose an age group or first official language spoken",
-              #'    choices = unique(as.character(incomeDT$Age))
-              #'  ),
-              #'  ###### Sex ----
-              #'  selectizeInput(
-              #'    inputId = "lm_income_sex",
-              #'    label = "Choose a sex",
-              #'    choices = unique(as.character(incomeDT$Sex))
-              #'  )
-              #' ),
+              conditionalPanel(
+                condition =
+                  "input.indicator_1 == 'Average employment income of the population'
+               || input.indicator_1 == 'Average weekly wage of paid employees'",
+               #'NOTE [indicators 1:2/8]
+               ###### Visible Minority ----
+               #'NOTE [this is the focal variable for this tab]
+               pickerInput(
+                 inputId = "lm_income_vismin", # name this for the server
+                 label = "Choose a visible minority status", # label of filter
+                 choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
+                 multiple = TRUE, # multi-select
+                 selected = as.character(unique(incomeDT$VisMin))[1],
+                 options = list(
+                   `actions-box` = TRUE,
+                   `deselect-all-text` = "Deselect all",
+                   `select-all-text` = "Select all"
+                 )),
+               ###### Year ----
+               pickerInput(
+                 inputId = "lm_income_year", # name this for the server
+                 label = "Choose a year", # label of filter
+                 choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
+                 selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
+                 multiple = TRUE), # multi-select
+               ###### Degree ----
+               selectizeInput(
+                 inputId = "lm_income_degree",
+                 label = "Choose a highest certificate, diploma or degree",
+                 choices = unique(as.character(incomeDT$Degree))
+               ),
+               ###### Geography ----
+               selectizeInput(
+                 inputId = "lm_income_geography",
+                 label = "Choose a geography",
+                 choices = unique(as.character(incomeDT$Geography))
+               ),
+               ###### Immigration ----
+               selectizeInput(
+                 inputId = "lm_income_immigration",
+                 label = "Choose an immigrant or generation status",
+                 choices = unique(as.character(incomeDT$Immigration))
+               ),
+               ###### Age ----
+               selectizeInput(
+                 inputId = "lm_income_age",
+                 label = "Choose an age group or first official language spoken",
+                 choices = unique(as.character(incomeDT$Age))
+               ),
+               ###### Sex ----
+               selectizeInput(
+                 inputId = "lm_income_sex",
+                 label = "Choose a sex",
+                 choices = unique(as.character(incomeDT$Sex))
+               )
+              ),
             
           ), # sidebarPanel closing bracket // should be blue
 
@@ -2168,29 +2168,29 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            #' #### 11. Income and wealth ----
-            #' #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
-            #' ##### 11.1. Average employment income of the population ----
-            #' conditionalPanel(
-            #'   condition = "input.indicator_1 == 'Average employment income of the population'",
-            #'   br(),
-            #'   br(),
-            #'   plotlyOutput("plot_vm_lm_1",
-            #'                inline = TRUE),
-            #'   br(),
-            #'   helpText(source_census_nhs_census)
-            #' ),
-            #' 
-            #' ##### 11.2. Average weekly wage of paid employees ----
-            #' conditionalPanel(
-            #'   condition = "input.indicator_1 == 'Average weekly wage of paid employees'",
-            #'   br(),
-            #'   br(),
-            #'   plotlyOutput("plot_vm_lm_2",
-            #'                inline = TRUE),
-            #'   br(),
-            #'   helpText(source_census_nhs_census)
-            #' ),
+            #### 11. Income and wealth ----
+            #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
+            ##### 11.1. Average employment income of the population ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Average employment income of the population'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_inc_1",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
+
+            ##### 11.2. Average weekly wage of paid employees ----
+            conditionalPanel(
+              condition = "input.indicator_1 == 'Average weekly wage of paid employees'",
+              br(),
+              br(),
+              plotlyOutput("plot_vm_inc_2",
+                           inline = TRUE),
+              br(),
+              helpText(source_census_nhs_census)
+            ),
 
           ) # Main panel closing bracket // should be blue
 
@@ -2249,51 +2249,51 @@ ui <-
               #   `select-all-text` = "Select all"
               # )
               ),
-            # ###### Degree ----
-            # selectizeInput(
-            #   inputId = "lm_degree_geo",
-            #   label = "Choose a highest certificate, diploma or degree",
-            #   choices = unique(as.character(rateDT$Degree))
-            # ),
-            # ###### Year ----
-            # pickerInput(
-            #   inputId = "lm_year_geo", # name this for the server
-            #   label = "Choose a year", # label of filter
-            #   choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
-            #   selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
-            #   multiple = TRUE), # multi-select
-            ###### Geography ----
+            ###### Degree ----
+            selectizeInput(
+              inputId = "lm_degree_geo",
+              label = "Choose a highest certificate, diploma or degree",
+              choices = unique(as.character(rateDT$Degree))
+            ),
+            ###### Year ----
+            pickerInput(
+              inputId = "lm_year_geo", # name this for the server
+              label = "Choose a year", # label of filter
+              choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
+              selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
+              multiple = TRUE), # multi-select
+            ##### Geography ----
             #'NOTE [this is the focal variable for this tab]
             pickerInput(
               inputId = "lm_geography_geo",
               label = "Choose a geography",
-              choices = as.character(unique((rateDT$Geography))),
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = as.character(unique(rateDT$Geography))[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
                 `select-all-text` = "Select all"
               ),
             ),
-            # ###### Immigration ----
-            # selectizeInput(
-            #   inputId = "lm_immigration_geo",
-            #   label = "Choose an immigrant or generation status",
-            #   choices = unique(as.character(rateDT$Immigration))
-            # ),
-            # ###### Age ----
-            # selectizeInput(
-            #   inputId = "lm_age_geo",
-            #   label = "Choose an age group or first official language spoken",
-            #   choices = unique(as.character(rateDT$Age))
-            # ),
-            # ###### Sex ----
-            # selectizeInput(
-            #   inputId = "lm_sex_geo",
-            #   label = "Choose a sex",
-            #   choices = unique(as.character(rateDT$Sex))
-            # ),
+            ###### Immigration ----
+            selectizeInput(
+              inputId = "lm_immigration_geo",
+              label = "Choose an immigrant or generation status",
+              choices = unique(as.character(rateDT$Immigration))
+            ),
+            ###### Age ----
+            selectizeInput(
+              inputId = "lm_age_geo",
+              label = "Choose an age group or first official language spoken",
+              choices = unique(as.character(rateDT$Age))
+            ),
+            ###### Sex ----
+            selectizeInput(
+              inputId = "lm_sex_geo",
+              label = "Choose a sex",
+              choices = unique(as.character(rateDT$Sex))
+            ),
           )
           ),
 
@@ -3038,48 +3038,48 @@ ui <-
                 pickerInput(
                   inputId = "basic_geography_cma",
                   label = "Choose a geography",
-                  choices = as.character(unique((representationDT$Geography))),
+                  choices = as.character(unique((healthDT$Geography))),
                   multiple = TRUE,# multi-select
-                  selected = as.character(unique(representationDT$Geography))[1],
+                  selected = as.character(unique(healthDT$Geography))[1],
                   options = list(
                     `actions-box` = TRUE,
                     `deselect-all-text` = "Deselect all",
                     `select-all-text` = "Select all"
                   ),
                 ),
-                ###### Visible Minority ----
-                pickerInput(
-                  inputId = "basic_vismin_cma", # name this for the server
-                  label = "Choose a visible minority status", # label of filter
-                  choices = vm_10, # create drop-down list option
-                  selected = vm_10[1],
-                  # multiple = TRUE,# multi-select
-                  # options = list(
-                  #   `actions-box` = TRUE,
-                  #   `deselect-all-text` = "Deselect all",
-                  #   `select-all-text` = "Select all"
-                  # )
-                ),
+                # ###### Visible Minority ----
+                # pickerInput(
+                #   inputId = "basic_vismin_cma", # name this for the server
+                #   label = "Choose a visible minority status", # label of filter
+                #   choices = vm_10, # create drop-down list option
+                #   selected = vm_10[1],
+                #   # multiple = TRUE,# multi-select
+                #   # options = list(
+                #   #   `actions-box` = TRUE,
+                #   #   `deselect-all-text` = "Deselect all",
+                #   #   `select-all-text` = "Select all"
+                #   # )
+                # ),
                 ###### Year ----
                 pickerInput(
                   inputId = "basic_year_cma", # name this for the server
                   label = "Choose a year", # label of filter
-                  choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
-                  selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
+                  choices = sort(unique(healthDT$Year), decreasing = TRUE), # create drop-down list option
+                  selected = sort(unique(healthDT$Year), decreasing = TRUE)[1],
                   multiple = TRUE), # multi-select
                 ##### Selected sociodemographic characteristics ----
                 selectizeInput(
                   inputId = "basic_sociodem_cma",
                   label = "Choose a sociodemographic characteristic",
-                  choices = unique(as.character(basicDT$char_type))
+                  choices = unique(as.character(healthDT$char_type))
                 ),
-                ###### Age ----
+                ###### Visible minority status ----
                 conditionalPanel(
-                  condition = "input.basic_sociodem_cma == 'Age'",
+                  condition = "input.basic_sociodem_cma == 'Visible minority status'",
                   selectizeInput(
-                    inputId = "basic_age_cma",
-                    label = "Choose an age group",
-                    choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Age"])
+                    inputId = "basic_vismin_cma",
+                    label = "Choose a visible minority status",
+                    choices = unique(as.character(healthDT$Characteristic)[healthDT$char_type == "Visible minority status"])
                   )
                 ),
                 ###### Gender ----
@@ -3088,7 +3088,7 @@ ui <-
                   selectizeInput(
                     inputId = "basic_sex_cma",
                     label = "Choose a gender",
-                    choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Gender"])
+                    choices = unique(as.character(healthDT$Characteristic)[healthDT$char_type == "Gender"])
                   )
                 ),
                 ###### Immigration Status ----
@@ -3097,14 +3097,14 @@ ui <-
                   selectizeInput(
                     inputId = "basic_immigration_cma",
                     label = "Choose an immigration status",
-                    choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Immigration Status"])
+                    choices = unique(as.character(healthDT$Characteristic)[healthDT$char_type == "Immigration Status"])
                   )
                 ),
                 ##### Confidence Interval ----
                 selectizeInput(
                   inputId = "basic_conf_interval_cma",
                   label = "Choose a confidence interval",
-                  choices = unique(as.character(basicDT$Confidence))
+                  choices = unique(as.character(healthDT$Confidence))
                 )
               ),
               #### 2.5. Local community ----
@@ -3526,69 +3526,69 @@ ui <-
                   choices = unique(as.character(discriminationDT$Confidence))
                 )
               ),
-              #' #### 2.11. Income and wealth ----
-              #' #'NOTE [incomeDT]
-              #' conditionalPanel(
-              #'   condition =
-              #'     "input.indicator_3 == 'Average employment income of the population'
-              #'   || input.indicator_3 == 'Average weekly wage of paid employees'",
-              #' #'NOTE [indicators :2/8]
-              #' 
-              #' ###### Geography ----
-              #' #'  NOTE [this is the focal variable for this tab]
-              #' pickerInput(
-              #'   inputId = "lm_income_geography_cma",
-              #'   label = "Choose a geography",
-              #'   choices = as.character(unique((incomeDT$Geography))),
-              #'   multiple = TRUE,# multi-select
-              #'   selected = as.character(unique(incomeDT$Geography))[1],
-              #'   options = list(
-              #'     `actions-box` = TRUE,
-              #'     `deselect-all-text` = "Deselect all",
-              #'     `select-all-text` = "Select all"
-              #'   ),
-              #' ),
-              #' ###### Visible Minority ----
-              #' #'NOTE [this is the focal variable for this tab]
-              #' selectizeInput(
-              #'   inputId = "lm_income_vismin_cma", # name this for the server
-              #'   label = "Choose a visible minority status", # label of filter
-              #'   choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
-              #'   selected = as.character(unique(incomeDT$VisMin))[1],
-              #'   ),
-              #' ###### Year ----
-              #' pickerInput(
-              #'   inputId = "lm_income_year_cma", # name this for the server
-              #'   label = "Choose a year", # label of filter
-              #'   choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
-              #'   selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
-              #'   multiple = TRUE), # multi-select
-              #' ###### Degree ----
-              #' selectizeInput(
-              #'   inputId = "lm_income_degree_cma",
-              #'   label = "Choose a highest certificate, diploma or degree",
-              #'   choices = unique(as.character(incomeDT$Degree))
-              #' ),
-              #' ###### Immigration ----
-              #' selectizeInput(
-              #'   inputId = "lm_income_immigration_cma",
-              #'   label = "Choose an immigrant or generation status",
-              #'   choices = unique(as.character(incomeDT$Immigration))
-              #' ),
-              #' ###### Age ----
-              #' selectizeInput(
-              #'   inputId = "lm_income_age_cma",
-              #'   label = "Choose an age group or first official language spoken",
-              #'   choices = unique(as.character(incomeDT$Age))
-              #' ),
-              #' ###### Sex ----
-              #' selectizeInput(
-              #'   inputId = "lm_income_sex_cma",
-              #'   label = "Choose a sex",
-              #'   choices = unique(as.character(incomeDT$Sex))
-              #' )
-              #' ),
-              #' 
+              #### 2.11. Income and wealth ----
+              #'NOTE [incomeDT]
+              conditionalPanel(
+                condition =
+                  "input.indicator_3 == 'Average employment income of the population'
+                || input.indicator_3 == 'Average weekly wage of paid employees'",
+              #'NOTE [indicators :2/8]
+
+              ###### Geography ----
+              #'  NOTE [this is the focal variable for this tab]
+              pickerInput(
+                inputId = "lm_income_geography_cma",
+                label = "Choose a geography",
+                choices = cma_filter,
+                multiple = TRUE,# multi-select
+                selected = cma_filter[1],
+                options = list(
+                  `actions-box` = TRUE,
+                  `deselect-all-text` = "Deselect all",
+                  `select-all-text` = "Select all"
+                ),
+              ),
+              ###### Visible Minority ----
+              #'NOTE [this is the focal variable for this tab]
+              selectizeInput(
+                inputId = "lm_income_vismin_cma", # name this for the server
+                label = "Choose a visible minority status", # label of filter
+                choices = as.character(unique(incomeDT$VisMin)), # create drop-down list option
+                selected = as.character(unique(incomeDT$VisMin))[1],
+                ),
+              ###### Year ----
+              pickerInput(
+                inputId = "lm_income_year_cma", # name this for the server
+                label = "Choose a year", # label of filter
+                choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
+              ###### Degree ----
+              selectizeInput(
+                inputId = "lm_income_degree_cma",
+                label = "Choose a highest certificate, diploma or degree",
+                choices = unique(as.character(incomeDT$Degree))
+              ),
+              ###### Immigration ----
+              selectizeInput(
+                inputId = "lm_income_immigration_cma",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(incomeDT$Immigration))
+              ),
+              ###### Age ----
+              selectizeInput(
+                inputId = "lm_income_age_cma",
+                label = "Choose an age group or first official language spoken",
+                choices = unique(as.character(incomeDT$Age))
+              ),
+              ###### Sex ----
+              selectizeInput(
+                inputId = "lm_income_sex_cma",
+                label = "Choose a sex",
+                choices = unique(as.character(incomeDT$Sex))
+              )
+              ),
+
             ),
               ### Main panel ----
               mainPanel(
@@ -3613,7 +3613,7 @@ ui <-
                   condition = "input.indicator_3 == 'Working-age population in the labour force (participation rate)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_1", 
+                  plotlyOutput("plot_cma_lm_1",height = 750, 
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3624,7 +3624,7 @@ ui <-
                   condition = "input.indicator_3 == 'Working-age population in employment (employment rate)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_2", 
+                  plotlyOutput("plot_cma_lm_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3635,7 +3635,7 @@ ui <-
                   condition = "input.indicator_3 == 'Working-age population in unemployment (unemployment rate)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_3",
+                  plotlyOutput("plot_cma_lm_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3646,7 +3646,7 @@ ui <-
                   condition = "input.indicator_3 == 'Workers working mainly full-time weeks in the previous year'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_4",
+                  plotlyOutput("plot_cma_lm_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3656,7 +3656,7 @@ ui <-
                   condition = "input.indicator_3 == 'Self-employed workers in the labour force (unincorporated)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_5",
+                  plotlyOutput("plot_cma_lm_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3667,7 +3667,7 @@ ui <-
                   condition = "input.indicator_3 == 'Overqualified workers with a university degree'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_6",
+                  plotlyOutput("plot_cma_lm_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs)
@@ -3678,29 +3678,7 @@ ui <-
                   condition = "input.indicator_3 == 'Youth not in employment, education or training (NEET)'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_lm_7",
-                               inline = TRUE),
-                  br(),
-                  helpText(source_census_nhs_census)
-                ),
-                
-                ##### 1.8. Average employment income of the population ----
-                conditionalPanel(
-                  condition = "input.indicator_3 == 'Average employment income of the population'",
-                  br(),
-                  br(),
-                  plotlyOutput("plot_cma_lm_8",
-                               inline = TRUE),
-                  br(),
-                  helpText(source_census_nhs_census)
-                ),
-                
-                ##### 1.9. Average weekly wage of paid employees ----
-                conditionalPanel(
-                  condition = "input.indicator_3 == 'Average weekly wage of paid employees'",
-                  br(),
-                  br(),
-                  plotlyOutput("plot_cma_lm_9",
+                  plotlyOutput("plot_cma_lm_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3711,7 +3689,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members of at least one civic group or organization'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_1",
+                  plotlyOutput("plot_cma_civic_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3722,7 +3700,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a sports or recreational organization'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_2",
+                  plotlyOutput("plot_cma_civic_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3733,7 +3711,7 @@ ui <-
                   condition = "input.indicator_1 == 'Percent of the population members in a cultural, educational or hobby organization'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_3",
+                  plotlyOutput("plot_cma_civic_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3744,7 +3722,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in union or professional association'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_4",
+                  plotlyOutput("plot_cma_civic_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3755,7 +3733,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a political party or group'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_5",
+                  plotlyOutput("plot_cma_civic_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3766,7 +3744,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a religious-affiliated group'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_6",
+                  plotlyOutput("plot_cma_civic_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3777,7 +3755,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a school group, neighbourhood, civic or community association'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_7",
+                  plotlyOutput("plot_cma_civic_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3788,7 +3766,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a humanitarian or charitable organization or service club'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_8",
+                  plotlyOutput("plot_cma_civic_8",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3799,7 +3777,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a seniors\\' group'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_9",
+                  plotlyOutput("plot_cma_civic_9",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3810,7 +3788,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in a youth organization'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_10",
+                  plotlyOutput("plot_cma_civic_10",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3821,7 +3799,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in an immigrant or ethnic association or club'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_11",
+                  plotlyOutput("plot_cma_civic_11",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3832,7 +3810,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population members in an environmental group'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_12",
+                  plotlyOutput("plot_cma_civic_12",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3843,7 +3821,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population engaged in political activities'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_13",
+                  plotlyOutput("plot_cma_civic_13",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3854,7 +3832,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population voting in the last federal election'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_14",
+                  plotlyOutput("plot_cma_civic_14",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3865,7 +3843,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population voting in the last provincial election'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_15",
+                  plotlyOutput("plot_cma_civic_15",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3876,7 +3854,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population voting in the last municipal election'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_civic_16",
+                  plotlyOutput("plot_cma_civic_16",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -3887,7 +3865,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of workers in all management occupations'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_rep_1",
+                  plotlyOutput("plot_cma_rep_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3898,7 +3876,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of workers in senior management occupations'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_rep_2",
+                  plotlyOutput("plot_cma_rep_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3910,7 +3888,7 @@ ui <-
                 #   condition = "input.indicator_1 == 'Percent of workers in specialized middle management occupations'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_vm_rep_3",
+                #   plotlyOutput("plot_vm_rep_3",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -3921,7 +3899,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of workers in other middle management occupations'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_rep_4",
+                  plotlyOutput("plot_cma_rep_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -3933,7 +3911,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population living in a dwelling owned by one member of the household'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_basic_1",
+                #   plotlyOutput("plot_cma_basic_1",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_cchs)
@@ -3944,7 +3922,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population living in core need household'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_basic_2",
+                #   plotlyOutput("plot_cma_basic_2",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_cchs)
@@ -3955,7 +3933,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population living in suitable housing'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_basic_3",
+                #   plotlyOutput("plot_cma_basic_3",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_cchs)
@@ -3966,7 +3944,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population living in an affordable housing'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_basic_4",
+                #   plotlyOutput("plot_cma_basic_4",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_cchs)
@@ -3977,7 +3955,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population living in a food-secure household'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_basic_5",
+                  plotlyOutput("plot_cma_basic_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -3988,7 +3966,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population living in a household with marginal food security'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_basic_6",
+                  plotlyOutput("plot_cma_basic_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -3999,7 +3977,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population living in a food-insecure household, moderate or severe'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_basic_7",
+                  plotlyOutput("plot_cma_basic_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4010,7 +3988,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population living in a household with moderate food insecurity'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_basic_8",
+                  plotlyOutput("plot_cma_basic_8",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4021,7 +3999,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population living in a household with severe food insecurity'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_basic_9",
+                  plotlyOutput("plot_cma_basic_9",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4035,7 +4013,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting very good or excellent general health'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_1",
+                  plotlyOutput("plot_cma_health_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4046,7 +4024,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting fair or poor general health'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_2",
+                  plotlyOutput("plot_cma_health_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4057,7 +4035,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting very good or excellent mental health'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_3",
+                  plotlyOutput("plot_cma_health_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4068,7 +4046,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting fair or poor mental health'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_4",
+                  plotlyOutput("plot_cma_health_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4079,7 +4057,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting their life stressful'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_5",
+                  plotlyOutput("plot_cma_health_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4089,7 +4067,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting life satisfaction, satisfied or very satisfied'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_6",
+                  plotlyOutput("plot_cma_health_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4100,7 +4078,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting having a regular healthcare provider'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_7",
+                  plotlyOutput("plot_cma_health_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4110,7 +4088,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting no need for mental health care'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_8",
+                  plotlyOutput("plot_cma_health_8",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4120,7 +4098,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting all needs met for mental health care'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_9",
+                  plotlyOutput("plot_cma_health_9",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4131,7 +4109,7 @@ ui <-
                   br(),
                   br(),
                   plotlyOutput("plot_cma_health_10",
-                               inline = TRUE),
+                               inline = TRUE),height = 750,
                   br(),
                   helpText(source_cchs)
                 ),
@@ -4140,7 +4118,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting needs partially met or needs not met for mental health care'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_11",
+                  plotlyOutput("plot_cma_health_11",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4150,7 +4128,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting needs not met for mental health care'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_12",
+                  plotlyOutput("plot_cma_health_12",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4160,7 +4138,7 @@ ui <-
                   condition = "input.indicator_3 == 'Percent of the population reporting unmet health care needs'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_health_13",
+                  plotlyOutput("plot_cma_health_13",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_cchs)
@@ -4171,7 +4149,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in Federal Parliament'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_1",
+                  plotlyOutput("plot_cma_public_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4182,7 +4160,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing Confidence in the Canadian media'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_2",
+                  plotlyOutput("plot_cma_public_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4193,7 +4171,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in the school system'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_3",
+                  plotlyOutput("plot_cma_public_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4204,7 +4182,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in the justice system and courts'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_4",
+                  plotlyOutput("plot_cma_public_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4215,7 +4193,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in the police service'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_5",
+                  plotlyOutput("plot_cma_public_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4226,7 +4204,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in major corporations'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_6",
+                  plotlyOutput("plot_cma_public_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4237,7 +4215,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in merchants and local business people'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_7",
+                  plotlyOutput("plot_cma_public_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4248,7 +4226,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population expressing confidence in banks'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_public_8",
+                  plotlyOutput("plot_cma_public_8",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4259,7 +4237,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with no certificate, diploma or degree'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_1",
+                  plotlyOutput("plot_cma_education_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4270,7 +4248,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with high school diploma or equivalency certificate'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_2",
+                  plotlyOutput("plot_cma_education_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4280,7 +4258,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with postsecondary certificate or diploma below bachelor level'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_3",
+                  plotlyOutput("plot_cma_education_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4290,7 +4268,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with university certificate or diploma above bachelor level'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_4",
+                  plotlyOutput("plot_cma_education_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4300,7 +4278,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with bachelor\\'s degree'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_5",
+                  plotlyOutput("plot_cma_education_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4310,7 +4288,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population with university certificate or diploma or degree at bachelor level or above'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_education_6",
+                  plotlyOutput("plot_cma_education_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4321,7 +4299,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population living alone'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_1",
+                #   plotlyOutput("plot_cma_social_1",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4332,7 +4310,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Median size of a personal local network with close ties'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_2",
+                #   plotlyOutput("plot_cma_social_2",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4343,7 +4321,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Average size of a local personal network with close ties'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_3",
+                #   plotlyOutput("plot_cma_social_3",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4354,7 +4332,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal close-ties network of 10 or more people'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_4",
+                #   plotlyOutput("plot_cma_social_4",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4365,7 +4343,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal close-ties network of 5 or more relatives'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_5",
+                #   plotlyOutput("plot_cma_social_5",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4376,7 +4354,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal close-ties network of 5 or more friends'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_6",
+                #   plotlyOutput("plot_cma_social_6",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4387,7 +4365,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with no personal network with weak ties'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_7",
+                #   plotlyOutput("plot_cma_social_7",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4398,7 +4376,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal weak-ties network of 1 to 19 people'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_8",
+                #   plotlyOutput("plot_cma_social_8",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4409,7 +4387,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal weak-ties network of 20 or more people'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_9",
+                #   plotlyOutput("plot_cma_social_9",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4420,7 +4398,7 @@ ui <-
                 #   condition = "input.indicator_3 == 'Percent of the population with a personal ethnically-diverse network'",
                 #   br(),
                 #   br(),
-                #   plotlyOutput("plot_cma_social_10",
+                #   plotlyOutput("plot_cma_social_10",height = 750,
                 #                inline = TRUE),
                 #   br(),
                 #   helpText(source_census_nhs_census)
@@ -4430,7 +4408,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population reporting that most people can be trusted'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_social_11",
+                  plotlyOutput("plot_cma_social_11",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4440,7 +4418,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population reporting strong sense of belonging to their local community'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_social_12",
+                  plotlyOutput("plot_cma_social_12",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4450,7 +4428,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population reporting strong sense of belonging to their town or city'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_social_13",
+                  plotlyOutput("plot_cma_social_13",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4460,7 +4438,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population reporting strong sense of belonging to their province'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_social_14",
+                  plotlyOutput("plot_cma_social_14",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4470,7 +4448,7 @@ ui <-
                   condition = "input.indicator_3 == 'Population reporting strong sense of belonging to Canada'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_social_15",
+                  plotlyOutput("plot_cma_social_15",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_census_nhs_census)
@@ -4482,7 +4460,7 @@ ui <-
                   condition = "input.indicator_3 == 'Experience(s) of discrimination'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_1",
+                  plotlyOutput("plot_cma_discrimination_1",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4493,7 +4471,7 @@ ui <-
                   condition = "input.indicator_3 == 'Experience(s) of discrimination based on ethnicity or culture'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_2",
+                  plotlyOutput("plot_cma_discrimination_2",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4504,7 +4482,7 @@ ui <-
                   condition = "input.indicator_3 == 'Experience(s) of discrimination based on race or colour'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_3",
+                  plotlyOutput("plot_cma_discrimination_3",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4515,7 +4493,7 @@ ui <-
                   condition = "input.indicator_3 == 'Experience(s) of discrimination based on religion'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_4",
+                  plotlyOutput("plot_cma_discrimination_4",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4526,7 +4504,7 @@ ui <-
                   condition = "input.indicator_3 == 'Experience(s) of discrimination based on language'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_5",
+                  plotlyOutput("plot_cma_discrimination_5",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4537,7 +4515,7 @@ ui <-
                   condition = "input.indicator_3 == 'Discrimination at work or when applying for a job or promotion'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_6",
+                  plotlyOutput("plot_cma_discrimination_6",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4548,7 +4526,7 @@ ui <-
                   condition = "input.indicator_3 == 'Discrimination when dealing with the police'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_7",
+                  plotlyOutput("plot_cma_discrimination_7",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4559,7 +4537,7 @@ ui <-
                   condition = "input.indicator_3 == 'Discrimination when in a store, bank or restaurant'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_8",
+                  plotlyOutput("plot_cma_discrimination_8",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
@@ -4570,35 +4548,35 @@ ui <-
                   condition = "input.indicator_3 == 'Discrimination when attending school or classes'",
                   br(),
                   br(),
-                  plotlyOutput("plot_cma_discrimination_9",
+                  plotlyOutput("plot_cma_discrimination_9",height = 750,
                                inline = TRUE),
                   br(),
                   helpText(source_gss)
                 ),
-                #' #### 11. Income and wealth ----
-                #' #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
-                #' ##### 11.1. Average employment income of the population ----
-                #' conditionalPanel(
-                #'   condition = "input.indicator_3 == 'Average employment income of the population'",
-                #'   br(),
-                #'   br(),
-                #'   plotlyOutput("plot_cma_lm_1",
-                #'                inline = TRUE),
-                #'   br(),
-                #'   helpText(source_census_nhs_census)
-                #' ),
-                #' 
-                #' ##### 11.2. Average weekly wage of paid employees ----
-                #' conditionalPanel(
-                #'   condition = "input.indicator_3 == 'Average weekly wage of paid employees'",
-                #'   br(),
-                #'   br(),
-                #'   plotlyOutput("plot_cma_lm_2",
-                #'                inline = TRUE),
-                #'   br(),
-                #'   helpText(source_census_nhs_census)
-                #' ),
-                
+                #### 11. Income and wealth ----
+                #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
+                ##### 11.1. Average employment income of the population ----
+                conditionalPanel(
+                  condition = "input.indicator_3 == 'Average employment income of the population'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_inc_1",height = 750,
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
+                ##### 11.2. Average weekly wage of paid employees ----
+                conditionalPanel(
+                  condition = "input.indicator_3 == 'Average weekly wage of paid employees'",
+                  br(),
+                  br(),
+                  plotlyOutput("plot_cma_inc_2",height = 750,
+                               inline = TRUE),
+                  br(),
+                  helpText(source_census_nhs_census)
+                ),
+
         ), # Main panel closing bracket // should be blue
         ),
       ),

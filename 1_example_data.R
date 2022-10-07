@@ -52,29 +52,103 @@ geo_filter <-
     "British Columbia",
     "Canada, selected police services",
     "Canada (selected provinces - see notes)",
+    
     "Toronto, Ontario",
     "Montréal, Quebec",
     "Vancouver, British Columbia",
     "Ottawa–Gatineau, Ontario/Quebec",
+    "Ottawa–Gatineau, Ontario part, Ontario/Quebec",
+    "Ottawa–Gatineau, Quebec part, Ontario/Quebec",
     "Calgary, Alberta",
     "Edmonton, Alberta",
     "Quebec, Quebec",
     "Winnipeg, Manitoba",
     "Hamilton, Ontario",
     "Kitchener–Cambridge–Waterloo, Ontario",
-    "London, Ontario"
+    "London, Ontario",
+    "Halifax, Nova Scotia",
+    "Abbotsford–Mission, British Columbia",
+    "Sherbrooke, Quebec",
+    "Regina, Saskatchewan",
+    "Saskatoon, Saskatchewan",
+    "Victoria, British Columbia",
+    "St. Catharines–Niagara, Ontario",
+    "St. John's, Newfoundland and Labrador",
+    "Windsor, Ontario",
+    "Barrie, Ontario",
+    "Kingston, Ontario",
+    "Oshawa, Ontario",
+    "Greater Sudbury, Ontario",
+    "Guelph, Ontario",
+    "Saguenay, Quebec",
+    "Trois-Rivières, Quebec",
+    "Moncton, New Brunswick",
+    "Brantford, Ontario",
+    "Saint John, New Brunswick",
+    "Peterborough, Ontario",
+    "Lethbridge, Alberta",
+    "Thunder Bay, Ontario",
+    "Kelowna, British Columbia"
   ) # can only retrieve at the provincial level because otherwise it costs too much memory
+prov_region_filter <- c(
+    "Canada",
+    "Newfoundland and Labrador",
+    "Prince Edward Island",
+    "Nova Scotia",
+    "New Brunswick",
+    "Quebec region",
+    "Ontario region",
+    "Manitoba",
+    "Saskatchewan",
+    "Alberta",
+    "British Columbia region",
+    "Northwest Territories",
+    "Yukon",
+    "Nunavut",
+    "Atlantic provinces",
+    "Ontario",
+    "Quebec",
+    "Prairie provinces",
+    "British Columbia",
+    "Canada, selected police services",
+    "Canada (selected provinces - see notes)"
+    )
 cma_filter <- c("Toronto, Ontario",
                 "Montréal, Quebec",
                 "Vancouver, British Columbia",
                 "Ottawa–Gatineau, Ontario/Quebec",
+                "Ottawa–Gatineau, Ontario part, Ontario/Quebec",
+                "Ottawa–Gatineau, Quebec part, Ontario/Quebec",
                 "Calgary, Alberta",
                 "Edmonton, Alberta",
                 "Quebec, Quebec",
                 "Winnipeg, Manitoba",
                 "Hamilton, Ontario",
                 "Kitchener–Cambridge–Waterloo, Ontario",
-                "London, Ontario")
+                "London, Ontario",
+                "Halifax, Nova Scotia",
+                "Abbotsford–Mission, British Columbia",
+                "Sherbrooke, Quebec",
+                "Regina, Saskatchewan",
+                "Saskatoon, Saskatchewan",
+                "Victoria, British Columbia",
+                "St. Catharines–Niagara, Ontario",
+                "St. John's, Newfoundland and Labrador",
+                "Windsor, Ontario",
+                "Barrie, Ontario",
+                "Kingston, Ontario",
+                "Oshawa, Ontario",
+                "Greater Sudbury, Ontario",
+                "Guelph, Ontario",
+                "Saguenay, Quebec",
+                "Trois-Rivières, Quebec",
+                "Moncton, New Brunswick",
+                "Brantford, Ontario",
+                "Saint John, New Brunswick",
+                "Peterborough, Ontario",
+                "Lethbridge, Alberta",
+                "Thunder Bay, Ontario",
+                "Kelowna, British Columbia")
 #' NOTE [you can use names() and unique() to figure out stuff about the data]
 df_list <-
   list.files("./_tempdata/", ".*\\.parquet$", ignore.case = TRUE) %>%
@@ -87,17 +161,16 @@ df_list <-
   )) %>%
   unlist()
 #Shapefile-----
-canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
-canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
-#View(canada_shapefile)
+# canada_shapefile <- st_read("lpr_000b21a_e.shp")%>% select(c("PRENAME","DGUID" ,"geometry","LANDAREA"))
+# canada_shapefile <- rename (canada_shapefile,Geography = PRENAME)
 
-### Filter data--it's too much to hande ----
+#' ### Filter data--it's too much to hande ----
 #'NOTE [make sure the working directory is pointing to the right location]
 for (i in df_list) {
   assign(i, {
-    read_parquet(file = paste0("./_tempdata/", i, ".parquet")) %>%
-      filter(Geography %in% geo_filter)%>% merge(y = canada_shapefile, by = "Geography" )
-    #filter(Geography %in% geo_filter)
+    read_parquet(file = paste0("./_tempdata/", i, ".parquet"))
+
+       # %>%filter(Geography %in% geo_filter)%>% merge(y = canada_shapefile, by = "Geography" )
   })
 }
 
@@ -237,32 +310,32 @@ polData <-
     "Race or ethnicity"
   ))
 
-# Shapefile -----
-canada_shapefile <-
-  st_read("lpr_000b21a_e.shp") %>% 
-  select(Geography = "PRENAME", "geometry")
-#View(canada_shapefile)
-
-## Merge relevant datafiles ----
-dfs_shapefile <-
-  c(
-    "educationDT",
-    "healthDT",
-    "incomeDT",
-    "OverQualDT",
-    "OverQualDT_cma",
-    "rateDT",
-    "youthDT"
-  )
-
-for (i in dfs_shapefile) {
-  assign(i, {
-    canada_shapefile %>%
-      right_join(get(i), by = "Geography")
-  })
-}
-
-rm(dfs_shapefile)
+# # Shapefile -----
+# canada_shapefile <-
+#   st_read("lpr_000b21a_e.shp") %>%
+#   select(Geography = "PRENAME", "geometry")
+# #View(canada_shapefile)
+# 
+# ## Merge relevant datafiles ----
+# dfs_shapefile <-
+#   c(
+#     "educationDT",
+#     "healthDT",
+#     "incomeDT",
+#     "OverQualDT",
+#     "OverQualDT_cma",
+#     "rateDT",
+#     "youthDT"
+#   )
+# 
+# for (i in dfs_shapefile) {
+#   assign(i, {
+#     canada_shapefile %>%
+#       right_join(get(i), by = "Geography")
+#   })
+# }
+# 
+# rm(dfs_shapefile)
 
 ## Indicators template ----
 template <-

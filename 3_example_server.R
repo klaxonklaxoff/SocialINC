@@ -278,25 +278,25 @@ server <- function(input, output, session) {
             )
         })
     }
-    # else if (df == "incomeDT") {
-    #   # Income and wealth (incomeDT) ----
-    #   filtered_data <-
-    #     reactive({
-    #       incomeDT %>%
-    #         filter(
-    #           Indicator == filter_var,
-    #           VisMin %in% input$lm_income_vismin,
-    #           Year  %in% input$lm_income_year,
-    #           Degree == input$lm_income_degree,
-    #           Geography == input$lm_income_geography,
-    #           Immigration == input$lm_income_immigration,
-    #           Age == input$lm_income_age,
-    #           Sex == input$lm_income_sex
-    #         )
-    #     })
-    # }
+    else if (df == "incomeDT") {
+      # Income and wealth (incomeDT) ----
+      filtered_data <-
+        reactive({
+          incomeDT %>%
+            filter(
+              Indicator == filter_var,
+              VisMin %in% input$lm_income_vismin,
+              Year  %in% input$lm_income_year,
+              Degree == input$lm_income_degree,
+              Geography == input$lm_income_geography,
+              Immigration == input$lm_income_immigration,
+              Age == input$lm_income_age,
+              Sex == input$lm_income_sex
+            )
+        })
+    }
     else if (df == "confidenceDT") {
-      # Public services and institutions ----
+    # Public services and institutions -----
       filtered_data <-
         reactive({
           confidenceDT %>%
@@ -321,8 +321,8 @@ server <- function(input, output, session) {
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          width = 0.3,
-          position = position_dodge(width = 0.9),
+          width = 0.4,
+          position = position_dodge(width = 0.5),
           aes(
             x = Year,
             y = Value,
@@ -827,14 +827,14 @@ server <- function(input, output, session) {
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_vm_discrimination_9 <-
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
-  # ##### 11.1. Average employment income of the population ----
-  # output$plot_vm_lm_1 <-
-  #   func_plot_1(df = "incomeDT",
-  #               filter_var = unique(as.character(incomeDT$Indicator))[1])
-  # ##### 11.2. Average weekly wage of paid employees ----
-  # output$plot_vm_lm_2 <-
-  #   func_plot_1(df = "incomeDT",
-  #               filter_var = unique(as.character(incomeDT$Indicator))[2])
+  ##### 11.1. Average employment income of the population ----
+  output$plot_vm_inc_1 <-
+    func_plot_1(df = "incomeDT",
+                filter_var = unique(as.character(incomeDT$Indicator))[1])
+  ##### 11.2. Average weekly wage of paid employees ----
+  output$plot_vm_inc_2 <-
+    func_plot_1(df = "incomeDT",
+                filter_var = unique(as.character(incomeDT$Indicator))[2])
 
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   ## Tab 2: Geography ------
@@ -910,12 +910,12 @@ server <- function(input, output, session) {
             filter(
               Indicator == filter_var,
               VisMin == input$lm_vismin_geo,
-              #Degree == input$lm_degree_geo,
-              #Year == input$lm_year_geo,
+              Degree == input$lm_degree_geo,
+              Year %in% input$lm_year_geo,
               Geography %in% input$lm_geography_geo,
-              #Immigration == input$lm_immigration_geo,
-              #Age == input$lm_age_geo,
-              #Sex == input$lm_sex_geo
+              Immigration == input$lm_immigration_geo,
+              Age == input$lm_age_geo,
+              Sex == input$lm_sex_geo
             )
         })
     }
@@ -1096,7 +1096,7 @@ server <- function(input, output, session) {
     #         )
     #     })
     # }
-    # else if (df == "basicDT_cma") {
+    # else if (df == "basicDT_geo") {
     #   # Basic needs and housing  ----
     #   filtered_data <-
     #     reactive({
@@ -1115,7 +1115,7 @@ server <- function(input, output, session) {
     #         )
     #     })
     # }
-    # else if (df == "healthDT_cma") {
+    # else if (df == "healthDT_geo") {
     #   # Health and well being ----
     #   filtered_data <-
     #     reactive({
@@ -1171,7 +1171,7 @@ server <- function(input, output, session) {
           stat = "identity",
           position = "dodge",
           aes(
-            x = Year,
+            x = Geography,
             y = Value,
             colour = Geography,
             fill = Geography,
@@ -1182,7 +1182,7 @@ server <- function(input, output, session) {
               "Value: ",
               format(Value, big.mark = ","),
               "<br>",
-              "Year: ",
+              "Geography: ",
               Year
             )
           )
@@ -1190,7 +1190,7 @@ server <- function(input, output, session) {
         theme_minimal() +
         scale_y_continuous(labels = comma) +
         labs(
-          x = "Year",
+          x = "Geography",
           y = "Value",
           colour = "Geography",
           fill = "Geography"
@@ -1519,15 +1519,15 @@ output$plot_geo_lm_1 <-
       # Basic needs and housing  ----
       filtered_data <-
         reactive({
-          basicDT %>%
+          healthDT %>%
             filter(
               Indicator == filter_var,
-              VisMin == input$basic_vismin_cma,
+              #VisMin == input$basic_vismin_cma,
               Year %in%  input$basic_year_cma,
               Geography  %in% input$basic_geography_cma,
               Confidence == input$basic_conf_interval_cma,
               char_type == input$basic_sociodem_cma,
-              (Characteristic == input$basic_age_cma |
+              (Characteristic == input$basic_vismin_cma |
                  Characteristic == input$basic_sex_cma |
                  Characteristic == input$basic_immigration_cma
               )
@@ -1545,7 +1545,7 @@ output$plot_geo_lm_1 <-
               Geography %in% input$health_geography_cma,
               Confidence == input$health_conf_interval_cma,
               char_type == input$health_sociodem_cma,
-              (VisMin == input$health_vismin_cma|
+              (Characteristic  == input$health_vismin_cma|
                  Characteristic == input$health_sex_cma |
                  Characteristic == input$health_immigration_cma
               )
@@ -1573,30 +1573,31 @@ output$plot_geo_lm_1 <-
             )
         })
     }
-    # else if (df == "incomeDT_cma") {
-    #   # Income and wealth (incomeDT)- CMAs----
-    #   filtered_data <-
-    #     reactive({
-    #       incomeDT %>%
-    #         filter(
-    #           Indicator == filter_var,
-    #           VisMin ==  input$lm_income_vismin_cma,
-    #           Year  %in% input$lm_income_year_cma,
-    #           Degree == input$lm_income_degree_cma,
-    #           Geography %in% input$lm_income_geography_cma,
-    #           Immigration == input$lm_income_immigration_cma,
-    #           Age == input$lm_income_age_cma,
-    #           Sex == input$lm_income_sex_cma
-    #         )
-    #     })
-    # } 
-    # 
+    else if (df == "incomeDT_cma") {
+      # Income and wealth (incomeDT)- CMAs----
+      filtered_data <-
+        reactive({
+          incomeDT %>%
+            filter(
+              Indicator == filter_var,
+              VisMin ==  input$lm_income_vismin_cma,
+              Year  %in% input$lm_income_year_cma,
+              Degree == input$lm_income_degree_cma,
+              Geography %in% input$lm_income_geography_cma,
+              Immigration == input$lm_income_immigration_cma,
+              Age == input$lm_income_age_cma,
+              Sex == input$lm_income_sex_cma
+            )
+        })
+    }
+
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
           width = 0.4,
-          position = position_dodge(width = 1.5),
+          #height = 0.5,
+          position = position_dodge(width = 0.5),
           aes(
             x = Year,
             y = Value,
@@ -1814,48 +1815,48 @@ output$plot_geo_lm_1 <-
   #### 4. Basic needs and housing ----
   ##### 4.1. Percent of the population living in a dwelling owned by one member of the household ----
   # output$plot_cma_basic_1 <-
-  #   func_plot_2(df = "",
-  #             filter_var = unique(basicDT$Indicator)[])
+  #   func_plot_2(df = "basicDT_cma",
+  #             filter_var = unique(healthDT$Indicator)[])
   
   ##### 4.2. Percent of the population living in core need household ----
   # output$plot_cma_basic_2 <-
   #   func_plot_2(df = "basicDT_cma",
-  #             filter_var = unique(basicDT$Indicator)[])
+  #             filter_var = unique(healthDT$Indicator)[])
   
   ##### 4.3. Percent of the population living in suitable housing ----
   # output$plot_cma_basic_3 <-
   #   func_plot_2(df = "basicDT_cma",
-  #             filter_var = unique(basicDT$Indicator)[])
+  #             filter_var = unique(healthDT$Indicator)[])
   
   ##### 4.4. Percent of the population living in an affordable housing ----
   # output$plot_cma_basic_4 <-
   #   func_plot_2(df = "basicDT_cma",
-  #             filter_var = unique(basicDT$Indicator)[])
+  #             filter_var = unique(healthDT$Indicator)[])
   
   ##### 4.5. Percent of the population living in a food-secure household ----
   output$plot_cma_basic_5 <-
     func_plot_2(df = "basicDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[14])
+                filter_var = unique(as.character(healthDT$Indicator))[14])
   
   ##### 4.6. Percent of the population living in a household with marginal food security ----
   output$plot_cma_basic_6 <-
     func_plot_2(df = "basicDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[15])
+                filter_var = unique(as.character(healthDT$Indicator))[15])
   
   ##### 4.7. Percent of the population living in a food-insecure household, moderate or severe ----
   output$plot_cma_basic_7 <-
     func_plot_2(df = "basicDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[16])
+                filter_var = unique(as.character(healthDT$Indicator))[16])
   
   ##### 4.8. Percent of the population living in a household with moderate food insecurity ----
   output$plot_cma_basic_8 <-
     func_plot_2(df = "basicDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[17])
+                filter_var = unique(as.character(healthDT$Indicator))[17])
   
   ##### 4.9. Percent of the population living in a household with severe food insecurity ----
   output$plot_cma_basic_9 <-
     func_plot_2(df = "basicDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[18])
+                filter_var = unique(as.character(healthDT$Indicator))[18])
   #### 5. Local community ----
   #'NOTE [TBD]
   
@@ -1863,61 +1864,61 @@ output$plot_geo_lm_1 <-
   ##### 6.1. Percent of the population reporting very good or excellent general health ----
   output$plot_cma_health_1 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[1])
+                filter_var = unique(as.character(healthDT$Indicator))[1])
   
   ##### 6.2. Percent of the population reporting fair or poor general health ----
   output$plot_cma_health_2 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[2])
+                filter_var = unique(as.character(healthDT$Indicator))[2])
   
   ##### 6.3. Percent of the population reporting very good or excellent mental health ----
   output$plot_cma_health_3 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[3])
+                filter_var = unique(as.character(healthDT$Indicator))[3])
   
   ##### 6.4. Percent of the population reporting fair or poor mental health ----
   output$plot_cma_health_4 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[4])
+                filter_var = unique(as.character(healthDT$Indicator))[4])
   
   ##### 6.5. Percent of the population reporting their life stressful ----
   output$plot_cma_health_5 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[5])
+                filter_var = unique(as.character(healthDT$Indicator))[5])
   
   ##### 6.6. Percent of the population reporting life satisfaction, satisfied or very satisfied ----
   output$plot_cma_health_6 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator))[6])
+                filter_var = unique(as.character(healthDT$Indicator))[6])
   
   # ##### 6.7. Percent of the population reporting having a regular healthcare providers ----
   output$plot_cma_health_7 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[7]))
+                filter_var = unique(as.character(healthDT$Indicator)[7]))
   ##### 6.8. Percent of the population reporting no need for mental health care ----
   output$plot_cma_health_8 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[8]))
+                filter_var = unique(as.character(healthDT$Indicator)[8]))
   ##### 6.9. Percent of the population reporting all needs met for mental health care ----
   output$plot_cma_health_9 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[9]))
+                filter_var = unique(as.character(healthDT$Indicator)[9]))
   ##### 6.10. Percent of the population reporting needs partially met for mental health care ----
   output$plot_cma_health_10 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[10]))
+                filter_var = unique(as.character(healthDT$Indicator)[10]))
   ##### 6.11. Percent of the population reporting needs partially met or needs not met for mental health care ----
   output$plot_cma_health_11 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[11]))
+                filter_var = unique(as.character(healthDT$Indicator)[11]))
   ##### 6.12. Percent of the population reporting needs not met for mental health cares ----
   output$plot_cma_health_12 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[12]))
+                filter_var = unique(as.character(healthDT$Indicator)[12]))
   ##### 6.13. Percent of the population reporting unmet health care needs ----
   output$plot_cma_health_13 <-
     func_plot_2(df = "healthDT_cma",
-                filter_var = unique(as.character(basicDT$Indicator)[13]))
+                filter_var = unique(as.character(healthDT$Indicator)[13]))
   
   #### 7. Public services and institutions ----
   #'NOTE [The indicators weren't in the same order as the indicators for confidenceDT]
@@ -2098,16 +2099,16 @@ output$plot_geo_lm_1 <-
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_cma_discrimination_9 <-
     func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
- #  ##### 11.1. Average employment income of the population ----
- #  output$plot_cma_lm_1 <-
- #    func_plot_2(df = "incomeDT_cma",
- #                filter_var = unique(as.character(incomeDT$Indicator))[1])
- #  
- # ##### 11.2. Average weekly wage of paid employees ----
- #  output$plot_cma_lm_2 <-
- #    func_plot_2(df = "incomeDT_cma",
- #                filter_var = unique(as.character(incomeDT$Indicator))[2])
- #  
+  ##### 11.1. Average employment income of the population ----
+  output$plot_cma_inc_1 <-
+    func_plot_2(df = "incomeDT_cma",
+                filter_var = unique(as.character(incomeDT$Indicator))[1])
+
+ ##### 11.2. Average weekly wage of paid employees ----
+  output$plot_cma_inc_2 <-
+    func_plot_2(df = "incomeDT_cma",
+                filter_var = unique(as.character(incomeDT$Indicator))[2])
+
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   # output$map <- renderPlotly(
   #   ggplotly(
