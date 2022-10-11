@@ -296,7 +296,7 @@ polData <-
   polData %>%
   mutate(motivation_type = ifelse(
     Motivation %in% c(
-      "Total police-reported hate crime Race or ethnicity",
+      "Total police-reported hate crime",
       "Race or ethnicity",
       "Religion",
       "Sexual orientation",
