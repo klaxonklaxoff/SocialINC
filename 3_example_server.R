@@ -404,7 +404,93 @@ server <- function(input, output, session) {
         )
     }, tooltip = "text"))
   }
-
+  
+  func_plot_hate <- function(filter_var){
+    # Hate crime ----
+    filtered_data <-
+      reactive({
+        polData %>%
+          filter(
+            #Indicator == filter_var,
+            Year %in% input$hate_year,
+            Geography == input$hate_geography,
+            motivation_type == input$hate_motivation,
+            (motivation_type == input$hate_race |
+               motivation_type == input$hate_police 
+               
+               
+            )
+          )
+      })
+    
+    renderPlotly(ggplotly({
+      ggplot(filtered_data()) +
+        geom_line(
+          mapping = NULL,
+          data = NULL,
+          stat = "identity",
+          position = "identity",
+          na.rm = FALSE,
+          orientation = NA,
+          show.legend = TRUE, 
+          #position = position_dodge(width = 0.5),
+          
+            x = Year,
+            y = Value,
+            colour = Year,
+            fill = Year
+            # text = paste0(
+            #   "Year: ",
+            #   Year,
+            #   "<br>",
+            #   "Value: ",
+            #   format(Value, big.mark = ","),
+            #   "<br>",
+            #   "Year: ",
+            #   Year 
+        ) +
+        theme_minimal() +
+        scale_y_continuous(labels = comma) +
+        labs(
+          x = "Year",
+          y = "Value",
+          
+          colour = "Year",
+          fill = "Year"
+        )
+    },
+    ))
+    
+    
+  # renderPlotly(ggplotly({
+  #   # Require filtered_lineData
+  #   req(func_plot_hate())
+  #   # Create the base graph
+  #   lp <- ggplot(filtered_data(), x = Year)
+  #   # Add each series one-by-one as new traces
+  #   for (i in 3:length(colnames(func_plot_hate()))) {
+  #     lp <- lp %>%
+  #       add_trace(x = filtered_data()$Year, y = filtered_data()[[i]],
+  #                 type = "scatter", mode = "lines+markers",
+  #                 name = colnames(filtered_data())[i])
+  #   }
+  #   # Note hovermode = "x unified" is not working as it is supposed to
+  #   # Best work-around was used in xaxis with spike layout
+  #   lp <- lp %>%
+  #     layout(title = "Police Reported Hate Crime Time Series Analysis",
+  #            hovermode = "Police Reported Hate Crime Time Series Analysis",
+  #            xaxis = list(title = "Choose a year",
+  #                         showspikes = TRUE,
+  #                         spikecolor = "black",
+  #                         spikethickness = 2,
+  #                         spikemode  = 'toaxis+across',
+  #                         spikesnap = 'data',
+  #                         showline=TRUE),
+  #            yaxis = list(title = "Number")
+  #     )
+  #   lp
+  # }))
+  }
   ### Plots ----
   #### 1. Participation in the Labour Market ----
   ##### 1.1. Working-age population in the labour force (participation rate) ----
@@ -655,22 +741,22 @@ server <- function(input, output, session) {
                 filter_var = unique(as.character(confidenceDT$Indicator))[4])
 
   ##### 7.2. Population expressing Confidence in the Canadian media ----
-  output$plot_vm_public_1 <-
+  output$plot_vm_public_2 <-
     func_plot_1(df = "confidenceDT",
                 filter_var = unique(as.character(confidenceDT$Indicator))[8])
 
   ##### 7.3. Population expressing confidence in the school system ----
-  output$plot_vm_public_1 <-
+  output$plot_vm_public_3 <-
     func_plot_1(df = "confidenceDT",
                 filter_var = unique(as.character(confidenceDT$Indicator))[3])
 
   ##### 7.4. Population expressing confidence in the justice system, courts ----
-  output$plot_vm_public_1 <-
+  output$plot_vm_public_4 <-
     func_plot_1(df = "confidenceDT",
                 filter_var = unique(as.character(confidenceDT$Indicator))[2])
 
   ##### 7.5. Population expressing confidence in the police ----
-  output$plot_vm_public_1 <-
+  output$plot_vm_public_5 <-
     func_plot_1(df = "confidenceDT",
                 filter_var = unique(as.character(confidenceDT$Indicator))[1])
 
@@ -833,6 +919,9 @@ server <- function(input, output, session) {
   output$plot_vm_inc_2 <-
     func_plot_1(df = "incomeDT",
                 filter_var = unique(as.character(incomeDT$Indicator))[2])
+  # ##### 10.9. Hate crime ----
+  output$plot_vm_hate_crime <-
+    func_plot_hate(filter_var = unique(as.character(polData$ind))[1])
 
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   ## Tab 2: Geography ------
@@ -916,25 +1005,9 @@ server <- function(input, output, session) {
               Sex == input$lm_sex_geo
             )
         })
-    }
-    else if (df == "rateDT_geo") {
-      # Participation in the Labour Market (general) - Geo(CMAs) ----
-      filtered_data <-
-        reactive({
-          rateDT %>%
-            filter(
-              Indicator == filter_var,
-              VisMin == input$lm_vismin_geo,
-              Degree == input$lm_degree_geo,
-              Year %in% input$lm_year_geo,
-              Geography %in%  input$lm_geography_geo,
-              Immigration == input$lm_immigration_geo,
-              Age == input$lm_age_geo,
-              Sex == input$lm_sex_geo
-            )
-        })
+    
     }else if (df == "representationDT_geo") {
-      # Participation in the Labour Market (representationDT) - CMAs----
+      # Participation in the Labour Market (representationDT) - Geo----
       filtered_data <-
         reactive({
           representationDT %>%
@@ -950,7 +1023,7 @@ server <- function(input, output, session) {
             )
         })
     } else if (df == "OverQualDT_geo") {
-      # Participation in the Labour Market (OverQualDT)- CMAs----
+      # Participation in the Labour Market (OverQualDT)- Geo----
       filtered_data <-
         reactive({
           OverQualDT %>%
@@ -967,7 +1040,7 @@ server <- function(input, output, session) {
             )
         })
     } else if (df == "youthDT_geo") {
-      # Participation in the Labour Market (youthDT)- CMAs ----
+      # Participation in the Labour Market (youthDT)- Geo ----
       filtered_data <-
         reactive({
           youthDT %>%
@@ -982,7 +1055,7 @@ server <- function(input, output, session) {
             )
         })
     } else if (df == "incomeDT_geo") {
-      # Participation in the Labour Market (incomeDT)- CMAs----
+      # Participation in the Labour Market (incomeDT)- Geo----
       filtered_data <-
         reactive({
           incomeDT %>%
@@ -999,7 +1072,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "civicDT_geo") {
-      # Civic engagement and political participation (civicDT) - CMAs ----
+      # Civic engagement and political participation (civicDT) - Geo ----
       filtered_data <-
         reactive({
           civicDT %>%
@@ -1019,7 +1092,7 @@ server <- function(input, output, session) {
             )
         })
     } else if (df == "civicDT2_geo") {
-      # Civic engagement and political participation (civicDT2)- CMAs ----
+      # Civic engagement and political participation (civicDT2)- Geo ----
       filtered_data <-
         reactive({
           civicDT2 %>%
@@ -1040,7 +1113,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "representationDT_geo2") {
-      # Representation in decision-making positions ----
+      # Representation in decision-making positions - Geo----
       filtered_data <-
         reactive({
           representationDT %>%
@@ -1057,7 +1130,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "educationDT_geo") {
-      # Education training and skills ----
+      # Education training and skills - Geo----
       filtered_data <-
         reactive({
           educationDT %>%
@@ -1074,7 +1147,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "belongingDT_geo") {
-      # Social connections and personal networks ----
+      # Social connections and personal networks - Geo----
       filtered_data <-
         reactive({
           belongingDT %>%
@@ -1095,7 +1168,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "basicDT_geo") {
-      # Basic needs and housing  ----
+      # Basic needs and housing - Geo ----
       filtered_data <-
         reactive({
           healthDT %>%
@@ -1113,7 +1186,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "healthDT_geo") {
-      # Health and well being ----
+      # Health and well being - Geo----
       filtered_data <-
         reactive({
           healthDT %>%
@@ -1131,7 +1204,7 @@ server <- function(input, output, session) {
         })
     }
     else if (df == "confidenceDT_geo") {
-      # Public services and institutions ----
+      # Public services and institutions - Geo----
       filtered_data <-
         reactive({
           confidenceDT %>%
@@ -1197,7 +1270,7 @@ server <- function(input, output, session) {
   
   #'NOTE [This chart doesn't follow the same x-axis as the other charts]
   func_plot2_discrimination <- function(filter_var){
-    # Discrimination and victimization ----
+    # Discrimination and victimization - Geo----
     filtered_data <-
       reactive({
         discriminationDT %>%
@@ -1496,22 +1569,22 @@ output$plot_geo_lm_1 <-
                 filter_var = unique(as.character(confidenceDT$Indicator))[4])
   
   ##### 7.2. Population expressing Confidence in the Canadian media ----
-  output$plot_geo_public_1 <-
+  output$plot_geo_public_2 <-
     func_plot_3(df = "confidenceDT_geo",
                 filter_var = unique(as.character(confidenceDT$Indicator))[8])
   
   ##### 7.3. Population expressing confidence in the school system ----
-  output$plot_geo_public_1 <-
+  output$plot_geo_public_3 <-
     func_plot_3(df = "confidenceDT_geo",
                 filter_var = unique(as.character(confidenceDT$Indicator))[3])
   
   ##### 7.4. Population expressing confidence in the justice system, courts ----
-  output$plot_geo_public_1 <-
+  output$plot_geo_public_4 <-
     func_plot_3(df = "confidenceDT_geo",
                 filter_var = unique(as.character(confidenceDT$Indicator))[2])
   
   ##### 7.5. Population expressing confidence in the police ----
-  output$plot_geo_public_1 <-
+  output$plot_geo_public_5 <-
     func_plot_3(df = "confidenceDT_geo",
                 filter_var = unique(as.character(confidenceDT$Indicator))[1])
   
@@ -1672,7 +1745,7 @@ output$plot_geo_lm_1 <-
     func_plot_3(df = "incomeDT_geo",
                 filter_var = unique(as.character(incomeDT$Indicator))[1])
   ##### 11.2. Average weekly wage of paid employees ----
-  output$plot_cma_inc_2 <-
+  output$plot_geo_inc_2 <-
     func_plot_3(df = "incomeDT_geo",
                 filter_var = unique(as.character(incomeDT$Indicator))[2])
   
@@ -1740,24 +1813,7 @@ output$plot_geo_lm_1 <-
   #### Functions for Geography ----
   func_plot_2 <- function(df, filter_var = NULL)
   {
-    if (df == "rateDT_geo") {
-      # Participation in the Labour Market (general) - Geo ----
-      filtered_data <-
-        reactive({
-          rateDT %>%
-            filter(
-              Indicator == filter_var,
-              VisMin == input$lm_vismin_geo,
-              Degree == input$lm_degree_geo,
-              Year %in% input$lm_year_geo,
-              Geography %in% input$lm_geography_geo,
-              Immigration == input$lm_immigration_geo,
-              Age == input$lm_age_geo,
-              Sex == input$lm_sex_geo
-            )
-        })
-    }
-    else if (df == "rateDT_cma") {
+     if (df == "rateDT_cma") {
       # Participation in the Labour Market (general) - Geo(CMAs) ----
       filtered_data <-
         reactive({
@@ -2330,22 +2386,22 @@ output$plot_geo_lm_1 <-
                 filter_var = unique(as.character(confidenceDT$Indicator))[4])
   
   ##### 7.2. Population expressing Confidence in the Canadian media ----
-  output$plot_cma_public_1 <-
+  output$plot_cma_public_2 <-
     func_plot_2(df = "confidenceDT_cma",
                 filter_var = unique(as.character(confidenceDT$Indicator))[8])
   
   ##### 7.3. Population expressing confidence in the school system ----
-  output$plot_cma_public_1 <-
+  output$plot_cma_public_3 <-
     func_plot_2(df = "confidenceDT_cma",
                 filter_var = unique(as.character(confidenceDT$Indicator))[3])
   
   ##### 7.4. Population expressing confidence in the justice system, courts ----
-  output$plot_cma_public_1 <-
+  output$plot_cma_public_4 <-
     func_plot_2(df = "confidenceDT_cma",
                 filter_var = unique(as.character(confidenceDT$Indicator))[2])
   
   ##### 7.5. Population expressing confidence in the police ----
-  output$plot_cma_public_1 <-
+  output$plot_cma_public_5 <-
     func_plot_2(df = "confidenceDT_cma",
                 filter_var = unique(as.character(confidenceDT$Indicator))[1])
   

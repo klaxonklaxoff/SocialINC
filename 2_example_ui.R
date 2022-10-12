@@ -1145,9 +1145,27 @@ ui <-
             #'NOTE [polData]
             conditionalPanel(
               condition =
-                #"input.theme_1 == 'Discrimination and victimization'&&
               "input.indicator_1 == 'Hate Crime'",
-              #####Motivation----
+              ##### Year----
+              pickerInput(
+                inputId = "hate_year",
+                label = "Choose a year",
+                choices = unique(as.character(polData$Year)),
+                selected = unique(as.character(polData$Year))[1], 
+                multiple = TRUE,
+                options = list(
+                  `actions-box` = TRUE,
+                  `deselect-all-text` = "Deselect all",
+                  `select-all-text` = "Select all"
+              )),
+              ##### Geography----
+              selectizeInput(
+                inputId = "hate_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(polData$Geography)),
+                selected = unique(as.character(polData$Geography))[1],              
+              ),
+              ##### Motivation----
                 selectizeInput(
                    inputId = "hate_motivation",
                    label = "Choose a motivation",
@@ -1810,7 +1828,7 @@ ui <-
 
             ##### 7.2. Population expressing Confidence in the Canadian media ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Population expressing Confidence in the Canadian media'",
+              condition = "input.indicator_1 == 'Population expressing confidence in the Canadian media'",
               br(),
               br(),
               plotlyOutput("plot_vm_public_2",
@@ -2206,28 +2224,17 @@ ui <-
               br(),
               helpText(source_gss)
             ),
-            ##### 10.10. Total police-reported hate crime ----
+            ##### 10.10.  Hate crime ----
              conditionalPanel(
-               condition = "input.indicator_1 == 'Total police-reported hate crime'",
-              h2("Time Series Analysis"),
+              condition = "input.indicator_1 == 'Hate Crime'",
               br(),
               br(),
-              plotlyOutput("plot_vm_police",
+              plotlyOutput("plot_vm_hate_crime",
                               inline = TRUE),
               br(),
               helpText(source_census_nhs_census)
              ),
-             ##### 10.11. Race or ethnicity ----
-             conditionalPanel(
-               condition = "input.indicator_1 == 'Race or ethnicity'",
-               h2("Time Series Analysis"),
-               br(),
-               br(),
-               plotlyOutput("plot_vm_race",
-                            inline = TRUE),
-               br(),
-               helpText(source_census_nhs_census)
-               ),
+             
             #### 11. Income and wealth ----
             #'NOTE [TBD because the incomeDT was used in the Participation in the Labour Market section]
             ##### 11.1. Average employment income of the population ----
@@ -2300,14 +2307,14 @@ ui <-
             pickerInput(
               inputId = "lm_vismin_geo", # name this for the server
               label = "Choose a visible minority status", # label of filter
-              choices = as.character(unique(rateDT$VisMin)), # create drop-down list option
-              # multiple = TRUE,# multi-select
-              # selected = as.character(unique(rateDT$VisMin))[1],
-              # options = list(
-              #   `actions-box` = TRUE,
-              #   `deselect-all-text` = "Deselect all",
-              #   `select-all-text` = "Select all"
-              # )
+              choices = prov_region_filter, # create drop-down list option
+               multiple = TRUE,# multi-select
+              selected = prov_region_filter[1],
+              options = list(
+                `actions-box` = TRUE,
+                `deselect-all-text` = "Deselect all",
+                `select-all-text` = "Select all"
+              )
               ),
             ###### Degree ----
             selectizeInput(
@@ -2367,9 +2374,9 @@ ui <-
             pickerInput(
               inputId = "lm_rep_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -2435,9 +2442,9 @@ ui <-
             pickerInput(
               inputId = "lm_over_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -2515,9 +2522,9 @@ ui <-
             pickerInput(
               inputId = "lm_youth_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -3613,7 +3620,7 @@ ui <-
           
           ##### 2.3. Percent of the population members in a cultural, educational or hobby organization ----
           conditionalPanel(
-            condition = "input.indicator_1 == 'Percent of the population members in a cultural, educational or hobby organization'",
+            condition = "input.indicator_2 == 'Percent of the population members in a cultural, educational or hobby organization'",
             br(),
             br(),
             plotlyOutput("plot_geo_civic_3",
@@ -4062,7 +4069,7 @@ ui <-
           
           ##### 7.2. Population expressing Confidence in the Canadian media ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Population expressing Confidence in the Canadian media'",
+            condition = "input.indicator_2 == 'Population expressing confidence in the Canadian media'",
             br(),
             br(),
             plotlyOutput("plot_geo_public_2",
@@ -5831,7 +5838,7 @@ ui <-
                 
                 ##### 2.3. Percent of the population members in a cultural, educational or hobby organization ----
                 conditionalPanel(
-                  condition = "input.indicator_1 == 'Percent of the population members in a cultural, educational or hobby organization'",
+                  condition = "input.indicator_3 == 'Percent of the population members in a cultural, educational or hobby organization'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_civic_3",
@@ -6280,7 +6287,7 @@ ui <-
                 
                 ##### 7.2. Population expressing Confidence in the Canadian media ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Population expressing Confidence in the Canadian media'",
+                  condition = "input.indicator_3 == 'Population expressing confidence in the Canadian media'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_public_2",
