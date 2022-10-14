@@ -79,10 +79,10 @@ ui <-
             #'NOTE [rateDT]
             conditionalPanel(
               condition =
-                "input.indicator_1 == 'Working-age population in the labour force (participation rate)'
-              || input.indicator_1 == 'Working-age population in employment (employment rate)'
-              || input.indicator_1 == 'Working-age population in unemployment (unemployment rate)'
-              || input.indicator_1 == 'Workers working mainly full-time weeks in the previous year'",
+                "input.indicator_1 == 'Participation rate in the Labour Market'
+              || input.indicator_1 == 'Employment rate'
+              || input.indicator_1 == 'Unemployment rate'
+              || input.indicator_1 == 'Population in full-time employment'",
               #'NOTE [indicators 1:4/22]
 
               ###### Visible Minority ----
@@ -142,7 +142,7 @@ ui <-
             #'NOTE [representationDT]
             conditionalPanel(
               condition =
-                "input.indicator_1 == 'Self-employed workers in the labour force (unincorporated)'",
+                "input.indicator_1 == 'Population in self-employment (unincorporated)'",
               #'NOTE [indicators 5/22]
 
               ###### Visible Minority ----
@@ -201,7 +201,7 @@ ui <-
             #'NOTE [OverQualDT]
             conditionalPanel(
               condition =
-                "input.indicator_1 == 'Overqualified workers with a university degree'",
+                "input.indicator_1 == 'Population in overqualification situation'",
               #'NOTE [indicators 6/22]
 
               ###### Visible Minority ----
@@ -272,7 +272,7 @@ ui <-
             #'NOTE [youthDT]
             conditionalPanel(
               condition =
-                "input.indicator_1 == 'Youth not in employment, education or training (NEET)'",
+                "input.indicator_1 == 'Youth not in employment, education or training'",
               #'NOTE [indicators 7/22]
 
               ###### Visible Minority ----
@@ -1276,9 +1276,10 @@ ui <-
             # )
 
             #### 1. Participation in the Labour Market ----
-            ##### 1.1. Working-age population in the labour force (participation rate) ----
+            ##### 1.1. Participation rate in the Labour Market ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Working-age population in the labour force (participation rate)'",
+              condition = "input.indicator_1 == 'Participation rate in the Labour Market'",
+              h4("Working-age population in the labour force (participation rate)"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_1",
@@ -1287,9 +1288,10 @@ ui <-
               helpText(source_census_nhs_census)
             ),
 
-            ##### 1.2. Working-age population in employment (employment rate) ----
+            ##### 1.2. Employment rate ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Working-age population in employment (employment rate)'",
+              condition = "input.indicator_1 == 'Employment rate'",
+              h4("Working-age population in employment (employment rate)"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_2",
@@ -1298,9 +1300,10 @@ ui <-
               helpText(source_census_nhs_census)
             ),
 
-            ##### 1.3. Working-age population in unemployment (unemployment rate) ----
+            ##### 1.3. Unemployment rate ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Working-age population in unemployment (unemployment rate)'",
+              condition = "input.indicator_1 == 'Unemployment rate'",
+              h4("Working-age population in unemployment (unemployment rate)"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_3",
@@ -1309,9 +1312,10 @@ ui <-
               helpText(source_census_nhs_census)
             ),
 
-            ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+            ##### 1.4. Population in full-time employment (Population in full-time employment) ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Workers working mainly full-time weeks in the previous year'",
+              condition = "input.indicator_1 == 'Population in full-time employment'",
+              h4("Workers working mainly full-time weeks in the previous year"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_4",
@@ -1320,9 +1324,10 @@ ui <-
               helpText(source_census_nhs_census)
             ),
 
-            ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
+            ##### 1.5. Population in self-employment (unincorporated) ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Self-employed workers in the labour force (unincorporated)'",
+              condition = "input.indicator_1 == 'Population in self-employment (unincorporated)'",
+              h4("Self-employed workers in the labour force (unincorporated)"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_5",
@@ -1331,9 +1336,10 @@ ui <-
               helpText(source_census_nhs_census)
             ),
 
-            ##### 1.6. Overqualified workers with a university degree ----
+            ##### 1.6. Population in overqualification situation ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Overqualified workers with a university degree'",
+              condition = "input.indicator_1 == 'Population in overqualification situation'",
+              h4("Overqualified workers with a university degree"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_6",
@@ -1342,9 +1348,10 @@ ui <-
               helpText(source_census_nhs)
             ),
 
-            ##### 1.7. Youth not in employment, education or training (NEET) ----
+            ##### 1.7. Youth not in employment, education or training ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Youth not in employment, education or training (NEET)'",
+              condition = "input.indicator_1 == 'Youth not in employment, education or training'",
+              h4("Youth not in employment, education or training (NEET)"),
               br(),
               br(),
               plotlyOutput("plot_vm_lm_7",
@@ -2295,10 +2302,10 @@ ui <-
           #'NOTE [rateDT]
           conditionalPanel(
             condition =
-              "input.indicator_2 == 'Working-age population in the labour force (participation rate)'
-              || input.indicator_2 == 'Working-age population in employment (employment rate)'
-              || input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'
-              || input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+              "input.indicator_2 == 'Participation rate in the Labour Market'
+              || input.indicator_2 == 'Employment rate'
+              || input.indicator_2 == 'Unemployment rate'
+              || input.indicator_2 == 'Population in full-time employment'",
             #'NOTE [indicators 1:4/22]
 
             ###### Visible Minority ----
@@ -2366,7 +2373,7 @@ ui <-
           #'NOTE [representationDT]
           conditionalPanel(
             condition =
-              "input.indicator_2 == 'Self-employed workers in the labour force (unincorporated)'",
+              "input.indicator_2 == 'Population in self-employment (unincorporated)'",
             #'NOTE [indicators 5/22]
             ###### Geography ----
             #'NOTE [this is the focal variable for this tab]
@@ -2433,7 +2440,7 @@ ui <-
           #'NOTE [OverQualDT]
           conditionalPanel(
             condition =
-              "input.indicator_2 == 'Overqualified workers with a university degree'",
+              "input.indicator_2 == 'Population in overqualification situation'",
             #'NOTE [indicators 6/22]
             
             ###### Geography ----
@@ -2513,7 +2520,7 @@ ui <-
           #'NOTE [youthDT]
           conditionalPanel(
             condition =
-              "input.indicator_2 == 'Youth not in employment, education or training (NEET)'",
+              "input.indicator_2 == 'Youth not in employment, education or training'",
             #'NOTE [indicators 7/22]
             
             ###### Geography ----
@@ -2878,9 +2885,9 @@ ui <-
             pickerInput(
               inputId = "rep_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -3196,9 +3203,9 @@ ui <-
             pickerInput(
               inputId = "education_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -3450,9 +3457,9 @@ ui <-
             pickerInput(
               inputId = "lm_income_geography_geo",
               label = "Choose a geography",
-              choices = cma_filter,
+              choices = prov_region_filter,
               multiple = TRUE,# multi-select
-              selected = cma_filter[1],
+              selected = prov_region_filter[1],
               options = list(
                 `actions-box` = TRUE,
                 `deselect-all-text` = "Deselect all",
@@ -3520,9 +3527,9 @@ ui <-
           # )
 
           #### 1. Participation in the Labour Market ----
-          ##### 1.1. Working-age population in the labour force (participation rate) ----
+          ##### 1.1. Participation rate in the Labour Market ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Working-age population in the labour force (participation rate)'",
+            condition = "input.indicator_2 == 'Participation rate in the Labour Market'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_1",
@@ -3531,9 +3538,9 @@ ui <-
             helpText(source_census_nhs_census)
           ),
 
-          ##### 1.2. Working-age population in employment (employment rate) ----
+          ##### 1.2. Employment rate ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Working-age population in employment (employment rate)'",
+            condition = "input.indicator_2 == 'Employment rate'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_2",
@@ -3542,9 +3549,9 @@ ui <-
             helpText(source_census_nhs_census)
           ),
 
-          ##### 1.3. Working-age population in unemployment (unemployment rate) ----
+          ##### 1.3. Unemployment rate ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Working-age population in unemployment (unemployment rate)'",
+            condition = "input.indicator_2 == 'Unemployment rate'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_3",
@@ -3553,9 +3560,9 @@ ui <-
             helpText(source_census_nhs_census)
           ),
 
-          ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+          ##### 1.4. Population in full-time employment (Population in full-time employment) ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Workers working mainly full-time weeks in the previous year'",
+            condition = "input.indicator_2 == 'Population in full-time employment'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_4",
@@ -3563,9 +3570,9 @@ ui <-
             br(),
             helpText(source_census_nhs_census)
           ),
-          ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
+          ##### 1.5. Population in self-employment (unincorporated) ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Self-employed workers in the labour force (unincorporated)'",
+            condition = "input.indicator_2 == 'Population in self-employment (unincorporated)'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_5",
@@ -3574,9 +3581,9 @@ ui <-
             helpText(source_census_nhs_census)
           ),
           
-          ##### 1.6. Overqualified workers with a university degree ----
+          ##### 1.6. Population in overqualification situation ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Overqualified workers with a university degree'",
+            condition = "input.indicator_2 == 'Population in overqualification situation'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_6",
@@ -3585,9 +3592,9 @@ ui <-
             helpText(source_census_nhs)
           ),
           
-          ##### 1.7. Youth not in employment, education or training (NEET) ----
+          ##### 1.7. Youth not in employment, education or training ----
           conditionalPanel(
-            condition = "input.indicator_2 == 'Youth not in employment, education or training (NEET)'",
+            condition = "input.indicator_2 == 'Youth not in employment, education or training'",
             br(),
             br(),
             plotlyOutput("plot_geo_lm_7",
@@ -4515,10 +4522,10 @@ ui <-
               #'NOTE [rateDT]
               conditionalPanel(
                 condition =
-                "input.indicator_3 == 'Working-age population in the labour force (participation rate)'
-              || input.indicator_3 == 'Working-age population in employment (employment rate)'
-              || input.indicator_3 == 'Working-age population in unemployment (unemployment rate)'
-              || input.indicator_3 == 'Workers working mainly full-time weeks in the previous year'",
+                "input.indicator_3 == 'Participation rate in the Labour Market'
+              || input.indicator_3 == 'Employment rate'
+              || input.indicator_3 == 'Unemployment rate'
+              || input.indicator_3 == 'Population in full-time employment'",
                 #'NOTE [indicators 1:4/22]
                 ###### Geography ----
                 #'NOTE [this is the focal variable for this tab]
@@ -4584,7 +4591,7 @@ ui <-
               #'NOTE [representationDT]
               conditionalPanel(
                 condition =
-                  "input.indicator_3 == 'Self-employed workers in the labour force (unincorporated)'",
+                  "input.indicator_3 == 'Population in self-employment (unincorporated)'",
                 #'NOTE [indicators 5/22]
                 ###### Geography ----
                 #'NOTE [this is the focal variable for this tab]
@@ -4651,7 +4658,7 @@ ui <-
               #'NOTE [OverQualDT]
               conditionalPanel(
                 condition =
-                  "input.indicator_3 == 'Overqualified workers with a university degree'",
+                  "input.indicator_3 == 'Population in overqualification situation'",
                 #'NOTE [indicators 6/22]
                 
                 ###### Geography ----
@@ -4731,7 +4738,7 @@ ui <-
               #'NOTE [youthDT]
               conditionalPanel(
                 condition =
-                  "input.indicator_3 == 'Youth not in employment, education or training (NEET)'",
+                  "input.indicator_3 == 'Youth not in employment, education or training'",
                 #'NOTE [indicators 7/22]
                 
                 ###### Geography ----
@@ -5738,9 +5745,9 @@ ui <-
                 # )
 
                 #### 1. Participation in the Labour Market ----
-                ##### 1.1. Working-age population in the labour force (participation rate) ----
+                ##### 1.1. Participation rate in the Labour Market ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Working-age population in the labour force (participation rate)'",
+                  condition = "input.indicator_3 == 'Participation rate in the Labour Market'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_1", 
@@ -5749,9 +5756,9 @@ ui <-
                   helpText(source_census_nhs_census)
                 ),
 
-                ##### 1.2. Working-age population in employment (employment rate) ----
+                ##### 1.2. Employment rate ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Working-age population in employment (employment rate)'",
+                  condition = "input.indicator_3 == 'Employment rate'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_2",
@@ -5760,9 +5767,9 @@ ui <-
                   helpText(source_census_nhs_census)
                 ),
 
-                ##### 1.3. Working-age population in unemployment (unemployment rate) ----
+                ##### 1.3. Unemployment rate ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Working-age population in unemployment (unemployment rate)'",
+                  condition = "input.indicator_3 == 'Unemployment rate'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_3",
@@ -5771,9 +5778,9 @@ ui <-
                   helpText(source_census_nhs_census)
                 ),
 
-                ##### 1.4. Workers working mainly full-time weeks in the previous year (Population in full-time employment) ----
+                ##### 1.4. Population in full-time employment (Population in full-time employment) ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Workers working mainly full-time weeks in the previous year'",
+                  condition = "input.indicator_3 == 'Population in full-time employment'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_4",
@@ -5781,9 +5788,9 @@ ui <-
                   br(),
                   helpText(source_census_nhs_census)
                 ),
-                ##### 1.5. Self-employed workers in the labour force (unincorporated) ----
+                ##### 1.5. Population in self-employment (unincorporated) ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Self-employed workers in the labour force (unincorporated)'",
+                  condition = "input.indicator_3 == 'Population in self-employment (unincorporated)'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_5",
@@ -5792,9 +5799,9 @@ ui <-
                   helpText(source_census_nhs_census)
                 ),
                 
-                ##### 1.6. Overqualified workers with a university degree ----
+                ##### 1.6. Population in overqualification situation ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Overqualified workers with a university degree'",
+                  condition = "input.indicator_3 == 'Population in overqualification situation'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_6",
@@ -5803,9 +5810,9 @@ ui <-
                   helpText(source_census_nhs)
                 ),
                 
-                ##### 1.7. Youth not in employment, education or training (NEET) ----
+                ##### 1.7. Youth not in employment, education or training ----
                 conditionalPanel(
-                  condition = "input.indicator_3 == 'Youth not in employment, education or training (NEET)'",
+                  condition = "input.indicator_3 == 'Youth not in employment, education or training'",
                   br(),
                   br(),
                   plotlyOutput("plot_cma_lm_7",

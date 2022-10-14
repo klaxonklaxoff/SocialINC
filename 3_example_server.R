@@ -316,38 +316,94 @@ server <- function(input, output, session) {
     }
 
     renderPlotly(ggplotly({
-      ggplot(filtered_data()) +
-        geom_bar(
-          stat = "identity",
-          width = 0.4,
-          position = position_dodge(width = 0.5),
-          aes(
-            x = Year,
-            y = Value,
-            colour = VisMin,
-            fill = VisMin,
-            text = paste0(
-              "Visible Minority group(s): ",
-              VisMin,
-              "<br>",
-              "Value: ",
-              format(Value, big.mark = ","),
-              "<br>",
-              "Year: ",
-              Year
-            )
-          )
-        ) +
-        theme_minimal() +
-        scale_y_continuous(labels = comma) +
+      ggplot(filtered_data(),
+      aes(
+        x = VisMin,
+        y = Value,
+        colour = VisMin,
+        fill = VisMin,
+        label = Value,
+        ))+
+          #scales::percent(Value))) +
+        geom_col(width = 0.5, position = position_dodge(width = 0.7),
+                       aes(
+                           x = VisMin,
+                           y = Value,
+                           colour = VisMin,
+                           fill = VisMin,
+                           text = paste0(
+                             "Year: ",
+                             Year
+                           )
+                         )
+                 )+ 
+        theme(legend.position="none")+
         labs(
-          x = "Year",
+          x = "Visible Minority group(s)",
           y = "Value",
-      
           colour = "Visible Minority group(s)",
           fill = "Visible Minority group(s)"
-        )
-    }, tooltip = "text"))
+        ) +
+        scale_y_continuous(labels = comma)+
+        ## ' Cant use this because not all values are in percnatges i.e incomeDT
+        #scale_y_continuous(labels = scales::percent_format(scale = 1)) + 
+        geom_text(
+          #vjust = 11.5,
+          nudge_y = .05,
+                  color ="black",
+                  size  = 3,
+                  fontface = "bold",
+                  labels = comma
+                  )
+    #   ggplot(filtered_data()) +
+    #      geom_bar(
+    #       stat = "identity",
+    #       width = 0.5,
+    #       position = position_dodge(width = 0.4),
+    # 
+    #       aes(
+    #         x = VisMin,
+    #         y = Value,
+    #         colour = VisMin,
+    #         fill = VisMin,
+    #         text = paste0(
+    #           "Visible Minority group(s): ",
+    #           VisMin,
+    #           "<br>",
+    #           "Value: ",
+    #           format(Value, big.mark = ","),
+    #           "<br>",
+    #           "Year: ",
+    #           Year
+    #         )
+    #       )
+    #     ) +
+    #     theme_minimal()+ 
+    #     #coord_flip() + 
+    #     theme(legend.position= "none",axis.text = element_text( hjust = .45)) +
+    #     scale_y_continuous(labels = scales::percent,
+    #                        breaks = scales::pretty_breaks(n = 8))+
+    #     geom_text(nudge_y = -.01,
+    #               color="white",
+    #               size = 5,
+    #               fontface="bold",
+    #               aes(
+    #                 x = VisMin,
+    #                 y = Value,
+    #                 label = "",
+    #                 colour = VisMin,
+    #                
+    #               )) +
+    #     labs(
+    #       x = "Visible Minority group(s)",
+    #       y = "Value",
+    #   
+    #       colour = "Visible Minority group(s)",
+    #       fill = "Visible Minority group(s)"
+    #     )
+    # 
+      }, 
+    tooltip = "text"))
   }
 
   #'NOTE [This chart doesn't follow the same x-axis as the other charts]
@@ -376,7 +432,8 @@ server <- function(input, output, session) {
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.4,
+          position = position_dodge(width = 0.5),
           aes(
             x = before_since,
             y = Value,
@@ -426,19 +483,17 @@ server <- function(input, output, session) {
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
         geom_line(
-          mapping = NULL,
-          data = NULL,
           stat = "identity",
           position = "identity",
           na.rm = FALSE,
           orientation = NA,
           show.legend = TRUE, 
           #position = position_dodge(width = 0.5),
-          
+          aes(
             x = Year,
             y = Value,
-            colour = Year,
-            fill = Year
+            colour = Motivation,
+            fill = Motivation
             # text = paste0(
             #   "Year: ",
             #   Year,
@@ -448,15 +503,15 @@ server <- function(input, output, session) {
             #   "<br>",
             #   "Year: ",
             #   Year 
-        ) +
+        )) +
         theme_minimal() +
         scale_y_continuous(labels = comma) +
         labs(
           x = "Year",
           y = "Value",
           
-          colour = "Year",
-          fill = "Year"
+          colour = "Motivation",
+          fill = "Motivation"
         )
     },
     ))
@@ -1239,7 +1294,8 @@ server <- function(input, output, session) {
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.5,
+          position = position_dodge(width = 0.4),
           aes(
             x = Geography,
             y = Value,
@@ -1256,7 +1312,7 @@ server <- function(input, output, session) {
               Year
             )
           )
-        ) +
+        ) + coord_flip()+
         theme_minimal() +
         scale_y_continuous(labels = comma) +
         labs(
@@ -1269,7 +1325,7 @@ server <- function(input, output, session) {
    }
   
   #'NOTE [This chart doesn't follow the same x-axis as the other charts]
-  func_plot2_discrimination <- function(filter_var){
+  func_plot3_discrimination <- function(filter_var){
     # Discrimination and victimization - Geo----
     filtered_data <-
       reactive({
@@ -1294,7 +1350,8 @@ server <- function(input, output, session) {
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.4,
+          position = position_dodge(width = 0.5),
           aes(
             x = before_since,
             y = Value,
@@ -1707,39 +1764,39 @@ output$plot_geo_lm_1 <-
   #### 10. Discrimination and victimization ----
   ##### 10.1. Experience(s) of discrimination ----
   output$plot_geo_discrimination_1 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[1])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[1])
   
   # ##### 10.2. Experience(s) of discrimination based on ethnicity or culture ----
   output$plot_geo_discrimination_2 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[2])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[2])
   
   # ##### 10.3. Experience(s) of discrimination based on race or colour ----
   output$plot_geo_discrimination_3 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[3])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[3])
   
   # ##### 10.4. Experience(s) of discrimination based on religion ----
   output$plot_geo_discrimination_4 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[4])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[4])
   
   # ##### 10.5. Experience(s) of discrimination based on language ----
   output$plot_geo_discrimination_5 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[5])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[5])
   
   # ##### 10.6. Discrimination at work or when applying for a job or promotion ----
   output$plot_geo_discrimination_6 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[6])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[6])
   
   # ##### 10.7. Discrimination when dealing with the police ----
   output$plot_geo_discrimination_7<-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[7])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[7])
   
   # ##### 10.8. Discrimination when in a store, bank or restaurant ----
   output$plot_geo_discrimination_8 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[8])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[8])
   
   # ##### 10.9. Discrimination when attending school or classes ----
   output$plot_geo_discrimination_9 <-
-    func_plot2_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
+    func_plot3_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
   ##### 11.1. Average employment income of the population ----
   output$plot_geo_inc_1 <-
     func_plot_3(df = "incomeDT_geo",
@@ -2111,7 +2168,8 @@ output$plot_geo_lm_1 <-
       ggplot(filtered_data()) +
         geom_bar(
           stat = "identity",
-          position = "dodge",
+          width = 0.4,
+          position = position_dodge(width = 0.5),
           aes(
             x = before_since,
             y = Value,
