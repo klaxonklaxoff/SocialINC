@@ -1653,7 +1653,7 @@ ui <-
 
             ##### 4.5. Household food secure----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Percent of the population living in a food-secure household'",
+              condition = "input.indicator_1 == 'Household food secure'",
               h4("Percent of the population living in a food-secure household"),
               br(),
               br(),
@@ -1914,7 +1914,7 @@ ui <-
 
             ##### 7.5. Confidence in the police service ----
             conditionalPanel(
-              condition = "input.indicator_1 == 'Confidence in the police service service'",
+              condition = "input.indicator_1 == 'Confidence in the police service'",
               h4("Population expressing confidence in the police service"),
               br(),
               br(),
@@ -2037,7 +2037,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_1",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
             
             ##### 9.4. Percent of the population with a personal close-ties network of 10 or more people ----
@@ -2049,7 +2049,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_4",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.5. Feeling close to 5 relatives or more ----
@@ -2061,7 +2061,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_5",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.6. Feeling close to 5 friends or more ----
@@ -2073,7 +2073,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_6",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.7. Having no other friends or acquaintances ----
@@ -2085,7 +2085,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_7",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.8. Having 1 to 19 other friends or acquaintances ----
@@ -2097,7 +2097,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_8",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.9. Having 20 or more other friends or acquaintances ----
@@ -2109,7 +2109,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_9",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
 
             ##### 9.10. Having ethnically diverse networks of friends and acquaintances ----
@@ -2121,7 +2121,7 @@ ui <-
             #   plotlyOutput("plot_vm_social_10",
             #                inline = TRUE),
             #   br(),
-            #   helpText(source_census_nhs_census)
+            #   helpText(source_gss)
             # ),
             ##### 9.11. Reported that most people can be trusted in general ----
             conditionalPanel(
@@ -2132,7 +2132,7 @@ ui <-
               plotlyOutput("plot_vm_social_11",
                            inline = TRUE),
               br(),
-              helpText(source_census_nhs_census)
+              helpText(source_gss)
             ),
             ##### 9.12. Strong sense of belonging to their local community ----
             conditionalPanel(
@@ -2143,7 +2143,7 @@ ui <-
               plotlyOutput("plot_vm_social_12",
                            inline = TRUE),
               br(),
-              helpText(source_census_nhs_census)
+              helpText(source_gss)
             ),
             ##### 9.13. Strong sense of belonging to their town or city ----
             conditionalPanel(
@@ -2154,7 +2154,7 @@ ui <-
               plotlyOutput("plot_vm_social_13",
                            inline = TRUE),
               br(),
-              helpText(source_census_nhs_census)
+              helpText(source_gss )
             ),
             ##### 9.14. Strong sense of belonging to their province ----
             conditionalPanel(
@@ -2165,7 +2165,7 @@ ui <-
               plotlyOutput("plot_vm_social_14",
                            inline = TRUE),
               br(),
-              helpText(source_census_nhs_census)
+              helpText(source_gss)
             ),
             ##### 9.15. Strong sense of belonging to Canada ----
             conditionalPanel(
@@ -2176,7 +2176,7 @@ ui <-
               plotlyOutput("plot_vm_social_15",
                            inline = TRUE),
               br(),
-              helpText(source_census_nhs_census)
+              helpText(source_gss)
             ),
 
             #### 10. Discrimination and victimization ----
@@ -3571,7 +3571,8 @@ ui <-
         ### Main panel ----
         mainPanel(
          
-          tags$iframe(src = "https://sgcdev.stc.ca/dev/csge-main/index-en.html", width = "160%", height = "700px"),
+          tags$iframe(src = "https://sgcdev.stc.ca/dev/csge-main/index-en.html",width = "160%", height = "700px"),
+                      
          
 #'           #### 1. Participation in the Labour Market ----
 #'           ##### 1.1. Participation rate in the Labour Market ----

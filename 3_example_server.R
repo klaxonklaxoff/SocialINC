@@ -43,6 +43,11 @@ server <- function(input, output, session) {
                                                            "Knowledge of official languages, neither English nor French",
                                                            "Received a formal training paid by the employer in the past 12 months",
                                                            "Received an informal on-the-job training (from co-workers or supervisors) in the past 12 months",
+                                                           
+                                                           "Difficulty in meeting household financial needs",
+                                                           "Ease in meeting household financial needs",
+                                                           
+                                                           "Satisfied with personal safety from crime",
 
                                                            "Average total household income, adjusted for the number of persons",
                                                            "Percent of the population living in poverty (low-income MBM)",
@@ -306,11 +311,11 @@ server <- function(input, output, session) {
         y = Value,
         #colour = VisMin,
         fill = Year,
-        label = Value
+        #label = Value
         )) +
         geom_col(
-          width = 0.4, 
-          position = position_dodge(width = 0.6)
+          width = 0.7, 
+          position = position_dodge(width = 0.9)
           # aes(
           #    x = VisMin,
           #    y = Value,
@@ -322,8 +327,7 @@ server <- function(input, output, session) {
           #    )
           #  )
           )+ 
-      theme(legend.position= "right",
-              axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +                                                       
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +                                                       
         labs(
           x = "Visible Minority group(s)",
           y = "Percent",
@@ -332,19 +336,78 @@ server <- function(input, output, session) {
         ) +
         scale_y_continuous(labels = comma) +
        geom_text(
-              aes(
-                  label = round(Value,1)),
+              aes(label = Value),
                   color = "black",
-                  # vjust = -1.5,
-                  # hjust = -0.5,
+                  # vjust = 0,
+                  # hjust = 0,
                   size  = 2,
+                  angle = 90,
                   position = position_dodge(width = 0.9)
               )
 
       }, 
     tooltip = "text"))
   }
-
+  func_plot_income <- function(filter_var){
+  # Income and wealth (incomeDT) ----
+  filtered_data <-
+    reactive({
+      incomeDT %>%
+        filter(
+          Indicator == filter_var,
+          VisMin %in% input$lm_income_vismin,
+          Year  %in% input$lm_income_year,
+          Degree == input$lm_income_degree,
+          Geography == input$lm_income_geography,
+          Immigration == input$lm_income_immigration,
+          Age == input$lm_income_age,
+          Sex == input$lm_income_sex
+        )
+    })
+  renderPlotly(ggplotly({
+    ggplot(filtered_data(),
+           aes(
+             x = VisMin,
+             y = Value,
+             #colour = VisMin,
+             fill = Year,
+             #label = Value
+           )) +
+      geom_col(
+        width = 0.7, 
+        position = position_dodge(width = 0.9)
+        # aes(
+        #    x = VisMin,
+        #    y = Value,
+        #    colour = VisMin,
+        #    fill = VisMin,
+        #    text = paste0(
+        #      "Year: ",
+        #      Year
+        #    )
+        #  )
+      )+ 
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +                                                       
+      labs(
+        x = "Visible Minority group(s)",
+        y = "Dollars",
+        colour = "Visible Minority group(s)",
+        fill = "Year"
+      ) +
+      scale_y_continuous(labels = comma) +
+      geom_text(
+        aes(label = Value),
+        color = "black",
+        # vjust = 0,
+        # hjust = 0,
+        size  = 2,
+        angle = 90,
+        position = position_dodge(width = 0.9)
+      )
+    
+  }, 
+  tooltip = "text"))
+  }
   #'NOTE [This chart doesn't follow the same x-axis as the other charts]
   func_plot_discrimination <- function(filter_var){
     # Discrimination and victimization ----
@@ -366,13 +429,16 @@ server <- function(input, output, session) {
             )
           )
       })
-
+    
     renderPlotly(ggplotly({
-      ggplot(filtered_data()) +
-        geom_bar(
-          stat = "identity",
-          width = 0.4,
-          position = position_dodge(width = 0.5),
+      ggplot(filtered_data(),aes(x = before_since,
+                                 y = Value,
+                                 colour = VisMin,
+                                 fill = VisMin,
+                                 label = Value)) +
+        geom_col(
+          width = 0.7,
+          position = position_dodge(width = 0.9),
           aes(
             x = before_since,
             y = Value,
@@ -385,18 +451,25 @@ server <- function(input, output, session) {
               "Value: ",
               format(Value, big.mark = ","),
               "<br>",
-              "Reference Period in Relation to the covid-19 Pandemic: ",
+              "Reference Period in Relation to the COVID-19 Pandemic: ",
               before_since
             )
-          )
+           )
+        ) + 
+        geom_text(
+          aes(label = Value),
+          color = "black",
+          vjust = 0,
+          hjust = 0,
+          size  = 2,
+          angle = 90,
+          position = position_dodge(width = 0.9)
         ) +
-        theme_minimal() +
+        theme_minimal() +  
         scale_y_continuous(labels = comma) +
         labs(
-          x = "Reference Period in Relation to the covid-19 Pandemic",
-          y = "Value",
-          colour = "Visible Minority group(s)",
-          fill = "Visible Minority group(s)"
+          x = "Reference Period in Relation to the COVID-19 Pandemic",
+          y = "Percent" 
         )
     }, tooltip = "text"))
   }
@@ -411,7 +484,7 @@ server <- function(input, output, session) {
             Year %in% input$hate_year,
             Geography == input$hate_geography,
             motivation_type == input$hate_motivation,
-            (motivation_type == input$hate_race |
+            (motivation_type %in% input$hate_race |
                motivation_type == input$hate_police 
                
                
@@ -906,15 +979,12 @@ server <- function(input, output, session) {
     func_plot_discrimination(filter_var = unique(as.character(discriminationDT$ind))[9])
   ##### 11.1. Average employment income of the population ----
   output$plot_vm_inc_1 <-
-    func_plot_1(df = "incomeDT",
-                filter_var = unique(as.character(incomeDT$Indicator))[1])
+    func_plot_income(filter_var = unique(as.character(incomeDT$Indicator))[1])
   ##### 11.2. Average weekly wage of paid employees ----
   output$plot_vm_inc_2 <-
-    func_plot_1(df = "incomeDT",
-                filter_var = unique(as.character(incomeDT$Indicator))[2])
+    func_plot_income(filter_var = unique(as.character(incomeDT$Indicator))[2])
   # ##### 10.9. Hate crime ----
-  output$plot_vm_hate_crime <-
-    func_plot_hate(filter_var = unique(as.character(polData$ind))[1])
+  output$plot_vm_hate_crime <- func_plot_hate(filter_var = unique(as.character(polData$ind))[1])
 
   #'NOTE [Here is where you should add the next tab // use what's in Tab 1 as a reference -- you might need to reconfigure the function to the breakdown that's relevant to your new tab]
   ## Tab 2: Geography ------
@@ -1284,7 +1354,7 @@ server <- function(input, output, session) {
 #'               "Value: ",
 #'               format(Value, big.mark = ","),
 #'               "<br>",
-#'               "Reference Period in Relation to the covid-19 Pandemic: ",
+#'               "Reference Period in Relation to the COVID-19 Pandemic: ",
 #'               before_since
 #'             )
 #'           )
@@ -1292,7 +1362,7 @@ server <- function(input, output, session) {
 #'         theme_minimal() +
 #'         scale_y_continuous(labels = comma) +
 #'         labs(
-#'           x = "Reference Period in Relation to the covid-19 Pandemic",
+#'           x = "Reference Period in Relation to the COVID-19 Pandemic",
 #'           y = "Value",
 #'           colour = "Geography",
 #'           fill = "Geography"
@@ -2102,7 +2172,7 @@ server <- function(input, output, session) {
 #'               "Value: ",
 #'               format(Value, big.mark = ","),
 #'               "<br>",
-#'               "Reference Period in Relation to the covid-19 Pandemic: ",
+#'               "Reference Period in Relation to the COVID-19 Pandemic: ",
 #'               before_since
 #'             )
 #'           )
@@ -2110,7 +2180,7 @@ server <- function(input, output, session) {
 #'         theme_minimal() +
 #'         scale_y_continuous(labels = comma) +
 #'         labs(
-#'           x = "Reference Period in Relation to the covid-19 Pandemic",
+#'           x = "Reference Period in Relation to the COVID-19 Pandemic",
 #'           y = "Value",
 #'           colour = "Geography)",
 #'           fill = "Geography"
