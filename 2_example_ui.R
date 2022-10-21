@@ -1151,7 +1151,7 @@ ui <-
                 inputId = "hate_year",
                 label = "Choose a year",
                 choices = unique(as.character(polData$Year)),
-                selected = unique(as.character(polData$Year))[1], 
+                selected = unique(as.character(polData$Year))[1:15], # I made it 15 to overcapture in case more years come in
                 multiple = TRUE,
                 options = list(
                   `actions-box` = TRUE,
@@ -1172,30 +1172,39 @@ ui <-
                    choices = unique(as.character(polData$motivation_type)),
                    selected = unique(as.character(polData$motivation_type))[1],              
                 ),
-              ##### Race or ethnicity----
-                conditionalPanel(
-                  condition = "input.hate_motivation == 'Race or ethnicity'",
-                    selectizeInput(
-                    inputId = "hate_race",
-                    label = "Choose a race or ethnicity or other characteristics",
-                    choices = list('Black', 'South Asian', 'East or Southeast Asian', 'Arab or West Asian', 'White', 'Indigenous', 
-                                   'Multiple races or ethnicities', 'Other Race or ethnicity', 'Unknown Race or ethnicity' ),
-                    selected = "Black",
-                    multiple = TRUE
-                  ),
-                ),
-              #####Total police-reported hate crime-----
-                conditionalPanel(
-                  condition = "input.hate_motivation == 'Total police-reported hate crime'",
-                   selectizeInput(
-                   inputId = "hate_police",
-                   label = "Choose a police reported hate crime type",
-                   choices = unique(as.character(polData$Motivation)[polData$motivation_type == "Total police-reported hate crime"]),
-                   selected = unique(as.character(polData$Motivation)[polData$motivation_type == "Total police-reported hate crime"])[1],
-                   multiple = TRUE
-                  ),
-                ),
+              ##### Race or ethnicity ----
+              conditionalPanel(
+                condition = "input.hate_motivation == 'Race or ethnicity'",
+                pickerInput(
+                  inputId = "hate_race",
+                  label = "Choose a race or ethnicity or other characteristics",
+                  choices = unique(as.character(polData$Motivation)[polData$motivation_type == "Race or ethnicity"]),
+                  selected = unique(as.character(polData$Motivation)[polData$motivation_type == "Race or ethnicity"]),
+                  multiple = TRUE,
+                  options = list(
+                    `actions-box` = TRUE,
+                    `deselect-all-text` = "Deselect all",
+                    `select-all-text` = "Select all"
+                  )
+                )
+              ), 
+              ##### Total police-reported hate crime -----
+              conditionalPanel(
+                condition = "input.hate_motivation == 'Total police-reported hate crime'",
+                pickerInput(
+                  inputId = "hate_police",
+                  label = "Choose a police reported hate crime type",
+                  choices = unique(as.character(polData$Motivation)[polData$motivation_type == "Total police-reported hate crime"]),
+                  selected = unique(as.character(polData$Motivation)[polData$motivation_type == "Total police-reported hate crime"]),
+                  multiple = TRUE,
+                  options = list(
+                    `actions-box` = TRUE,
+                    `deselect-all-text` = "Deselect all",
+                    `select-all-text` = "Select all"
+                  )
+                )
               ),
+            ), 
             
                #### 2.11. Income and wealth ----
                #'NOTE [incomeDT]

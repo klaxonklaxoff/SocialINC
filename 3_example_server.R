@@ -480,27 +480,19 @@ server <- function(input, output, session) {
       reactive({
         polData %>%
           filter(
-            #Indicator == filter_var,
             Year %in% input$hate_year,
             Geography == input$hate_geography,
             motivation_type == input$hate_motivation,
-            (motivation_type %in% input$hate_race |
-               motivation_type == input$hate_police 
-               
-               
+            (
+              Motivation %in% input$hate_race |
+                Motivation %in% input$hate_police
             )
           )
       })
     
     renderPlotly(ggplotly({
       ggplot(filtered_data()) +
-        geom_line(
-          stat = "identity",
-          position = "identity",
-          na.rm = FALSE,
-          orientation = NA,
-          show.legend = TRUE, 
-          #position = position_dodge(width = 0.5),
+        geom_line(group = 1, # you need this when you want to make a line graph
           aes(
             x = Year,
             y = Percent,
@@ -526,8 +518,7 @@ server <- function(input, output, session) {
         )
     },
     ))
-    
-    
+
   # renderPlotly(ggplotly({
   #   # Require filtered_lineData
   #   req(func_plot_hate())
