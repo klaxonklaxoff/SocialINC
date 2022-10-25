@@ -31,39 +31,39 @@ server <- function(input, output, session) {
                                                          !template$Indicator %in% c(
 
                                                            "Workers in specialized middle management occupations",
-
-                                                           "Percent of the population living in a dwelling owned by one member of the household",
-                                                           "Percent of the population living in core need household",
-                                                           "Percent of the population living in suitable housing",
-                                                           "Percent of the population living in an affordable housing",
-
+                                                           
                                                            "Knowledge of official languages, English only",
                                                            "Knowledge of official languages, French only",
                                                            "Knowledge of official languages, English and French",
                                                            "Knowledge of official languages, neither English nor French",
-                                                           "Received a formal training paid by the employer in the past 12 months",
-                                                           "Received an informal on-the-job training (from co-workers or supervisors) in the past 12 months",
-                                                           
-                                                           "Difficulty in meeting household financial needs",
-                                                           "Ease in meeting household financial needs",
+                                                          
+                                                           "Population living in a dwelling owned by one member of the household",
+                                                           "Population living in core need housing",
+                                                           "Population living in suitable housing",
+                                                           "Population living in an affordable housing",
                                                            
                                                            "Satisfied with personal safety from crime",
 
                                                            "Average total household income, adjusted for the number of persons",
-                                                           "Percent of the population living in poverty (low-income MBM)",
-                                                           "Percent of the population living in low income situation (before-tax)",
-                                                           "Percent of the population living in low income situation (after-tax)",
-                                                           "Percent of the population reporting difficulty in meeting financial needs of their household",
-                                                           "Percent of the population reporting ease in meeting financial needs of their household",
+                                                           "Prevalence of MBM low income status",
+                                                           "Prevalence of low income (LIM-BT)",
+                                                           "Prevalence of low income (LIM-AT)",
+                                                           "Difficulty in meeting household financial needs",
+                                                           "Ease in meeting household financial needs",
 
                                                            "Population living alone",
-                                                           "Percent of the population with a personal close-ties network of 10 or more people",
-                                                           "Feeling close to 5 relatives or more",
-                                                           "Feeling close to 5 friends or more",
+                                                           "Having no one in the local personal network (close relatives and close friends)",
+                                                           "Having 1 to 14 people in the local personal network (close relatives and close friends)",
+                                                           "Having 15 or more people in the local personal network (close relatives and close friends)",
+                                                           "Feeling close to 4 relatives or less",
+                                                           "Feeling close to 5 relatives or more", 
+                                                           "Having 4 close friends or less",
+                                                           "Feeling close to 5 relatives or more",  
                                                            "Having no other friends or acquaintances",
                                                            "Having 1 to 19 other friends or acquaintances",
                                                            "Having 20 or more other friends or acquaintances",
                                                            "Having ethnically diverse networks of friends and acquaintances"
+                                                           
                                                          )]))
     )
   )
@@ -491,23 +491,12 @@ server <- function(input, output, session) {
       })
     
     renderPlotly(ggplotly({
-      ggplot(filtered_data()) +
-        geom_line(group = 1, # you need this when you want to make a line graph
-          aes(
-            x = Year,
-            y = Percent,
-            colour = Motivation,
-            fill = Motivation
-            # text = paste0(
-            #   "Year: ",
-            #   Year,
-            #   "<br>",
-            #   "Value: ",
-            #   format(Value, big.mark = ","),
-            #   "<br>",
-            #   "Year: ",
-            #   Year 
-        )) +
+      ggplot(filtered_data(), 
+             aes(x = Year,
+                 y = Value,
+                 colour = Motivation,
+                 )) +
+        geom_line(group = 1) + # you need this when you want to make a line graph
         theme_minimal() +
         scale_y_continuous(labels = comma) +
         labs(
@@ -518,36 +507,8 @@ server <- function(input, output, session) {
         )
     },
     ))
-
-  # renderPlotly(ggplotly({
-  #   # Require filtered_lineData
-  #   req(func_plot_hate())
-  #   # Create the base graph
-  #   lp <- ggplot(filtered_data(), x = Year)
-  #   # Add each series one-by-one as new traces
-  #   for (i in 3:length(colnames(func_plot_hate()))) {
-  #     lp <- lp %>%
-  #       add_trace(x = filtered_data()$Year, y = filtered_data()[[i]],
-  #                 type = "scatter", mode = "lines+markers",
-  #                 name = colnames(filtered_data())[i])
-  #   }
-  #   # Note hovermode = "x unified" is not working as it is supposed to
-  #   # Best work-around was used in xaxis with spike layout
-  #   lp <- lp %>%
-  #     layout(title = "Police Reported Hate Crime Time Series Analysis",
-  #            hovermode = "Police Reported Hate Crime Time Series Analysis",
-  #            xaxis = list(title = "Choose a year",
-  #                         showspikes = TRUE,
-  #                         spikecolor = "black",
-  #                         spikethickness = 2,
-  #                         spikemode  = 'toaxis+across',
-  #                         spikesnap = 'data',
-  #                         showline=TRUE),
-  #            yaxis = list(title = "Number")
-  #     )
-  #   lp
-  # }))
   }
+  
   ### Plots ----
   #### 1. Participation in the Labour Market ----
   ##### 1.1. Working-age population in the labour force (participation rate) ----

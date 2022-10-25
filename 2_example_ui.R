@@ -24,6 +24,7 @@ vm_10 <-
 ui <-
   fluidPage(
     titlePanel("Social Inclusion Data Visualization Tool"),
+    
     # title of dashboard
     h5("This one-stop data tool introduces a framework to organize and access data on social inclusion
        for ethnocultural groups and immigrants in Canada and responds to an increased demand for statistical
@@ -38,6 +39,7 @@ ui <-
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(
+            color = "blue",
             width = 3,
             #'NOTE [Used a radio button here to present all choices while making it a single selection]
             radioButtons(
@@ -654,10 +656,10 @@ ui <-
               condition =
                 "input.theme_1 == 'Basic needs and housing'",
               #'NOTE [is there a reason why in the originaly code we don't see the following indicators:]
-              #'[Percent of the population living in a dwelling owned by one member of the household]
-              #'[Percent of the population living in core need household]
-              #'[Percent of the population living in suitable housing]
-              #'[Percent of the population living in an affordable housing]
+              #'[Population living in a dwelling owned by one member of the household]
+              #'[Population living in core need housing]
+              #'[Population living in suitable housing]
+              #'[Population living in an affordable housing]
 
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
@@ -1612,10 +1614,10 @@ ui <-
             ),
 
             #### 4. Basic needs and housing ----
-            ##### 4.1. Percent of the population living in a dwelling owned by one member of the household ----
+            ##### 4.1. Population living in a dwelling owned by one member of the household ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Percent of the population living in a dwelling owned by one member of the household'",
-            #h4("Working-age population in the labour force (participation rate)"),
+            #   condition = "input.indicator_1 == 'Population living in a dwelling owned by one member of the household'",
+            #h4("Population living in a dwelling owned by one member of the household"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_basic_1",
@@ -1624,10 +1626,10 @@ ui <-
             #   helpText(source_cchs)
             # ),
 
-            ##### 4.2. Percent of the population living in core need household ----
+            ##### 4.2. Population living in core need housing ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Percent of the population living in core need household'",
-            #h4("Working-age population in the labour force (participation rate)"),
+            #   condition = "input.indicator_1 == 'Population living in core need housing'",
+            #h4("Population living in core need housing"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_basic_2",
@@ -1636,10 +1638,10 @@ ui <-
             #   helpText(source_cchs)
             # ),
 
-            ##### 4.3. Percent of the population living in suitable housing ----
+            ##### 4.3. Population living in suitable housing ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Percent of the population living in suitable housing'",
-            #h4("Working-age population in the labour force (participation rate)"),
+            #   condition = "input.indicator_1 == 'Population living in suitable housing'",
+            #h4("Population living in suitable housing"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_basic_3",
@@ -1648,10 +1650,10 @@ ui <-
             #   helpText(source_cchs)
             # ),
 
-            ##### 4.4. Percent of the population living in an affordable housing ----
+            ##### 4.4. Population living in an affordable housing ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Percent of the population living in an affordable housing'",
-            #h4("Working-age population in the labour force (participation rate)"),
+            #   condition = "input.indicator_1 == 'Population living in an affordable housing'",
+            #h4("Population living in an affordable housing"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_basic_4",
@@ -2049,10 +2051,10 @@ ui <-
             #   helpText(source_gss)
             # ),
             
-            ##### 9.4. Percent of the population with a personal close-ties network of 10 or more people ----
+            ##### 9.4. Having no one in the local personal network (close relatives and close friends) ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Percent of the population with a personal close-ties network of 10 or more people'",
-            #h4("Working-age population in the labour force (participation rate)"),
+            #   condition = "input.indicator_1 == 'Having no one in the local personal network (close relatives and close friends)'",
+            #h4("Percent of the population having no one in the local personal network (close relatives and close friends)"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_4",
@@ -2061,10 +2063,10 @@ ui <-
             #   helpText(source_gss)
             # ),
 
-            ##### 9.5. Feeling close to 5 relatives or more ----
+            ##### 9.5. Having 1 to 14 people in the local personal network (close relatives and close friends) ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Feeling close to 5 relatives or more'",
-            #h4("Percent of the population with a personal close-ties network of 5 or more relatives"),
+            #   condition = "input.indicator_1 == 'Having 1 to 14 people in the local personal network (close relatives and close friends)'",
+            #h4("Percent of the population having 1 to 14 people in the local personal network (close relatives and close friends"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_5",
@@ -2073,10 +2075,10 @@ ui <-
             #   helpText(source_gss)
             # ),
 
-            ##### 9.6. Feeling close to 5 friends or more ----
+            ##### 9.6. Having 15 or more people in the local personal network (close relatives and close friends) ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Feeling close to 5 friends or more'",
-            #h4("Percent of the population with a personal close-ties network of 5 or more friends"),
+            #   condition = "input.indicator_1 == 'Having 15 or more people in the local personal network (close relatives and close friends)'",
+            #h4("Percent of the population having 15 or more people in the local personal network (close relatives and close friends)"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_6",
@@ -2085,22 +2087,22 @@ ui <-
             #   helpText(source_gss)
             # ),
 
-            ##### 9.7. Having no other friends or acquaintances ----
+            ##### 9.7. Feeling close to 4 relatives or less ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Having no other friends or acquaintances'",
-            #h4("Percent of the population with no personal network with weak ties"),
+            #   condition = "input.indicator_1 == 'Feeling close to 4 relatives or less'",
+            #h4("Percent of the population feeling close to 4 relatives or less"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_7",
-            #                inline = TRUE),
+            #                inline = TRUE)
             #   br(),
             #   helpText(source_gss)
             # ),
 
-            ##### 9.8. Having 1 to 19 other friends or acquaintances ----
+            ##### 9.8. Having 4 close friends or less----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Having 1 to 19 other friends or acquaintances'",
-            #h4("Percent of the population with a personal weak-ties network of 1 to 19 people"),
+            #   condition = "input.indicator_1 == 'Having 4 close friends or less'",
+            #h4("Percent of the population having 4 close friends or less"),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_8",
@@ -2109,10 +2111,10 @@ ui <-
             #   helpText(source_gss)
             # ),
 
-            ##### 9.9. Having 20 or more other friends or acquaintances ----
+            ##### 9.9. Feeling close to 5 relatives or more ----
             # conditionalPanel(
-            #   condition = "input.indicator_1 == 'Having 20 or more other friends or acquaintances'",
-            #h4("Percent of the population with a personal weak-ties network of 20 or more people "),
+            #   condition = "input.indicator_1 == 'Feeling close to 5 relatives or more'",
+            #h4("Percent of the population feeling close to 5 relatives or more "),
             #   br(),
             #   br(),
             #   plotlyOutput("plot_vm_social_9",
@@ -2132,6 +2134,7 @@ ui <-
             #   br(),
             #   helpText(source_gss)
             # ),
+            
             ##### 9.11. Reported that most people can be trusted in general ----
             conditionalPanel(
               condition = "input.indicator_1 == 'Reported that most people can be trusted in general'",
@@ -2187,6 +2190,39 @@ ui <-
               br(),
               helpText(source_gss)
             ),
+            ##### 9.16. Having no other friends or acquaintances ----
+            # conditionalPanel(
+            #   condition = "input.indicator_1 == 'Having no other friends or acquaintances'",
+            #h4("Percent of the population having no other friends or acquaintances"),
+            #   br(),
+            #   br(),
+            #   plotlyOutput("plot_vm_social_16",
+            #                inline = TRUE),
+            #   br(),
+            #   helpText(source_gss)
+            # ),
+            ##### 9.17. Having 1 to 19 other friends or acquaintances ----
+            # conditionalPanel(
+            #   condition = "input.indicator_1 == 'Having 1 to 19 other friends or acquaintances'",
+            #h4("Percent of the population having 1 to 19 other friends or acquaintances"),
+            #   br(),
+            #   br(),
+            #   plotlyOutput("plot_vm_social_17",
+            #                inline = TRUE),
+            #   br(),
+            #   helpText(source_gss)
+            # ),
+            ##### 9.18. Having 20 or more other friends or acquaintances ----
+            # conditionalPanel(
+            #   condition = "input.indicator_1 == 'Having 20 or more other friends or acquaintances'",
+            #h4("Percent of the population having 20 or more other friends or acquaintances"),
+            #   br(),
+            #   br(),
+            #   plotlyOutput("plot_vm_social_18",
+            #                inline = TRUE),
+            #   br(),
+            #   helpText(source_gss)
+            # ),
 
             #### 10. Discrimination and victimization ----
             ##### 10.1. Experience(s) of discrimination ----
@@ -3014,10 +3050,10 @@ ui <-
           #'   condition =
           #'     "input.theme_2 == 'Basic needs and housing'",
           #'   #'NOTE [is there a reason why in the originaly code we don't see the following indicators:]
-          #'   #'[Percent of the population living in a dwelling owned by one member of the household]
-          #'   #'[Percent of the population living in core need household]
-          #'   #'[Percent of the population living in suitable housing]
-          #'   #'[Percent of the population living in an affordable housing]
+          #'   #'[Population living in a dwelling owned by one member of the household]
+          #'   #'[Population living in core need housing]
+          #'   #'[Population living in suitable housing]
+          #'   #'[Population living in an affordable housing]
           #'   
           #'   ###### Geography ----
           #'   #'NOTE [this is the focal variable for this tab]
@@ -3578,9 +3614,9 @@ ui <-
 
 
         ### Main panel ----
-        mainPanel(
+        #mainPanel(
          
-          tags$iframe(src = "https://sgcdev.stc.ca/dev/csge-main/index-en.html",width = "160%", height = "700px"),
+          tags$iframe(src = "https://sgcdev.stc.ca/dev/csge-main/index-en.html",width = "100%", height = "900px"),
                       
          
 #'           #### 1. Participation in the Labour Market ----
@@ -3884,7 +3920,7 @@ ui <-
 #'           #### 4. Basic needs and housing ----
 #'           ##### 4.1. Workers in senior management occupations ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Percent of the population living in a dwelling owned by one member of the household'",
+#'           #   condition = "input.indicator_2 == 'Population living in a dwelling owned by one member of the household'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_basic_1",
@@ -3893,9 +3929,9 @@ ui <-
 #'           #   helpText(source_cchs)
 #'           # ),
 #'           
-#'           ##### 4.2. Percent of the population living in core need household ----
+#'           ##### 4.2. Population living in core need housing ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Percent of the population living in core need household'",
+#'           #   condition = "input.indicator_2 == 'Population living in core need housing'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_basic_2",
@@ -3904,9 +3940,9 @@ ui <-
 #'           #   helpText(source_cchs)
 #'           # ),
 #'           
-#'           ##### 4.3. Percent of the population living in suitable housing ----
+#'           ##### 4.3. Population living in suitable housing ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Percent of the population living in suitable housing'",
+#'           #   condition = "input.indicator_2 == 'Population living in suitable housing'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_basic_3",
@@ -3915,9 +3951,9 @@ ui <-
 #'           #   helpText(source_cchs)
 #'           # ),
 #'           
-#'           ##### 4.4. Percent of the population living in an affordable housing ----
+#'           ##### 4.4. Population living in an affordable housing ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Percent of the population living in an affordable housing'",
+#'           #   condition = "input.indicator_2 == 'Population living in an affordable housing'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_basic_4",
@@ -4303,9 +4339,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.4. Percent of the population with a personal close-ties network of 10 or more people ----
+#'           ##### 9.4. Having no one in the local personal network (close relatives and close friends) ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Percent of the population with a personal close-ties network of 10 or more people'",
+#'           #   condition = "input.indicator_2 == 'Having no one in the local personal network (close relatives and close friends)'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_4",
@@ -4314,9 +4350,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.5. Feeling close to 5 relatives or more ----
+#'           ##### 9.5. Having 1 to 14 people in the local personal network (close relatives and close friends) ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Feeling close to 5 relatives or more'",
+#'           #   condition = "input.indicator_2 == 'Having 1 to 14 people in the local personal network (close relatives and close friends)'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_5",
@@ -4325,9 +4361,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.6. Feeling close to 5 friends or more ----
+#'           ##### 9.6. Having 15 or more people in the local personal network (close relatives and close friends) ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Feeling close to 5 friends or more'",
+#'           #   condition = "input.indicator_2 == 'Having 15 or more people in the local personal network (close relatives and close friends)'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_6",
@@ -4336,9 +4372,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.7. Having no other friends or acquaintances ----
+#'           ##### 9.7. Feeling close to 4 relatives or less ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Having no other friends or acquaintances'",
+#'           #   condition = "input.indicator_2 == 'Feeling close to 4 relatives or less'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_7",
@@ -4347,9 +4383,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.8. Having 1 to 19 other friends or acquaintances ----
+#'           ##### 9.8. Having 4 close friends or less----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Having 1 to 19 other friends or acquaintances'",
+#'           #   condition = "input.indicator_2 == 'Having 4 close friends or less'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_8",
@@ -4358,9 +4394,9 @@ ui <-
 #'           #   helpText(source_census_nhs_census)
 #'           # ),
 #'           
-#'           ##### 9.9. Having 20 or more other friends or acquaintances ----
+#'           ##### 9.9. Feeling close to 5 relatives or more ----
 #'           # conditionalPanel(
-#'           #   condition = "input.indicator_2 == 'Having 20 or more other friends or acquaintances'",
+#'           #   condition = "input.indicator_2 == 'Feeling close to 5 relatives or more'",
 #'           #   br(),
 #'           #   br(),
 #'           #   plotlyOutput("plot_geo_social_9",
@@ -5221,10 +5257,10 @@ ui <-
 #'                 condition =
 #'                   "input.theme_3 == 'Basic needs and housing'",
 #'                 #'NOTE [is there a reason why in the originaly code we don't see the following indicators:]
-#'                 #'[Percent of the population living in a dwelling owned by one member of the household]
-#'                 #'[Percent of the population living in core need household]
-#'                 #'[Percent of the population living in suitable housing]
-#'                 #'[Percent of the population living in an affordable housing]
+#'                 #'[Population living in a dwelling owned by one member of the household]
+#'                 #'[Population living in core need housing]
+#'                 #'[Population living in suitable housing]
+#'                 #'[Population living in an affordable housing]
 #'                 
 #'                 ###### Geography ----
 #'                 #'NOTE [this is the focal variable for this tab]
@@ -6102,7 +6138,7 @@ ui <-
 #'                 #### 4. Basic needs and housing ----
 #'                 ##### 4.1. Workers in senior management occupations ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Percent of the population living in a dwelling owned by one member of the household'",
+#'                 #   condition = "input.indicator_3 == 'Population living in a dwelling owned by one member of the household'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_basic_1",
@@ -6111,9 +6147,9 @@ ui <-
 #'                 #   helpText(source_cchs)
 #'                 # ),
 #'                 
-#'                 ##### 4.2. Percent of the population living in core need household ----
+#'                 ##### 4.2. Population living in core need housing ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Percent of the population living in core need household'",
+#'                 #   condition = "input.indicator_3 == 'Population living in core need housing'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_basic_2",
@@ -6122,9 +6158,9 @@ ui <-
 #'                 #   helpText(source_cchs)
 #'                 # ),
 #'                 
-#'                 ##### 4.3. Percent of the population living in suitable housing ----
+#'                 ##### 4.3. Population living in suitable housing ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Percent of the population living in suitable housing'",
+#'                 #   condition = "input.indicator_3 == 'Population living in suitable housing'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_basic_3",
@@ -6133,9 +6169,9 @@ ui <-
 #'                 #   helpText(source_cchs)
 #'                 # ),
 #'                 
-#'                 ##### 4.4. Percent of the population living in an affordable housing ----
+#'                 ##### 4.4. Population living in an affordable housing ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Percent of the population living in an affordable housing'",
+#'                 #   condition = "input.indicator_3 == 'Population living in an affordable housing'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_basic_4",
@@ -6521,9 +6557,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.4. Percent of the population with a personal close-ties network of 10 or more people ----
+#'                 ##### 9.4. Having no one in the local personal network (close relatives and close friends) ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Percent of the population with a personal close-ties network of 10 or more people'",
+#'                 #   condition = "input.indicator_3 == 'Having no one in the local personal network (close relatives and close friends)'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_4",
@@ -6532,9 +6568,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.5. Feeling close to 5 relatives or more ----
+#'                 ##### 9.5. Having 1 to 14 people in the local personal network (close relatives and close friends) ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Feeling close to 5 relatives or more'",
+#'                 #   condition = "input.indicator_3 == 'Having 1 to 14 people in the local personal network (close relatives and close friends)'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_5",
@@ -6543,9 +6579,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.6. Feeling close to 5 friends or more ----
+#'                 ##### 9.6. Having 15 or more people in the local personal network (close relatives and close friends) ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Feeling close to 5 friends or more'",
+#'                 #   condition = "input.indicator_3 == 'Having 15 or more people in the local personal network (close relatives and close friends)'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_6",
@@ -6554,9 +6590,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.7. Having no other friends or acquaintances ----
+#'                 ##### 9.7. Feeling close to 4 relatives or less ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Having no other friends or acquaintances'",
+#'                 #   condition = "input.indicator_3 == 'Feeling close to 4 relatives or less'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_7",
@@ -6565,9 +6601,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.8. Having 1 to 19 other friends or acquaintances ----
+#'                 ##### 9.8. Having 4 close friends or less----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Having 1 to 19 other friends or acquaintances'",
+#'                 #   condition = "input.indicator_3 == 'Having 4 close friends or less'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_8",
@@ -6576,9 +6612,9 @@ ui <-
 #'                 #   helpText(source_census_nhs_census)
 #'                 # ),
 #'                 
-#'                 ##### 9.9. Having 20 or more other friends or acquaintances ----
+#'                 ##### 9.9. Feeling close to 5 relatives or more ----
 #'                 # conditionalPanel(
-#'                 #   condition = "input.indicator_3 == 'Having 20 or more other friends or acquaintances'",
+#'                 #   condition = "input.indicator_3 == 'Feeling close to 5 relatives or more'",
 #'                 #   br(),
 #'                 #   br(),
 #'                 #   plotlyOutput("plot_cma_social_9",
@@ -6771,7 +6807,7 @@ ui <-
 #'                   helpText(source_census_nhs_census)
 #'                 ),
 
-        ), # Main panel closing bracket // should be blue
+        #), # Main panel closing bracket // should be blue
         ),
       ),
 
