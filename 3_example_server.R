@@ -43,6 +43,13 @@ server <- function(input, output, session) {
                                                            "Population living in an affordable housing",
                                                            
                                                            "Satisfied with personal safety from crime",
+                                                           
+                                                           "Perception of the local police as good in enforcing laws",
+                                                           "Perception of the local police as good in responding to calls",
+                                                           "Perception of the local police as good in being approachable",
+                                                           "Perception of the local police as good in supplying information",
+                                                           "Perception of the local police as good in ensuring safety in the area",
+                                                           "Perception of the local police as treating people fairly",
 
                                                            "Average total household income, adjusted for the number of persons",
                                                            "Prevalence of MBM low income status",
@@ -327,7 +334,8 @@ server <- function(input, output, session) {
           #    )
           #  )
           )+ 
-      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +                                                       
+      theme(legend.position = "", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +   
+        theme_light() +                                                   
         labs(
           x = "Visible Minority group(s)",
           y = "Percent",
@@ -387,7 +395,7 @@ server <- function(input, output, session) {
         #    )
         #  )
       )+ 
-      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +                                                       
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) + theme_classic() +                                                   
       labs(
         x = "Visible Minority group(s)",
         y = "Dollars",
@@ -465,7 +473,7 @@ server <- function(input, output, session) {
           angle = 90,
           position = position_dodge(width = 0.9)
         ) +
-        theme_minimal() +  
+        theme_light() +  
         scale_y_continuous(labels = comma) +
         labs(
           x = "Reference Period in Relation to the COVID-19 Pandemic",
@@ -497,7 +505,7 @@ server <- function(input, output, session) {
                  colour = Motivation,
                  )) +
         geom_line(group = 1) + # you need this when you want to make a line graph
-        theme_minimal() +
+        theme_classic() +
         scale_y_continuous(labels = comma) +
         labs(
           x = "Year",

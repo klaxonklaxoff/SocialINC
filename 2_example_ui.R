@@ -23,8 +23,9 @@ vm_10 <-
 # User interface // create layout ----
 ui <-
   fluidPage(
-    titlePanel("Social Inclusion Data Visualization Tool"),
-    
+    titlePanel(
+      h1("Social Inclusion Data Visualization Tool", align = "center")
+               ),
     # title of dashboard
     h5("This one-stop data tool introduces a framework to organize and access data on social inclusion
        for ethnocultural groups and immigrants in Canada and responds to an increased demand for statistical
@@ -39,7 +40,6 @@ ui <-
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(
-            color = "blue",
             width = 3,
             #'NOTE [Used a radio button here to present all choices while making it a single selection]
             radioButtons(
@@ -56,6 +56,7 @@ ui <-
       ## 1. Theme: Groups designated as visible Minorities  ----
       tabPanel(
         "Groups designated as Visible Minorities",
+        h5("This tab represents a crosstabulation of visible minority as the main variables versus other variables/characteristics"),
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(

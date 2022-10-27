@@ -12,9 +12,9 @@ data <- st_read("lpr_000b21a_e.shp")%>%
 rate_69 <- read.csv("Book2.csv")%>%
   select(c("PRENAME","VALUE", "Indicators", "Visible.minority.status"))
 
-View(rate_69)
+#View(rate_69)
 new_rate<- rate_69%>% filter(!is.na(rate_69$VALUE))
-View(new_rate)
+#View(new_rate)
 #
 # #Merging the files using PRENAME as the unique variable in both files----
 # provinces <- merge(rate_69,data,by = "PRENAME")
@@ -31,7 +31,7 @@ fig <- ggplotly(
   data %>%
   left_join(.,new_rate, by = "PRENAME") %>%
   ggplot() +
-  geom_sf(aes(fill = PRENAME)) +
+  geom_sf(aes(fill = Visible.minority.status)) +
   ggtitle("Labour Force Status by Groups Designated as Visible Minorities")
 )
 fig
