@@ -334,8 +334,8 @@ server <- function(input, output, session) {
           #    )
           #  )
           )+ 
-      theme(legend.position = "", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +   
-        theme_light() +                                                   
+      theme(legend.position = "right", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) +   
+        #theme_light() +                                                   
         labs(
           x = "Visible Minority group(s)",
           y = "Percent",
@@ -349,12 +349,14 @@ server <- function(input, output, session) {
                   # vjust = 0,
                   # hjust = 0,
                   size  = 2,
-                  angle = 90,
+                  angle = 45,
+                  font = "bold",
                   position = position_dodge(width = 0.9)
               )
 
       }, 
-    tooltip = "text"))
+    #tooltip = "text"
+    ))
   }
   func_plot_income <- function(filter_var){
   # Income and wealth (incomeDT) ----
@@ -395,7 +397,8 @@ server <- function(input, output, session) {
         #    )
         #  )
       )+ 
-      theme(legend.position = "bottom", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) + theme_classic() +                                                   
+      theme(legend.position = "none", axis.text.x = element_text(angle = 45,vjust = 0.5,hjust = 1)) + 
+      #theme_minimal() +                                                   
       labs(
         x = "Visible Minority group(s)",
         y = "Dollars",
@@ -505,7 +508,8 @@ server <- function(input, output, session) {
                  colour = Motivation,
                  )) +
         geom_line(group = 1) + # you need this when you want to make a line graph
-        theme_classic() +
+        theme_light() + 
+        #legend(title = "Characteristics") +
         scale_y_continuous(labels = comma) +
         labs(
           x = "Year",
@@ -523,7 +527,7 @@ server <- function(input, output, session) {
   output$plot_vm_lm_1 <-
     func_plot_1(df = "rateDT",
                 filter_var = unique(as.character(rateDT$Indicator))[1])
-
+  
   ##### 1.2. Working-age population in employment (employment rate) ----
   output$plot_vm_lm_2 <-
     func_plot_1(df = "rateDT",

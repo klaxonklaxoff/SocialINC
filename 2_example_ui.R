@@ -1056,7 +1056,7 @@ ui <-
             conditionalPanel(
               condition =
                 "input.theme_1 == 'Discrimination and victimization'
-              && input.indicator_1 != 'Hate Crime'",
+              && input.indicator_1 != 'Police-reported hate crimes motivated by religion and race or ethnicity'",
 
               ##### Visible Minority ----
               #'NOTE [this is the focal variable for this tab]
@@ -1148,7 +1148,7 @@ ui <-
             #'NOTE [polData]
             conditionalPanel(
               condition =
-              "input.indicator_1 == 'Hate Crime'",
+              "input.indicator_1 == 'Police-reported hate crimes motivated by religion and race or ethnicity'",
               ##### Year----
               pickerInput(
                 inputId = "hate_year",
@@ -1272,7 +1272,7 @@ ui <-
 
           ### Main panel ----
           mainPanel(
-            h2("Groups Designated as Visible Minorities"),
+            #h2("Groups Designated as Visible Minorities"),
 
             #'NOTE [EXAMPLE OF PREVIOUS CODE]
             # conditionalPanel(
@@ -1299,8 +1299,7 @@ ui <-
               br(),
               helpText(source_census_nhs_census)
             ),
-
-            ##### 1.2. Employment rate ----
+            ##### 1.2. Employment rate -----
             conditionalPanel(
               condition = "input.indicator_1 == 'Employment rate'",
               h4("Working-age population in employment (employment rate)"),
@@ -2335,8 +2334,8 @@ ui <-
             ),
             ##### 10.10.  Hate crime ----
              conditionalPanel(
-              condition = "input.indicator_1 == 'Hate Crime'",
-              h4("Hate Crime"),
+              condition = "input.indicator_1 == 'Police-reported hate crimes motivated by religion and race or ethnicity'",
+              h4("Number of police-reported hate crimes motivated by religion and race or ethnicity"),
               br(),
               br(),
               plotlyOutput("plot_vm_hate_crime",
