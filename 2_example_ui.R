@@ -23,20 +23,20 @@ vm_10 <-
 # User interface // create layout ----
 ui <-
   fluidPage(
-    titlePanel(
-      h1("Social Inclusion Data Visualization Tool", align = "center")
-               ),
-    # title of dashboard
-    h5("This one-stop data tool introduces a framework to organize and access data on social inclusion
-       for ethnocultural groups and immigrants in Canada and responds to an increased demand for statistical
-       indicators to support evidence-based decision-making aimed at building a more equitable and inclusive society."),
+    # titlePanel(
+    #   h1("Social Inclusion Data Visualization Tool", align = "center")
+    #            ),
+    # # title of dashboard
+    # h5("This one-stop data tool introduces a framework to organize and access data on social inclusion
+    #    for ethnocultural groups and immigrants in Canada and responds to an increased demand for statistical
+    #    indicators to support evidence-based decision-making aimed at building a more equitable and inclusive society."),
     tabsetPanel(
       type = "pills",
       # type of navigation button
-
       ## Themes and Definitions of Indicators ----
       tabPanel(
-        "Themes and Definitions of Indicators",
+        "Themes and definitions of indicators",
+        h5("This tab presents the complete list of the indicators and their associated short description of derivation."),
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(
@@ -45,7 +45,7 @@ ui <-
             radioButtons(
               inputId = "theme_0",
               label = "Choose a theme",
-              choices =  unique(as.character(template$Theme))
+              choices =  unique(as.character(template_2$Theme))
             ),
           ),
           #'NOTE [Outputs a table that reacts to the user's selection]
@@ -55,8 +55,8 @@ ui <-
 
       ## 1. Theme: Groups designated as visible Minorities  ----
       tabPanel(
-        "Groups designated as Visible Minorities",
-        h5("This tab represents a crosstabulation of visible minority as the main variables versus other variables/characteristics"),
+        "Visible minority and other sociodemographic characteristics",
+        h5("This tab presents the indicators on social inclusion that can be disaggregated by racialized groups (visible minority), other demographic characteristics and level of geography."),
         fluid = TRUE,
         sidebarLayout(
           sidebarPanel(
@@ -102,31 +102,7 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Degree ----
-              selectizeInput(
-                inputId = "lm_degree",
-                label = "Choose a highest certificate, diploma or degree",
-                choices = unique(as.character(rateDT$Degree))
-              ),
-              ###### Year ----
-              pickerInput(
-                inputId = "lm_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ###### Geography ----
-              selectizeInput(
-                inputId = "lm_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(rateDT$Geography))
-              ),
-              ###### Immigration ----
-              selectizeInput(
-                inputId = "lm_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(rateDT$Immigration))
-              ),
+           
               ###### Age ----
               selectizeInput(
                 inputId = "lm_age",
@@ -138,7 +114,32 @@ ui <-
                 inputId = "lm_sex",
                 label = "Choose a sex",
                 choices = unique(as.character(rateDT$Sex))
-              )
+              ),
+              ###### Immigration ----
+              selectizeInput(
+                inputId = "lm_immigration",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(rateDT$Immigration))
+              ),
+              ###### Degree ----
+              selectizeInput(
+                inputId = "lm_degree",
+                label = "Choose a highest certificate, diploma or degree",
+                choices = unique(as.character(rateDT$Degree))
+              ),
+              ###### Geography ----
+              selectizeInput(
+                inputId = "lm_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(rateDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "lm_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(rateDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(rateDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
 
             ##### 2.1.2. Participation in the Labour Market (part 2) ----
@@ -161,13 +162,25 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "lm_rep_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(representationDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(representationDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
+              
+              ###### Age ----
+              selectizeInput(
+                inputId = "lm_rep_age",
+                label = "Choose an age group or first official language spoken",
+                choices = unique(as.character(representationDT$Age))
+              ),
+              ###### Sex ----
+              selectizeInput(
+                inputId = "lm_rep_sex",
+                label = "Choose a sex",
+                choices = unique(as.character(representationDT$Sex))
+              ),
+              ###### Immigration ----
+              selectizeInput(
+                inputId = "lm_rep_immigration",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(representationDT$Immigration))
+              ),
               ###### Degree ----
               selectizeInput(
                 inputId = "lm_rep_degree",
@@ -180,24 +193,13 @@ ui <-
                 label = "Choose a geography",
                 choices = unique(as.character(representationDT$Geography))
               ),
-              ###### Immigration ----
-              selectizeInput(
-                inputId = "lm_rep_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(representationDT$Immigration))
-              ),
-              ###### Age ----
-              selectizeInput(
-                inputId = "lm_rep_age",
-                label = "Choose an age group or first official language spoken",
-                choices = unique(as.character(representationDT$Age))
-              ),
-              ###### Sex ----
-              selectizeInput(
-                inputId = "lm_rep_sex",
-                label = "Choose a sex",
-                choices = unique(as.character(representationDT$Sex))
-              )
+              ###### Year ----
+              pickerInput(
+                inputId = "lm_rep_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(representationDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(representationDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
 
             ##### 2.1.3. Participation in the Labour Market (part 3) ----
@@ -220,13 +222,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "lm_over_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(OverQualDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(OverQualDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
               ###### Location of Study ----
               selectizeInput(
                 inputId = "lm_over_location",
@@ -238,18 +233,6 @@ ui <-
                 inputId = "lm_over_degree",
                 label = "Choose a highest certificate, diploma or degree",
                 choices = unique(as.character(OverQualDT$Degree))
-              ),
-              ###### Geography ----
-              selectizeInput(
-                inputId = "lm_over_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(OverQualDT$Geography))
-              ),
-              ###### Immigration ----
-              selectizeInput(
-                inputId = "lm_over_immigration",
-                label = "Groups designated by Immigration and Generational Status",
-                choices = unique(as.character(OverQualDT$Immigration))
               ),
               ###### Age ----
               selectizeInput(
@@ -263,14 +246,33 @@ ui <-
                 label = "Choose a sex",
                 choices = unique(as.character(OverQualDT$Sex))
               ),
+              ###### Immigration ----
+              selectizeInput(
+                inputId = "lm_over_immigration",
+                label = "Groups designated by Immigration and Generational Status",
+                choices = unique(as.character(OverQualDT$Immigration))
+              ),
               ###### Language ----
               selectizeInput(
                 inputId = "lm_over_language",
                 label = "Choose a language",
                 choices = unique(as.character(OverQualDT$Language))
-              )
+              ),
+              ###### Geography ----
+              selectizeInput(
+                inputId = "lm_over_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(OverQualDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "lm_over_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(OverQualDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(OverQualDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
-
+            
             ##### 2.1.4. Participation in the Labour Market (part 4) ----
             #'NOTE [youthDT]
             conditionalPanel(
@@ -291,25 +293,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "lm_youth_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(youthDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(youthDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ###### Geography ----
-              selectizeInput(
-                inputId = "lm_youth_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(youthDT$Geography))
-              ),
-              ###### Immigration ----
-              selectizeInput(
-                inputId = "lm_youth_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(youthDT$Immigration))
-              ),
               ###### Age ----
               selectizeInput(
                 inputId = "lm_youth_age",
@@ -322,12 +305,31 @@ ui <-
                 label = "Choose a sex",
                 choices = unique(as.character(youthDT$Sex))
               ),
+              ###### Immigration ----
+              selectizeInput(
+                inputId = "lm_youth_immigration",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(youthDT$Immigration))
+              ),
               ###### Language ----
               selectizeInput(
                 inputId = "lm_youth_language",
                 label = "Choose a language",
                 choices = unique(as.character(youthDT$Language))
-              )
+              ),
+              ###### Geography ----
+              selectizeInput(
+                inputId = "lm_youth_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(youthDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "lm_youth_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(youthDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(youthDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
 
             ##### 2.1.6. Participation in the Labour Market (part 6) ----
@@ -422,12 +424,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Geography  ----
-              selectizeInput(
-                inputId = "civic_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(civicDT$Geography))
-              ),
               ###### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "civic_sociodem",
@@ -488,6 +484,12 @@ ui <-
                   choices = unique(as.character(civicDT$Characteristic)[civicDT$char_type == "Education Status"])
                 )
               ),
+              ###### Geography  ----
+              selectizeInput(
+                inputId = "civic_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(civicDT$Geography))
+              ),
               ###### Confidence Interval ----
               selectizeInput(
                 inputId = "civic_conf_interval",
@@ -518,12 +520,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Geography  ----
-              selectizeInput(
-                inputId = "civic2_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(civicDT2$Geography))
-              ),
               ###### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "civic2_sociodem",
@@ -584,6 +580,12 @@ ui <-
                   choices = unique(as.character(civicDT2$Characteristic)[civicDT2$char_type == "Education Status"])
                 )
               ),
+              ###### Geography  ----
+              selectizeInput(
+                inputId = "civic2_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(civicDT2$Geography))
+              ),
               ###### Confidence Interval ----
               selectizeInput(
                 inputId = "civic2_conf_interval",
@@ -612,13 +614,24 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "rep_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(representationDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(representationDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
+              ##### Age group and first official language spoken ----
+              selectizeInput(
+                inputId = "rep_age",
+                label = "Choose an age group or first official language spoken",
+                choices = unique(as.character(representationDT$Age))
+              ),
+              ##### Gender ----
+              selectizeInput(
+                inputId = "rep_sex",
+                label = "Choose a gender",
+                choices = unique(as.character(representationDT$Sex))
+              ),
+              ##### Immigrant and generation status ----
+              selectizeInput(
+                inputId = "rep_immigration",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(representationDT$Immigration))
+              ),
               ##### Highest certificate, diploma or degree ----
               selectizeInput(
                 inputId = "rep_degree",
@@ -631,24 +644,13 @@ ui <-
                 label = "Choose a geography",
                 choices = unique(as.character(representationDT$Geography))
               ),
-              ##### Immigrant and generation status ----
-              selectizeInput(
-                inputId = "rep_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(representationDT$Immigration))
-              ),
-              ##### Age group and first official language spoken ----
-              selectizeInput(
-                inputId = "rep_age",
-                label = "Choose an age group or first official language spoken",
-                choices = unique(as.character(representationDT$Age))
-              ),
-              ##### Gender ----
-              selectizeInput(
-                inputId = "rep_sex",
-                label = "Choose a gender",
-                choices = unique(as.character(representationDT$Sex))
-              )
+              ###### Year ----
+              pickerInput(
+                inputId = "rep_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(representationDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(representationDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
 
             #### 2.4. Basic needs and housing ----
@@ -675,19 +677,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "basic_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ##### Geography  ----
-              selectizeInput(
-                inputId = "basic_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(basicDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "basic_sociodem",
@@ -721,6 +710,19 @@ ui <-
                   choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Immigration Status"])
                 )
               ),
+              ##### Geography  ----
+              selectizeInput(
+                inputId = "basic_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(basicDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "basic_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "basic_conf_interval",
@@ -751,19 +753,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "health_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ##### Geography  ----
-              selectizeInput(
-                inputId = "health_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(basicDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "health_sociodem",
@@ -797,6 +786,19 @@ ui <-
                   choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Immigration Status"])
                 )
               ),
+              ##### Geography  ----
+              selectizeInput(
+                inputId = "health_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(basicDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "health_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "health_conf_interval",
@@ -832,12 +834,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ##### Geography ----
-              selectizeInput(
-                inputId = "public_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(confidenceDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "public_sociodem",
@@ -899,6 +895,12 @@ ui <-
                   choices = unique(as.character(confidenceDT$Characteristic)[confidenceDT$char_type == "Education Status"])
                 )
               ),
+              ##### Geography ----
+              selectizeInput(
+                inputId = "public_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(confidenceDT$Geography))
+              ),
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "public_conf_interval",
@@ -930,19 +932,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "health_public_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ##### Geography  ----
-              selectizeInput(
-                inputId = "health_public_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(basicDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "health_public_sociodem",
@@ -976,6 +965,19 @@ ui <-
                   choices = unique(as.character(basicDT$Characteristic)[basicDT$char_type == "Immigration Status"])
                 )
               ),
+              ##### Geography  ----
+              selectizeInput(
+                inputId = "health_public_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(basicDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "health_public_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(basicDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(basicDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "health_conf_public_interval",
@@ -1004,25 +1006,7 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ###### Year ----
-              pickerInput(
-                inputId = "education_year", # name this for the server
-                label = "Choose a year", # label of filter
-                choices = sort(unique(educationDT$Year), decreasing = TRUE), # create drop-down list option
-                selected = sort(unique(educationDT$Year), decreasing = TRUE)[1],
-                multiple = TRUE), # multi-select
-              ##### Geography ----
-              selectizeInput(
-                inputId = "education_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(educationDT$Geography))
-              ),
-              ##### Immigrant and generation status ----
-              selectizeInput(
-                inputId = "education_immigration",
-                label = "Choose an immigrant or generation status",
-                choices = unique(as.character(educationDT$Immigration))
-              ),
+              
               ##### Age group  ----
               selectizeInput(
                 inputId = "education_age",
@@ -1035,12 +1019,31 @@ ui <-
                 label = "Choose a gender",
                 choices = unique(as.character(educationDT$Sex))
               ),
+              ##### Immigrant and generation status ----
+              selectizeInput(
+                inputId = "education_immigration",
+                label = "Choose an immigrant or generation status",
+                choices = unique(as.character(educationDT$Immigration))
+              ),
               ##### Language ----
               selectizeInput(
                 inputId = "education_language",
                 label = "Choose a first official language spoken",
                 choices = unique(as.character(educationDT$Language))
               ),
+              ##### Geography ----
+              selectizeInput(
+                inputId = "education_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(educationDT$Geography))
+              ),
+              ###### Year ----
+              pickerInput(
+                inputId = "education_year", # name this for the server
+                label = "Choose a year of reference", # label of filter
+                choices = sort(unique(educationDT$Year), decreasing = TRUE), # create drop-down list option
+                selected = sort(unique(educationDT$Year), decreasing = TRUE)[1],
+                multiple = TRUE), # multi-select
             ),
             #### 2.9. Social connections and personnal networks ----
             #'NOTE [belongingDT]
@@ -1065,12 +1068,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ##### Geography ----
-              selectizeInput(
-                inputId = "belonging_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(belongingDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "belonging_sociodem",
@@ -1132,6 +1129,12 @@ ui <-
                   choices = unique(as.character(belongingDT$Characteristic)[belongingDT$char_type == "Education Status"])
                 )
               ),
+              ##### Geography ----
+              selectizeInput(
+                inputId = "belonging_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(belongingDT$Geography))
+              ),
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "belonging_conf_interval",
@@ -1161,12 +1164,6 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
                 )),
-              ##### Geography ----
-              selectizeInput(
-                inputId = "discrimination_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(discriminationDT$Geography))
-              ),
               ##### Selected sociodemographic characteristics ----
               selectizeInput(
                 inputId = "discrimination_sociodem",
@@ -1227,6 +1224,12 @@ ui <-
                   choices = unique(as.character(discriminationDT$Characteristic)[discriminationDT$char_type == "Education Status"])
                 )
               ),
+              ##### Geography ----
+              selectizeInput(
+                inputId = "discrimination_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(discriminationDT$Geography))
+              ),
               ##### Confidence Interval ----
               selectizeInput(
                 inputId = "discrimination_conf_interval",
@@ -1242,7 +1245,7 @@ ui <-
               ##### Year----
               pickerInput(
                 inputId = "hate_year",
-                label = "Choose a year",
+                label = "Choose a year of reference",
                 choices = unique(as.character(polData$Year)),
                 selected = unique(as.character(polData$Year))[1:15], # I made it 15 to overcapture in case more years come in
                 multiple = TRUE,
@@ -1251,13 +1254,7 @@ ui <-
                   `deselect-all-text` = "Deselect all",
                   `select-all-text` = "Select all"
               )),
-              ##### Geography----
-              selectizeInput(
-                inputId = "hate_geography",
-                label = "Choose a geography",
-                choices = unique(as.character(polData$Geography)),
-                selected = unique(as.character(polData$Geography))[1],              
-              ),
+              
               ##### Motivation----
                 selectizeInput(
                    inputId = "hate_motivation",
@@ -1297,6 +1294,13 @@ ui <-
                   )
                 )
               ),
+              ##### Geography----
+              selectizeInput(
+                inputId = "hate_geography",
+                label = "Choose a geography",
+                choices = unique(as.character(polData$Geography)),
+                selected = unique(as.character(polData$Geography))[1],              
+              ),
             ), 
             
                #### 2.11. Income and wealth ----
@@ -1322,7 +1326,7 @@ ui <-
                ###### Year ----
                pickerInput(
                  inputId = "lm_income_year", # name this for the server
-                 label = "Choose a year", # label of filter
+                 label = "Choose a year of reference", # label of filter
                  choices = sort(unique(incomeDT$Year), decreasing = TRUE), # create drop-down list option
                  selected = sort(unique(incomeDT$Year), decreasing = TRUE)[1],
                  multiple = TRUE), # multi-select
@@ -2468,7 +2472,7 @@ ui <-
           column (
           width = 2,
        
-          tags$iframe(src = "https://sgcdev.stc.ca/test/csge-main/index-en.html",width = "655%", height = "805px"),
+          tags$iframe(src = "https://sgcdev.stc.ca/dev/csge-main/index-emb-en.html",width = "655%", height = "805px"),
                       
           ),
 

@@ -8,7 +8,7 @@ server <- function(input, output, session) {
   choose_def <-
     reactive({
       req(input$theme_0)
-      template %>%
+      template_2 %>%
         filter(Theme %in% input$theme_0)
     })
 
@@ -16,7 +16,7 @@ server <- function(input, output, session) {
   output$def_table <-
     renderDataTable({
       choose_def() %>%
-        select(-Theme) # Removed theme column because it's not needed in the table
+        select(-c(Theme,Year)) # Removed theme column because it's not needed in the table
     })
 
   ## Tab 1: Groups Designated as Visible Minorities ----
@@ -26,7 +26,7 @@ server <- function(input, output, session) {
     updateSelectizeInput(
       session = session,
       inputId = "indicator_1",
-      #'NOTE [Not showing the following indicators until they are ready // and "Hate crime" because there's no breakdown by vismin]
+      #'NOTE [Not showing the following indicators until they are ready]
       choices = as.character(unique(template$Indicator[template$Theme == input$theme_1 &
                                                          !template$Indicator %in% c(
 

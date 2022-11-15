@@ -341,7 +341,10 @@ polData <-
 template <-
   read.csv("indicators_template.csv") %>%
   mutate_all(trimws)
-# Repetitive code ----
+template_2 <-
+  read.csv("tab1_indicators_template.csv") %>%
+  mutate_all(trimws)
+#Repetitive code ----
 ## Sources ----
 #'NOTE [these are the reoccuring sources I seen, I might be missing something]
 source_ucrs <-
